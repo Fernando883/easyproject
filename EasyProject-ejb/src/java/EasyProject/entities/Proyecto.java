@@ -5,10 +5,9 @@
  */
 package EasyProject.entities;
 
+import EasyProject.entities.Usuario;
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,16 +15,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author macbookpro
+ * @author csalas
  */
 @Entity
 @Table(name = "PROYECTO")
@@ -33,7 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Proyecto.findAll", query = "SELECT p FROM Proyecto p"),
     @NamedQuery(name = "Proyecto.findByIdProyect", query = "SELECT p FROM Proyecto p WHERE p.idProyect = :idProyect"),
-    @NamedQuery(name = "Proyecto.findByNombreP", query = "SELECT p FROM Proyecto p WHERE p.nombreP = :nombreP")})
+    @NamedQuery(name = "Proyecto.findByNombreP", query = "SELECT p FROM Proyecto p WHERE p.nombreP = :nombreP"),
+    @NamedQuery(name = "Proyecto.findByDescripcion", query = "SELECT p FROM Proyecto p WHERE p.descripcion = :descripcion")})
 public class Proyecto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,11 +44,14 @@ public class Proyecto implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "NOMBRE_P")
     private String nombreP;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 250)
+    @Column(name = "DESCRIPCION")
+    private String descripcion;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
     @ManyToOne(optional = false)
     private Usuario idUsuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProyecto")
-    private Collection<Tarea> tareaCollection;
 
     public Proyecto() {
     }
@@ -59,9 +60,10 @@ public class Proyecto implements Serializable {
         this.idProyect = idProyect;
     }
 
-    public Proyecto(Long idProyect, String nombreP) {
+    public Proyecto(Long idProyect, String nombreP, String descripcion) {
         this.idProyect = idProyect;
         this.nombreP = nombreP;
+        this.descripcion = descripcion;
     }
 
     public Long getIdProyect() {
@@ -80,21 +82,20 @@ public class Proyecto implements Serializable {
         this.nombreP = nombreP;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public Usuario getIdUsuario() {
         return idUsuario;
     }
 
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    @XmlTransient
-    public Collection<Tarea> getTareaCollection() {
-        return tareaCollection;
-    }
-
-    public void setTareaCollection(Collection<Tarea> tareaCollection) {
-        this.tareaCollection = tareaCollection;
     }
 
     @Override

@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
     @NamedQuery(name = "Usuario.findByToken", query = "SELECT u FROM Usuario u WHERE u.token = :token")})
 public class Usuario implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -158,5 +159,6 @@ public class Usuario implements Serializable {
     public String toString() {
         return "EasyProject.ejb.Usuario[ idUsuario=" + idUsuario + " ]";
     }
+
     
 }
