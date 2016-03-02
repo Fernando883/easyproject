@@ -52,7 +52,7 @@
     auth2.attachClickHandler(element, {},
         function(googleUser) {
             alert(googleUser.getBasicProfile().getEmail());
-            window.location.replace("http://localhost:8080/EasyProject-war/main.xhtml");
+            window.location.replace("http://localhost:8080/EasyProject-war/faces/main.xhtml");
             var profile = googleUser.getBasicProfile();
           document.getElementById('name').innerText = "Signed in: " +
               googleUser.getBasicProfile().getName();

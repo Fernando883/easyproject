@@ -7,15 +7,30 @@
     <h:head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <title>AdminLTE 2 | Starter</title>
+        
+        
+        <title> EasyProject</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-        <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
+        
+        <!-- Bootstrap 3.3.5-->
+        <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+        
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+        
         <!-- Ionicons -->
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+
+          
+        <!-- Theme style-->
+        <h:outputStylesheet library="css" name="AdminLTE.min.css"/>
+        
+        <!-- AdminLTE Skins-->
+        <h:outputStylesheet library="css" name="skin-red.min.css"/>
+        
+        
+
         <!-- Theme style -->
         <link rel="stylesheet" href="dist/css/AdminLTE.min.css"/>
         <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -24,9 +39,10 @@
         -->
         <link rel="stylesheet" href="dist/css/skins/skin-red.min.css"/>
 
+
     </h:head>
 
-    <body class="hold-transition skin-red sidebar-mini">
+    <h:body class="hold-transition skin-red sidebar-mini">
         <div class="wrapper">
 
 
@@ -260,43 +276,7 @@
 
                 <!-- Main content -->
                 <section class="content">
-
-                    <!-- Your Page Content Here -->
-                    <h:form id="form">
-                        <h3 style="margin-top: 0">Basic Ring</h3>
-                        <p:ring id="basic" value="#{ringView.cars}" var="car">
-
-
-
-                            <div class="col-lg-3 col-xs-6">
-                                <!-- small box -->
-                                <div class="small-box bg-aqua">
-                                    <div class="inner">
-                                        <h3>150</h3>
-                                        <p>New Orders</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-bag"></i>
-                                    </div>
-                                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-
-
-                            <p:outputPanel style="text-align: center;" layout="block">
-                                #{car.brand}
-                                <br />
-                                <p:commandButton update=":form:carDetail" icon="ui-icon-search" title="View" oncomplete="PF('carDialog').show();">
-                                    <f:setPropertyActionListener value="#{car}" target="#{ringView.selectedCar}" />
-                                </p:commandButton>
-                            </p:outputPanel>
-                        </p:ring>
-
-                        <h3>Proyectps</h3>
-                        <p:ring id="custom" value="#{ringView.cars}" var="car" styleClass="image-ring" easing="easeInOutBack">
-                            <p:graphicImage id="img" name="/demo/images/car/#{car.brand}-big.gif" />
-                        </p:ring
-                    </h:form>
+                    
 
                 </section><!-- /.content -->
             </div><!-- /.content-wrapper -->
@@ -388,6 +368,6 @@
              Both of these plugins are recommended to enhance the
              user experience. Slimscroll is required when using the
              fixed layout. -->
-    </body>
+    </h:body>
 </html>
 
