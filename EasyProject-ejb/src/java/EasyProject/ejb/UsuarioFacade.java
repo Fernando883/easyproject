@@ -5,18 +5,17 @@
  */
 package EasyProject.ejb;
 
-import EasyProject.entity.Usuario;
+import EasyProject.entities.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author victo
+ * @author macbookpro
  */
 @Stateless
-public class UsuarioFacade extends AbstractFacade {
-
+public class UsuarioFacade extends AbstractFacade<Usuario> {
     @PersistenceContext(unitName = "EasyProject-ejbPU")
     private EntityManager em;
 

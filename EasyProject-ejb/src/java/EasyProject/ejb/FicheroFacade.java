@@ -5,18 +5,17 @@
  */
 package EasyProject.ejb;
 
-import EasyProject.entity.Fichero;
+import EasyProject.entities.Fichero;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author victo
+ * @author macbookpro
  */
 @Stateless
-public class FicheroFacade extends AbstractFacade {
-
+public class FicheroFacade extends AbstractFacade<Fichero> {
     @PersistenceContext(unitName = "EasyProject-ejbPU")
     private EntityManager em;
 

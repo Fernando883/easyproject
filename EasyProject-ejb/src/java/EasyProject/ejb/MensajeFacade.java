@@ -5,7 +5,7 @@
  */
 package EasyProject.ejb;
 
-import EasyProject.entities.Tarea;
+import EasyProject.entities.Mensaje;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author macbookpro
  */
 @Stateless
-public class TareaFacade extends AbstractFacade<Tarea> {
+public class MensajeFacade extends AbstractFacade<Mensaje> {
     @PersistenceContext(unitName = "EasyProject-ejbPU")
     private EntityManager em;
 
@@ -24,8 +24,8 @@ public class TareaFacade extends AbstractFacade<Tarea> {
         return em;
     }
 
-    public TareaFacade() {
-        super(Tarea.class);
+    public MensajeFacade() {
+        super(Mensaje.class);
     }
     
 }
