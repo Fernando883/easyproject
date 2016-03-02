@@ -14,20 +14,21 @@
         <title>EasyProject</title>
 
         <!-- Bootstrap Core CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
-
+        <h:outputStylesheet library="css" name="bootstrap.min_1.css"/>
         <!-- Custom Fonts -->
+        
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'/>
         <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'/>
-        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css"/>
+        
+        <h:outputStylesheet library="css" name="font-awesome.min.css"/>
+        <link href="../resources/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 
         <!-- Plugin CSS -->
-        <link rel="stylesheet" href="css/animate.min.css" type="text/css"/>
-
-        <link rel="stylesheet" href="css/login.css" type="text/css"/>
-
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="css/creative.css" type="text/css"/>
+        <h:outputStylesheet library="css" name="animate.min.css"/>
+        
+        <h:outputStylesheet library="css" name="creative.css"/>
+        
+        
 
         <!-- Google Login -->
         <script src="https://apis.google.com/js/platform.js"></script>
@@ -217,18 +218,18 @@
         <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
 
         <!-- jQuery -->
-        <script src="js/jquery.js"></script>
+       <h:outputScript library="js"  name="jquery.js"></h:outputScript>
 
         <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
+        <h:outputScript library="js"  name="bootstrap2.min.js"></h:outputScript>
 
         <!-- Plugin JavaScript -->
-        <script src="js/jquery.easing.min.js"></script>
-        <script src="js/jquery.fittext.js"></script>
-        <script src="js/wow.min.js"></script>
+        <h:outputScript library="js"  name="jquery.easing.min.js"></h:outputScript>
+        <h:outputScript library="js"  name="jquery.fittext.js"></h:outputScript>
+        <h:outputScript library="js"  name="wow.min.js"></h:outputScript>
 
         <!-- Custom Theme JavaScript -->
-        <script src="js/creative.js"></script>
+        <h:outputScript library="js"  name="creative.js"></h:outputScript>
         <script>startApp();</script>
     </h:body>
 
