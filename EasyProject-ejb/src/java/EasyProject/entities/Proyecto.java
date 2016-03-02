@@ -5,7 +5,6 @@
  */
 package EasyProject.entities;
 
-import EasyProject.entities.Usuario;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -49,9 +48,9 @@ public class Proyecto implements Serializable {
     @Size(min = 1, max = 250)
     @Column(name = "DESCRIPCION")
     private String descripcion;
-    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
+    @JoinColumn(name = "DIRECTOR", referencedColumnName = "ID_USUARIO")
     @ManyToOne(optional = false)
-    private Usuario idUsuario;
+    private Usuario director;
 
     public Proyecto() {
     }
@@ -90,12 +89,12 @@ public class Proyecto implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
+    public Usuario getDirector() {
+        return director;
     }
 
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setDirector(Usuario director) {
+        this.director = director;
     }
 
     @Override
@@ -120,7 +119,7 @@ public class Proyecto implements Serializable {
 
     @Override
     public String toString() {
-        return "EasyProject.ejb.Proyecto[ idProyect=" + idProyect + " ]";
+        return "EasyProject.entities.Proyecto[ idProyect=" + idProyect + " ]";
     }
     
 }
