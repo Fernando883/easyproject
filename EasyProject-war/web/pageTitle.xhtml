@@ -23,44 +23,44 @@
 
         <!-- Plugin CSS -->
         <link rel="stylesheet" href="css/animate.min.css" type="text/css"/>
-        
+
         <link rel="stylesheet" href="css/login.css" type="text/css"/>
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/creative.css" type="text/css"/>
-        
+
         <!-- Google Login -->
         <script src="https://apis.google.com/js/platform.js"></script>
-        
-         <script>
-  var googleUser = {};
-  var startApp = function() {
-    gapi.load('auth2', function(){
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
-      auth2 = gapi.auth2.init({
-        client_id: '757738411234-1uicf7meaf318nu9hn74jcd3a1nic6r6.apps.googleusercontent.com',
-        cookiepolicy: 'http://localhost:8080/',
-        // Request scopes in addition to 'profile' and 'email'
-        //scope: 'additional_scope'
-      });
-      attachSignin(document.getElementById('customBtn'));
-    });
-  };
 
-  function attachSignin(element) {
-    console.log(element.id);
-    auth2.attachClickHandler(element, {},
-        function(googleUser) {
-            alert(googleUser.getBasicProfile().getEmail());
-            window.location.replace("http://localhost:8080/EasyProject-war/faces/main.xhtml");
-            var profile = googleUser.getBasicProfile();
-          document.getElementById('name').innerText = "Signed in: " +
-              googleUser.getBasicProfile().getName();
-        }, function(error) {
-          alert(JSON.stringify(error, undefined, 2));
-        });
-  }
-  </script>
+        <script>
+            var googleUser = {};
+            var startApp = function () {
+                gapi.load('auth2', function () {
+                    // Retrieve the singleton for the GoogleAuth library and set up the client.
+                    auth2 = gapi.auth2.init({
+                        client_id: '757738411234-1uicf7meaf318nu9hn74jcd3a1nic6r6.apps.googleusercontent.com',
+                        cookiepolicy: 'http://localhost:8080/',
+                        // Request scopes in addition to 'profile' and 'email'
+                        //scope: 'additional_scope'
+                    });
+                    attachSignin(document.getElementById('customBtn'));
+                });
+            };
+
+            function attachSignin(element) {
+                console.log(element.id);
+                auth2.attachClickHandler(element, {},
+                        function (googleUser) {
+                            alert(googleUser.getBasicProfile().getEmail());
+                            window.location.replace("http://localhost:8080/EasyProject-war/faces/main.xhtml");
+                            var profile = googleUser.getBasicProfile();
+                            document.getElementById('name').innerText = "Signed in: " +
+                                    googleUser.getBasicProfile().getName();
+                        }, function (error) {
+                    alert(JSON.stringify(error, undefined, 2));
+                });
+            }
+        </script>
 
     </h:head>
 
@@ -190,32 +190,32 @@
                 </div>
             </div>
         </section>
-        
-        <script>
- 
-  
-    function onSuccess(googleUser) {
-      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-       
-    }
-    function onFailure(error) {
-      console.log(error);
-    }
-    function renderButton() {
-      gapi.signin2.render('my-signin2', {
-        'scope': 'profile email',
-        'width': 240,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'dark',
-        'onsuccess': onSuccess,
-        'onfailure': onFailure
-      });
-    }
-  </script>
 
-  <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
-  
+        <script>
+
+
+            function onSuccess(googleUser) {
+                console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+
+            }
+            function onFailure(error) {
+                console.log(error);
+            }
+            function renderButton() {
+                gapi.signin2.render('my-signin2', {
+                    'scope': 'profile email',
+                    'width': 240,
+                    'height': 50,
+                    'longtitle': true,
+                    'theme': 'dark',
+                    'onsuccess': onSuccess,
+                    'onfailure': onFailure
+                });
+            }
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
+
         <!-- jQuery -->
         <script src="js/jquery.js"></script>
 
@@ -231,6 +231,6 @@
         <script src="js/creative.js"></script>
         <script>startApp();</script>
     </h:body>
-    
+
 </html>
 
