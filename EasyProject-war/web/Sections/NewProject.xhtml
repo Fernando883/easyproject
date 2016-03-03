@@ -3,7 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:c="http://primefaces.org/ui">
+      xmlns:c="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <div class="row">
 
@@ -36,20 +39,34 @@
                                 <br></br>
                             </div>
 
-                        </div> 
+                        </div>
 
                         <div class="form-group">
 
                             <h:outputLabel class="col-sm-2 control-label"> Miembros </h:outputLabel>
-                            <div class="col-sm-10">
-                                <c:autoComplete placeholder="Introduzca el nombre de usuario"
-                                                value="#{projectBean.search}" completeMethod="#{projectBean.completeName(query)}"
-                                                required="true"/>
-                                <br></br>
+                            <div class="col-sm-9">
+                                <c:autoComplete value="#{projectBean.search}" completeMethod="#{projectBean.completeName}"
+                                                required="true" inputStyleClass="form-control">
+                                </c:autoComplete>
+                                <br></br> <br></br>
                             </div>
 
-                        </div> 
+                            <div class="col-sm-1">
+                                <h:commandLink action="#{projectBean.doAddTempList}">
+                                    <i class="fa fa-2x fa-plus" style="color:grey;"></i>                                    
+                                </h:commandLink>
+                               
+                            </div>
 
+                        </div>
+
+                        <div class="col-sm-10" style="padding-left:20%" id="panel">
+                            <ui:repeat id="output" var="user" value="#{projectBean.tempUsers}">
+                                <h:outputText value="#{user}"></h:outputText>
+                                <br></br>
+                            </ui:repeat>
+                        </div>
+                        
                     </div>
                 </h:form>
 

@@ -28,6 +28,7 @@ public class ProjectBean {
     private String projectDescription;
     private Usuario projectDirector;
     protected List<String> listUsersName;
+    protected List<String> tempUsers;
     protected String search;
     
     
@@ -35,6 +36,8 @@ public class ProjectBean {
     public void init () {
         search="";
         listUsersName = usuarioFacade.getUsersEmail();
+        tempUsers = new ArrayList<>();
+        tempUsers.add("fulanito");
         
     }
     public String getProjectName() {
@@ -74,17 +77,24 @@ public class ProjectBean {
     }
 
     public void setSearch(String search) {
+        System.out.println("gugu");
         this.search = search;
+    }
+
+    public List<String> getTempUsers() {
+        return tempUsers;
+    }
+
+    public void setTempUsers(List<String> tempUsers) {
+        this.tempUsers = tempUsers;
     }
     
     
     public List<String> completeName (String query) {
-        System.out.println("eiii");
         List<String> results = new ArrayList<>();
         
         for (String nombre: this.listUsersName) {
             if (nombre.startsWith(query)) {
-                System.out.println("Prueba: " + nombre);
                     results.add(nombre);
                 
             }
@@ -98,6 +108,12 @@ public class ProjectBean {
      * Creates a new instance of addProjectBean
      */
     public ProjectBean() {
+    }
+    
+    public String doAddTempList () {
+        System.out.println("Search: " + search);
+        tempUsers.add(search);
+        return "";
     }
     
     public String doAddProject() {
