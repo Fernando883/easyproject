@@ -4,9 +4,10 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://primefaces.org/ui"
-      xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:outputScript library="primefaces"  name="jQuery.min.js" target="head"></h:outputScript>
 
     <div class="row">
 
@@ -45,7 +46,7 @@
 
                             <h:outputLabel class="col-sm-2 control-label"> Miembros </h:outputLabel>
                             <div class="col-sm-9">
-                                <c:autoComplete value="#{projectBean.search}" completeMethod="#{projectBean.completeName}"
+                                <c:autoComplete id="entrada" value="#{projectBean.search}" completeMethod="#{projectBean.completeName}"
                                                 required="true" inputStyleClass="form-control">
                                 </c:autoComplete>
                                 <br></br> <br></br>
@@ -54,6 +55,7 @@
                             <div class="col-sm-1">
                                 <h:commandLink action="#{projectBean.doAddTempList}">
                                     <i class="fa fa-2x fa-plus" style="color:grey;"></i>
+                                    <f:ajax render="output" execute="entrada"/>
                                 </h:commandLink>
 
                             </div>
@@ -62,15 +64,17 @@
 
                         <div class="form-group">
                             <div class="col-sm-10" style="padding-left:20%" id="panel">
-                                <ui:repeat id="output" var="user" value="#{projectBean.tempUsers}">
-                                    <h:outputText value="#{user}"></h:outputText>
-                                    <br></br>
-                                </ui:repeat>
+                                <h:panelGrid id="output">
+                                    <ui:repeat  var="user" value="#{projectBean.tempUsers}">
+                                        <h:outputText value="#{user}"></h:outputText>
+                                        <br></br>
+                                    </ui:repeat>
+                                </h:panelGrid>
                             </div>
                         </div>
 
                     </div>
-                    
+
                     <div class="box-footer">
                         <button type="submit" class="btn btn-danger btn-block">Guardar proyecto</button>
                     </div>
