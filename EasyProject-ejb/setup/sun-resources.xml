@@ -10,5 +10,5 @@
         <property name="URL" value="jdbc:oracle:thin:@olimpia.lcc.uma.es:1521:edgar"/>
         <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="EasyProject" object-type="user" pool-name="oracle-thin_edgar_INFTEL15_11Pool"/>
+    <jdbc-resource enabled="true" jndi-name="EasyProject-JSF" object-type="user" pool-name="oracle-thin_edgar_INFTEL15_11Pool"/>
 </resources>
