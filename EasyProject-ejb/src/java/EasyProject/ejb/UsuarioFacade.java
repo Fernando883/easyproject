@@ -6,6 +6,7 @@
 package EasyProject.ejb;
 
 import EasyProject.entities.Usuario;
+import java.math.BigDecimal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
     public UsuarioFacade() {
         super(Usuario.class);
+    }
+    
+    public Usuario getUser(Long Usuario){
+        Usuario userSelected = em.find(Usuario.class, Usuario);
+        em.refresh(userSelected);        
+        return userSelected;
     }
     
 }

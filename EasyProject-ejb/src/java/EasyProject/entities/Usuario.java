@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
     @NamedQuery(name = "Usuario.findByToken", query = "SELECT u FROM Usuario u WHERE u.token = :token")})
 public class Usuario implements Serializable {
+    @Size(max = 40)
+    @Column(name = "NOMBRE_U")
+    private String nombreU;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private Collection<Mensaje> mensajeCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
@@ -158,6 +161,14 @@ public class Usuario implements Serializable {
 
     public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
         this.mensajeCollection = mensajeCollection;
+    }
+
+    public String getNombreU() {
+        return nombreU;
+    }
+
+    public void setNombreU(String nombreU) {
+        this.nombreU = nombreU;
     }
 
     

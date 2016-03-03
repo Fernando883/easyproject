@@ -7,7 +7,11 @@ package easyproject.beans;
 
 
 import EasyProject.ejb.UsuarioFacade;
+import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -27,7 +31,19 @@ public class UserBean {
     private String email;
     private Usuario user;
     private String name;
-
+    private List<Proyecto> proyectos;
+    
+    @PostConstruct
+    public void init(){
+        user = usuarioFacade.getUser(2L);
+        System.out.println(user.getEmail());
+        proyectos = (List<Proyecto>) user.getProyectoCollection();
+        name = user.getNombreU();
+        
+        for (Proyecto proyecto : proyectos) {
+            System.out.println(proyecto.getNombreP());
+        }
+    }
     
     public Usuario getUser() {
         return user;
@@ -52,8 +68,14 @@ public class UserBean {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    public List<Proyecto> getProyectos() {
+        return proyectos;
+    }
+
+    public void setProyectos(List<Proyecto> proyectos) {
+        this.proyectos = proyectos;
+    }
 
  
     /**
@@ -72,6 +94,10 @@ public class UserBean {
             usuarioFacade.create(user);
         }
         return "User";
+    }
+    
+    public String doLogin(){
+        return "";
     }
 
     public String doSignOut(){
