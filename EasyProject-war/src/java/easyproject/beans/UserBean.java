@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -35,14 +36,14 @@ public class UserBean {
     
     @PostConstruct
     public void init(){
-        user = usuarioFacade.getUser(2L);
-        System.out.println(user.getEmail());
-        proyectos = (List<Proyecto>) user.getProyectoCollection();
-        name = user.getNombreU();
-        
-        for (Proyecto proyecto : proyectos) {
-            System.out.println(proyecto.getNombreP());
-        }
+//        user = usuarioFacade.getUser(2L);
+//        System.out.println(user.getEmail());
+//        proyectos = (List<Proyecto>) user.getProyectoCollection();
+//        name = user.getNombreU();
+//        
+//        for (Proyecto proyecto : proyectos) {
+//            System.out.println(proyecto.getNombreP());
+//        }
     }
     
     public Usuario getUser() {
@@ -96,8 +97,15 @@ public class UserBean {
         return "User";
     }
     
-    public String doLogin(){
-        return "";
+    public void doLogin(){
+        name = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
+        email = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("email");
+        if(usuarioFacade.getUser(email) == null){
+            
+        }else{
+            user = usuarioFacade.getUser(email);
+        }
+        proyectos = (List<Proyecto>) user.getProyectoCollection(); 
     }
 
     public String doSignOut(){

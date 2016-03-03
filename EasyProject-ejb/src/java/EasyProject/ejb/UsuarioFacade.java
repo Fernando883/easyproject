@@ -6,7 +6,6 @@
 package EasyProject.ejb;
 
 import EasyProject.entities.Usuario;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,11 +30,11 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
     
-    public Usuario getUser(Long Usuario){
-        Usuario userSelected = em.find(Usuario.class, Usuario);
-        em.refresh(userSelected);        
+    public Usuario getUser(String email){
+        Usuario userSelected = (Usuario) em.createNamedQuery("Usuario.findByEmail").setParameter("email", email).getSingleResult();
         return userSelected;
     }
+    
     
     public List<String> getUsersEmail () {
         
