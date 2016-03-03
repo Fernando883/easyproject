@@ -7,19 +7,25 @@
     <h:head>
         <ui:insert name="Head"/>
     </h:head>
-    
+
     <h:body class="hold-transition skin-red sidebar-mini">
-        
+
         <div class="wrapper">
-            
+
             <ui:insert name="Header"/>
             <ui:insert name="Aside"/>
-            <ui:insert name="Content"/>
-            <ui:insert name="Footer"/>
+
+            <div class="content-wrapper">
+                <section class="content">
+                    <ui:insert name="Content"/>
+                </section>
+            </div>
             
+            <ui:insert name="Footer"/>
+
             <div class="control-sidebar-bg"></div>            
         </div>
-        
+
     </h:body>
 </html>
 
