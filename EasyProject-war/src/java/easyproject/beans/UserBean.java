@@ -101,7 +101,11 @@ public class UserBean {
         name = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
         email = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("email");
         if(usuarioFacade.getUser(email) == null){
-            
+            System.out.println("NUEVO USUARIO");
+            Usuario NewUser = new Usuario();
+            NewUser.setEmail(email);
+            NewUser.setNombreU(name);
+            usuarioFacade.create(NewUser);
         }else{
             user = usuarioFacade.getUser(email);
         }
