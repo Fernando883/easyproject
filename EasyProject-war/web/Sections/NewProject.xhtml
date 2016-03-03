@@ -55,18 +55,24 @@
                                 <h:commandLink action="#{projectBean.doAddTempList}">
                                     <i class="fa fa-2x fa-plus" style="color:grey;"></i>                                    
                                 </h:commandLink>
-                               
+
                             </div>
 
                         </div>
 
-                        <div class="col-sm-10" style="padding-left:20%" id="panel">
-                            <ui:repeat id="output" var="user" value="#{projectBean.tempUsers}">
-                                <h:outputText value="#{user}"></h:outputText>
-                                <br></br>
-                            </ui:repeat>
+                        <div class="form-group">
+                            <div class="col-sm-10" style="padding-left:20%" id="panel">
+                                <ui:repeat id="output" var="user" value="#{projectBean.tempUsers}">
+                                    <h:outputText value="#{user}"></h:outputText>
+                                    <br></br>
+                                </ui:repeat>
+                            </div>
                         </div>
-                        
+
+                    </div>
+                    
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-danger btn-block">Guardar proyecto</button>
                     </div>
                 </h:form>
 
