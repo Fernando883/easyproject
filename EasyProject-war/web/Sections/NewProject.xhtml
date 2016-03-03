@@ -25,7 +25,7 @@
 
                             <h:outputLabel class="col-sm-2 control-label"> Nombre </h:outputLabel>
                             <div class="col-sm-10">
-                                <h:inputText class="form-control" p:placeholder ="Introduzca el nombre del proyecto"/>
+                                <h:inputText value="#{projectBean.projectName}" class="form-control" p:placeholder ="Introduzca el nombre del proyecto"/>
                                 <br></br>
                             </div>
 
@@ -35,7 +35,7 @@
 
                             <h:outputLabel class="col-sm-2 control-label"> Descripción </h:outputLabel>
                             <div class="col-sm-10">
-                                <h:inputText class="form-control" p:placeholder ="Introduzca la descripción del proyecto"/>
+                                <h:inputText value="#{projectBean.projectDescription}" class="form-control" p:placeholder ="Introduzca la descripción del proyecto"/>
                                 <br></br>
                             </div>
 
@@ -53,7 +53,7 @@
 
                             <div class="col-sm-1">
                                 <h:commandLink action="#{projectBean.doAddTempList}">
-                                    <i class="fa fa-2x fa-plus" style="color:grey;"></i>                                    
+                                    <i class="fa fa-2x fa-plus" style="color:grey;"></i>
                                 </h:commandLink>
 
                             </div>
