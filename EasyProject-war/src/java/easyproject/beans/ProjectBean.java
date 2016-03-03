@@ -15,14 +15,14 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author csalas
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class ProjectBean {
     @EJB
     private UsuarioFacade usuarioFacade;
@@ -44,7 +44,6 @@ public class ProjectBean {
         search="";
         listUsersName = usuarioFacade.getUsersEmail();
         tempUsers = new ArrayList<>();
-        tempUsers.add("fulanito");
         
     }
     public String getProjectName() {
@@ -91,7 +90,6 @@ public class ProjectBean {
     }
 
     public void setSearch(String search) {
-        System.out.println("gugu");
         this.search = search;
     }
 
@@ -125,9 +123,8 @@ public class ProjectBean {
     }
     
     public String doAddTempList () {
-        System.out.println("Search: " + search);
         tempUsers.add(search);
-        return "";
+        return null;
     }
     
     public String doAddProject() {
