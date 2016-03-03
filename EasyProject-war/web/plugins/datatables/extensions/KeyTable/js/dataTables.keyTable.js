@@ -682,7 +682,7 @@ KeyTable = function ( oInit )
 			iTableHeight = _nBody.getElementsByTagName('tr').length;
 		}
 
-		/* Capture shift+tab to match the left arrow key */
+		/* Capture shift+tab to match the left Arrow key */
 		var iKey = (e.keyCode == 9 && e.shiftKey) ? -1 : e.keyCode;
 
 		switch( iKey )
@@ -705,7 +705,7 @@ KeyTable = function ( oInit )
 				break;
 
 			case -1:
-			case 37: /* left arrow */
+			case 37: /* left Arrow */
 				if ( _iOldX > 0 ) {
 					x = _iOldX - 1;
 					y = _iOldY;
@@ -737,7 +737,7 @@ KeyTable = function ( oInit )
 				}
 				break;
 
-			case 38: /* up arrow */
+			case 38: /* up Arrow */
 				if ( _iOldY > 0 ) {
 					x = _iOldX;
 					y = _iOldY - 1;
@@ -760,7 +760,7 @@ KeyTable = function ( oInit )
 				break;
 
 			case 9: /* tab */
-			case 39: /* right arrow */
+			case 39: /* right Arrow */
 				if ( _iOldX < iTableWidth-1 ) {
 					x = _iOldX + 1;
 					y = _iOldY;
@@ -792,7 +792,7 @@ KeyTable = function ( oInit )
 				}
 				break;
 
-			case 40: /* down arrow */
+			case 40: /* down Arrow */
 				if ( _iOldY < iTableHeight-1 ) {
 					x = _iOldX;
 					y = _iOldY + 1;

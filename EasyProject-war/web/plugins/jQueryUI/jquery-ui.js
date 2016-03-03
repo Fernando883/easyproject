@@ -2800,7 +2800,7 @@ $.widget( "ui.autocomplete", {
 		// Some browsers only repeat keydown events, not keypress events,
 		// so we use the suppressKeyPress flag to determine if we've already
 		// handled the keydown event. #7269
-		// Unfortunately the code for & in keypress is the same as the up arrow,
+		// Unfortunately the code for & in keypress is the same as the up Arrow,
 		// so we use the suppressKeyPressRepeat flag to avoid handling keypress
 		// events when we know the keydown event was used to modify the
 		// search term. #7799
@@ -3344,7 +3344,7 @@ $.widget( "ui.autocomplete", $.ui.autocomplete, {
 			noResults: "No search results.",
 			results: function( amount ) {
 				return amount + ( amount > 1 ? " results are" : " result is" ) +
-					" available, use up and down arrow keys to navigate.";
+					" available, use up and down Arrow keys to navigate.";
 			}
 		}
 	},
