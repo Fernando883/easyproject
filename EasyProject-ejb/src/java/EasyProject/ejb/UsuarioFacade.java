@@ -7,6 +7,8 @@ package EasyProject.ejb;
 
 import EasyProject.entities.Usuario;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,8 +33,11 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     }
     
     public Usuario getUser(String email){
-        Usuario userSelected = (Usuario) em.createNamedQuery("Usuario.findByEmail").setParameter("email", email).getSingleResult();
-        return userSelected;
+        List<Usuario> userSelected = em.createNamedQuery("Usuario.findByEmail").setParameter("email", email).getResultList();
+        if(userSelected.isEmpty()){
+            return null;
+        }
+        return userSelected.get(0);
     }
     
     
@@ -42,6 +47,18 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         List<String> listUsersEmail = q.getResultList();
         
         return listUsersEmail;
+        
+    }
+
+    public void setNewUser(String email, String nombre) {
+        try{
+            Usuario newUser = new Usuario();
+            newUser.setEmail(email);
+            newUser.setNombreU(nombre);
+            em.persist(newUser);
+        }catch (Exception ex) {
+            System.out.println("Error" + ex);
+        }
         
     }
     
