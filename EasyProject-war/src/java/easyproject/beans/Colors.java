@@ -21,8 +21,8 @@ public class Colors {
     /**
      * Creates a new instance of Colors
      */
-    public List<String> colors;
-    int num = 9;
+    private List<String> colors;
+    private int num = 9;
 
     
     public List<String> getColors() {
@@ -52,4 +52,14 @@ public class Colors {
     public String getColor (int i) {
         return colors.get(i);
     }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+    
+    
 }

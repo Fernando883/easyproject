@@ -5,6 +5,7 @@
  */
 package easyproject.beans;
 
+import EasyProject.ejb.ProyectoFacade;
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
@@ -24,28 +25,31 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class ProjectBean {
+
+    @EJB
+    private ProyectoFacade proyectoFacade;
     @EJB
     private UsuarioFacade usuarioFacade;
+
     private String projectName;
     private String projectDescription;
     private Usuario projectDirector;
-    
+
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
-    
 
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
-    
-    
+
     @PostConstruct
-    public void init () {
-        search="";
+    public void init() {
+        search = "";
         listUsersName = usuarioFacade.getUsersEmail();
         tempUsers = new ArrayList<>();
-        
+
     }
+
     public String getProjectName() {
         return projectName;
     }
@@ -77,6 +81,7 @@ public class ProjectBean {
     public void setUserBean(UserBean userBean) {
         this.userBean = userBean;
     }
+
     public List<String> getListUsersName() {
         return listUsersName;
     }
@@ -100,42 +105,59 @@ public class ProjectBean {
     public void setTempUsers(List<String> tempUsers) {
         this.tempUsers = tempUsers;
     }
-    
-    
-    public List<String> completeName (String query) {
+
+    public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
-        
-        for (String nombre: this.listUsersName) {
+
+        for (String nombre : this.listUsersName) {
             if (nombre.startsWith(query)) {
-                    results.add(nombre);
-                
+                results.add(nombre);
+
             }
         }
         return results;
     }
-    
-    
 
     /**
      * Creates a new instance of addProjectBean
      */
     public ProjectBean() {
     }
-    
-    public String doAddTempList () {
-        tempUsers.add(search);
+
+    public String doAddTempList() {
+
+        if (!tempUsers.contains(search)) {
+            tempUsers.add(search);
+        }
+
+        search = "";
         return null;
     }
-    
+
     public String doAddProject() {
-        Proyecto project;
+
+        List<Usuario> memberProject = new ArrayList<>();
         
-        return "addProject";
+        for (String user : tempUsers) {
+            if (usuarioFacade.getUser(user) != null) {
+                
+            }
+        }
+        
+        Proyecto project = new Proyecto();
+        project.setNombreP(projectName);
+        project.setDescripcion(projectDescription);
+        project.setDirector(userBean.getUser());
+
+        proyectoFacade.create(project);
+        projectName = "";
+        projectDescription = "";
+
+        return null;
     }
-    
+
     public String doListProject() {
         return "listProject";
     }
-    
-    
+
 }

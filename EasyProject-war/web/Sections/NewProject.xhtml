@@ -5,7 +5,8 @@
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <h:outputScript library="primefaces"  name="jQuery.min.js" target="head"></h:outputScript>
 
@@ -76,7 +77,7 @@
                     </div>
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-danger btn-block">Guardar proyecto</button>
+                        <button jsf:action="#{projectBean.doAddProject()}" type="submit" class="btn btn-danger btn-block">Guardar proyecto</button>
                     </div>
                 </h:form>
 

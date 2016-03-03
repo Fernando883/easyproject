@@ -12,7 +12,7 @@
 
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
-                <div class="small-box #{colors.getColor(userBean.proyectos.indexOf(proyecto))}">
+                <div class="small-box #{colors.getColor((userBean.proyectos.indexOf(proyecto))% colors.num)}">
                     <div style="width: 40px; height: 40px; float: right; text-align: center">
                         <i class="ion ion-person"></i>
                         #{proyecto.usuarioCollection.size()}
