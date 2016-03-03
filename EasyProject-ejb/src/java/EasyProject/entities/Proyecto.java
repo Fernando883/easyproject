@@ -8,9 +8,9 @@ package EasyProject.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -18,7 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author csalas
+ * @author macbookpro
  */
 @Entity
 @Table(name = "PROYECTO")
@@ -38,15 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Proyecto.findByNombreP", query = "SELECT p FROM Proyecto p WHERE p.nombreP = :nombreP"),
     @NamedQuery(name = "Proyecto.findByDescripcion", query = "SELECT p FROM Proyecto p WHERE p.descripcion = :descripcion")})
 public class Proyecto implements Serializable {
-    @JoinTable(name = "PROYECTO_USUARIO", joinColumns = {
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECT")}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")})
-    @ManyToMany
-    private Collection<Usuario> usuarioCollection;
     private static final long serialVersionUID = 1L;
     @Id
-     @GeneratedValue(generator = "PROYECTO_SEQUENCE")
-    @SequenceGenerator(name="PROYECTO_SEQUENCE",sequenceName="proyect_seq",allocationSize=1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PROYECT")
@@ -61,9 +54,16 @@ public class Proyecto implements Serializable {
     @Size(min = 1, max = 250)
     @Column(name = "DESCRIPCION")
     private String descripcion;
+    @JoinTable(name = "PROYECTO_USUARIO", joinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECT")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")})
+    @ManyToMany
+    private Collection<Usuario> usuarioCollection;
     @JoinColumn(name = "DIRECTOR", referencedColumnName = "ID_USUARIO")
     @ManyToOne(optional = false)
     private Usuario director;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProyecto")
+    private Collection<Tarea> tareaCollection;
 
     public Proyecto() {
     }
@@ -102,12 +102,30 @@ public class Proyecto implements Serializable {
         this.descripcion = descripcion;
     }
 
+    @XmlTransient
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
+    }
+
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
+    }
+
     public Usuario getDirector() {
         return director;
     }
 
     public void setDirector(Usuario director) {
         this.director = director;
+    }
+
+    @XmlTransient
+    public Collection<Tarea> getTareaCollection() {
+        return tareaCollection;
+    }
+
+    public void setTareaCollection(Collection<Tarea> tareaCollection) {
+        this.tareaCollection = tareaCollection;
     }
 
     @Override
@@ -133,15 +151,6 @@ public class Proyecto implements Serializable {
     @Override
     public String toString() {
         return "EasyProject.entities.Proyecto[ idProyect=" + idProyect + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
-    }
-
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
     }
     
 }

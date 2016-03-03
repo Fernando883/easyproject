@@ -101,15 +101,17 @@ public class UserBean {
         name = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
         email = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("email");
         if(usuarioFacade.getUser(email) == null){
+            List<Usuario> lista = this.usuarioFacade.findAll();
             System.out.println("NUEVO USUARIO");
-            Usuario NewUser = new Usuario();
-            NewUser.setEmail(email);
-            NewUser.setNombreU(name);
-            usuarioFacade.create(NewUser);
+            Usuario newUser = new Usuario();
+            newUser.setEmail(email);
+            newUser.setNombreU(name);
+            newUser.setToken("3333333");
+            usuarioFacade.create(newUser);
         }else{
             user = usuarioFacade.getUser(email);
         }
-        proyectos = (List<Proyecto>) user.getProyectoCollection(); 
+        proyectos = (List<Proyecto>) user.getProyectoCollection();  
     }
 
     public String doSignOut(){
