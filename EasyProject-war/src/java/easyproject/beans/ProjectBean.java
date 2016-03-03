@@ -5,8 +5,13 @@
  */
 package easyproject.beans;
 
+import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -17,10 +22,21 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean
 @RequestScoped
 public class ProjectBean {
+    @EJB
+    private UsuarioFacade usuarioFacade;
     private String projectName;
     private String projectDescription;
     private Usuario projectDirector;
-
+    protected List<String> listUsersName;
+    protected String search;
+    
+    
+    @PostConstruct
+    public void init () {
+        search="";
+        listUsersName = usuarioFacade.getUsersEmail();
+        
+    }
     public String getProjectName() {
         return projectName;
     }
@@ -43,6 +59,37 @@ public class ProjectBean {
 
     public void setProjectDirector(Usuario projectDirector) {
         this.projectDirector = projectDirector;
+    }
+
+    public List<String> getListUsersName() {
+        return listUsersName;
+    }
+
+    public void setListUsersName(List<String> listUsersName) {
+        this.listUsersName = listUsersName;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+    
+    
+    public List<String> completeName (String query) {
+        System.out.println("eiii");
+        List<String> results = new ArrayList<>();
+        
+        for (String nombre: this.listUsersName) {
+            if (nombre.startsWith(query)) {
+                System.out.println("Prueba: " + nombre);
+                    results.add(nombre);
+                
+            }
+        }
+        return results;
     }
     
     

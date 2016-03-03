@@ -6,9 +6,11 @@
 package EasyProject.ejb;
 
 import EasyProject.entities.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,15 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
     public UsuarioFacade() {
         super(Usuario.class);
+    }
+    
+    public List<String> getUsersEmail () {
+        
+        Query q = em.createQuery("SELECT distinct u.email FROM Usuario u");
+        List<String> listUsersEmail = q.getResultList();
+        
+        return listUsersEmail;
+        
     }
     
 }

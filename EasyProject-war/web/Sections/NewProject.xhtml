@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://primefaces.org/ui">
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="box box-danger">
+
+                <div class="box-header with-border">
+                    <div class="box-title">Nuevo proyecto</div>
+                </div>
+
+                <h:form role="form">
+
+                    <div class="box-body">
+                        <div class="form-group">
+
+                            <h:outputLabel class="col-sm-2 control-label"> Nombre </h:outputLabel>
+                            <div class="col-sm-10">
+                                <h:inputText class="form-control" p:placeholder ="Introduzca el nombre del proyecto"/>
+                                <br></br>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <h:outputLabel class="col-sm-2 control-label"> Descripción </h:outputLabel>
+                            <div class="col-sm-10">
+                                <h:inputText class="form-control" p:placeholder ="Introduzca la descripción del proyecto"/>
+                                <br></br>
+                            </div>
+
+                        </div> 
+
+                        <div class="form-group">
+
+                            <h:outputLabel class="col-sm-2 control-label"> Miembros </h:outputLabel>
+                            <div class="col-sm-10">
+                                <c:autoComplete placeholder="Introduzca el nombre de usuario"
+                                                value="#{projectBean.search}" completeMethod="#{projectBean.completeName(query)}"
+                                                required="true"/>
+                                <br></br>
+                            </div>
+
+                        </div> 
+
+                    </div>
+                </h:form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+</html>
+
