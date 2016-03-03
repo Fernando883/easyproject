@@ -63,10 +63,10 @@
 	},
 
 	buttonIcons: {
-		prev: 'left-single-arrow',
-		next: 'right-single-arrow',
-		prevYear: 'left-double-arrow',
-		nextYear: 'right-double-arrow'
+		prev: 'left-single-Arrow',
+		next: 'right-single-Arrow',
+		prevYear: 'left-double-Arrow',
+		nextYear: 'right-double-Arrow'
 	},
 	
 	// jquery-ui theming
@@ -111,10 +111,10 @@ var rtlDefaults = {
 		right: 'title'
 	},
 	buttonIcons: {
-		prev: 'right-single-arrow',
-		next: 'left-single-arrow',
-		prevYear: 'right-double-arrow',
-		nextYear: 'left-double-arrow'
+		prev: 'right-single-Arrow',
+		next: 'left-single-Arrow',
+		prevYear: 'right-double-Arrow',
+		nextYear: 'left-double-Arrow'
 	},
 	themeButtonIcons: {
 		prev: 'circle-triangle-e',

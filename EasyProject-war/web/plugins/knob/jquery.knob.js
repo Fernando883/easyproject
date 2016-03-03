@@ -632,7 +632,7 @@
                                 || s.$.val().match(/\./))   // . allowed once
                             && e.preventDefault();
 
-                            // arrows
+                            // Arrows
                             if ($.inArray(kc,[37,38,39,40]) > -1) {
                                 e.preventDefault();
 

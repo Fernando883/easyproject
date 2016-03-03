@@ -246,10 +246,10 @@
 .fa-download:before {
   content: "\f019";
 }
-.fa-arrow-circle-o-down:before {
+.fa-Arrow-circle-o-down:before {
   content: "\f01a";
 }
-.fa-arrow-circle-o-up:before {
+.fa-Arrow-circle-o-up:before {
   content: "\f01b";
 }
 .fa-inbox:before {
@@ -377,7 +377,7 @@
 .fa-check-square-o:before {
   content: "\f046";
 }
-.fa-arrows:before {
+.fa-Arrows:before {
   content: "\f047";
 }
 .fa-step-backward:before {
@@ -446,16 +446,16 @@
 .fa-ban:before {
   content: "\f05e";
 }
-.fa-arrow-left:before {
+.fa-Arrow-left:before {
   content: "\f060";
 }
-.fa-arrow-right:before {
+.fa-Arrow-right:before {
   content: "\f061";
 }
-.fa-arrow-up:before {
+.fa-Arrow-up:before {
   content: "\f062";
 }
-.fa-arrow-down:before {
+.fa-Arrow-down:before {
   content: "\f063";
 }
 .fa-mail-forward:before,
@@ -532,10 +532,10 @@
 .fa-folder-open:before {
   content: "\f07c";
 }
-.fa-arrows-v:before {
+.fa-Arrows-v:before {
   content: "\f07d";
 }
-.fa-arrows-h:before {
+.fa-Arrows-h:before {
   content: "\f07e";
 }
 .fa-bar-chart-o:before,
@@ -655,16 +655,16 @@
 .fa-hand-o-down:before {
   content: "\f0a7";
 }
-.fa-arrow-circle-left:before {
+.fa-Arrow-circle-left:before {
   content: "\f0a8";
 }
-.fa-arrow-circle-right:before {
+.fa-Arrow-circle-right:before {
   content: "\f0a9";
 }
-.fa-arrow-circle-up:before {
+.fa-Arrow-circle-up:before {
   content: "\f0aa";
 }
-.fa-arrow-circle-down:before {
+.fa-Arrow-circle-down:before {
   content: "\f0ab";
 }
 .fa-globe:before {
@@ -682,7 +682,7 @@
 .fa-briefcase:before {
   content: "\f0b1";
 }
-.fa-arrows-alt:before {
+.fa-Arrows-alt:before {
   content: "\f0b2";
 }
 .fa-group:before,
@@ -981,7 +981,7 @@
 .fa-star-half-o:before {
   content: "\f123";
 }
-.fa-location-arrow:before {
+.fa-location-Arrow:before {
   content: "\f124";
 }
 .fa-crop:before {
@@ -1223,16 +1223,16 @@
 .fa-tumblr-square:before {
   content: "\f174";
 }
-.fa-long-arrow-down:before {
+.fa-long-Arrow-down:before {
   content: "\f175";
 }
-.fa-long-arrow-up:before {
+.fa-long-Arrow-up:before {
   content: "\f176";
 }
-.fa-long-arrow-left:before {
+.fa-long-Arrow-left:before {
   content: "\f177";
 }
-.fa-long-arrow-right:before {
+.fa-long-Arrow-right:before {
   content: "\f178";
 }
 .fa-apple:before {
@@ -1296,10 +1296,10 @@
 .fa-stack-exchange:before {
   content: "\f18d";
 }
-.fa-arrow-circle-o-right:before {
+.fa-Arrow-circle-o-right:before {
   content: "\f18e";
 }
-.fa-arrow-circle-o-left:before {
+.fa-Arrow-circle-o-left:before {
   content: "\f190";
 }
 .fa-toggle-left:before,
@@ -1708,7 +1708,7 @@
 .fa-cart-plus:before {
   content: "\f217";
 }
-.fa-cart-arrow-down:before {
+.fa-cart-Arrow-down:before {
   content: "\f218";
 }
 .fa-diamond:before {

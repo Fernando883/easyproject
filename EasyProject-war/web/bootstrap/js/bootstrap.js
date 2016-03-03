@@ -1275,7 +1275,7 @@ if (typeof jQuery === 'undefined') {
     animation: true,
     placement: 'top',
     selector: false,
-    template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+    template: '<div class="tooltip" role="tooltip"><div class="tooltip-Arrow"></div><div class="tooltip-inner"></div></div>',
     trigger: 'hover focus',
     title: '',
     delay: 0,
@@ -1511,15 +1511,15 @@ if (typeof jQuery === 'undefined') {
     else offset.top += delta.top
 
     var isVertical          = /top|bottom/.test(placement)
-    var arrowDelta          = isVertical ? delta.left * 2 - width + actualWidth : delta.top * 2 - height + actualHeight
-    var arrowOffsetPosition = isVertical ? 'offsetWidth' : 'offsetHeight'
+    var ArrowDelta          = isVertical ? delta.left * 2 - width + actualWidth : delta.top * 2 - height + actualHeight
+    var ArrowOffsetPosition = isVertical ? 'offsetWidth' : 'offsetHeight'
 
     $tip.offset(offset)
-    this.replaceArrow(arrowDelta, $tip[0][arrowOffsetPosition], isVertical)
+    this.replaceArrow(ArrowDelta, $tip[0][ArrowOffsetPosition], isVertical)
   }
 
   Tooltip.prototype.replaceArrow = function (delta, dimension, isVertical) {
-    this.arrow()
+    this.Arrow()
       .css(isVertical ? 'left' : 'top', 50 * (1 - delta / dimension) + '%')
       .css(isVertical ? 'top' : 'left', '')
   }
@@ -1648,8 +1648,8 @@ if (typeof jQuery === 'undefined') {
     return (this.$tip = this.$tip || $(this.options.template))
   }
 
-  Tooltip.prototype.arrow = function () {
-    return (this.$arrow = this.$arrow || this.tip().find('.tooltip-arrow'))
+  Tooltip.prototype.Arrow = function () {
+    return (this.$Arrow = this.$Arrow || this.tip().find('.tooltip-Arrow'))
   }
 
   Tooltip.prototype.enable = function () {
@@ -1744,7 +1744,7 @@ if (typeof jQuery === 'undefined') {
     placement: 'right',
     trigger: 'click',
     content: '',
-    template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+    template: '<div class="popover" role="tooltip"><div class="Arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
   })
 
 
@@ -1790,8 +1790,8 @@ if (typeof jQuery === 'undefined') {
             o.content)
   }
 
-  Popover.prototype.arrow = function () {
-    return (this.$arrow = this.$arrow || this.tip().find('.arrow'))
+  Popover.prototype.Arrow = function () {
+    return (this.$Arrow = this.$Arrow || this.tip().find('.Arrow'))
   }
 
 
