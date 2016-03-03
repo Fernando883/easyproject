@@ -6,11 +6,14 @@
 package EasyProject.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,6 +21,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +36,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Proyecto.findByNombreP", query = "SELECT p FROM Proyecto p WHERE p.nombreP = :nombreP"),
     @NamedQuery(name = "Proyecto.findByDescripcion", query = "SELECT p FROM Proyecto p WHERE p.descripcion = :descripcion")})
 public class Proyecto implements Serializable {
+    @JoinTable(name = "PROYECTO_USUARIO", joinColumns = {
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECT")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")})
+    @ManyToMany
+    private Collection<Usuario> usuarioCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -120,6 +129,15 @@ public class Proyecto implements Serializable {
     @Override
     public String toString() {
         return "EasyProject.entities.Proyecto[ idProyect=" + idProyect + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
+    }
+
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
     }
     
 }

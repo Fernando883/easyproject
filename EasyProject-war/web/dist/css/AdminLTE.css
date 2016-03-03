@@ -4039,11 +4039,11 @@ table.text-center th {
   padding-right: 6px;
   padding-left: 20px;
 }
-.select2-container--default .select2-selection--single .select2-selection__arrow {
+.select2-container--default .select2-selection--single .select2-selection__Arrow {
   height: 28px;
   right: 3px;
 }
-.select2-container--default .select2-selection--single .select2-selection__arrow b {
+.select2-container--default .select2-selection--single .select2-selection__Arrow b {
   margin-top: 0;
 }
 .select2-dropdown .select2-search__field,

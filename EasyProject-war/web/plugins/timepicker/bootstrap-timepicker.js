@@ -1,4 +1,4 @@
-//TODO: move arrow styles and button click code into configurable items, with defaults matching the existing code
+//TODO: move Arrow styles and button click code into configurable items, with defaults matching the existing code
 
 /*!
 * Timepicker Component for Twitter Bootstrap
@@ -181,12 +181,12 @@
       case 27: // escape
         this.updateFromElementVal();
         break;
-      case 37: // left arrow
+      case 37: // left Arrow
         e.preventDefault();
         this.highlightPrevUnit();
         this.updateFromElementVal();
         break;
-      case 38: // up arrow
+      case 38: // up Arrow
         e.preventDefault();
         switch (this.highlightedUnit) {
         case 'hour':
@@ -207,12 +207,12 @@
           break;
         }
         break;
-      case 39: // right arrow
+      case 39: // right Arrow
         e.preventDefault();
         this.updateFromElementVal();
         this.highlightNextUnit();
         break;
-      case 40: // down arrow
+      case 40: // down Arrow
         e.preventDefault();
         switch (this.highlightedUnit) {
         case 'hour':
@@ -823,7 +823,7 @@
       case 27: // escape
         this.hideWidget();
         break;
-      case 38: // up arrow
+      case 38: // up Arrow
         e.preventDefault();
         switch (name) {
         case 'hour':
@@ -840,7 +840,7 @@
           break;
         }
         break;
-      case 40: // down arrow
+      case 40: // down Arrow
         e.preventDefault();
         switch (name) {
         case 'hour':

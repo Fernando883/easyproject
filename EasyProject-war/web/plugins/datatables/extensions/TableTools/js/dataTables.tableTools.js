@@ -325,7 +325,7 @@ ZeroClipboard_TableTools.Client.prototype = {
 	},
 
 	setHandCursor: function(enabled) {
-		// enable hand cursor (true), or default arrow cursor (false)
+		// enable hand cursor (true), or default Arrow cursor (false)
 		this.handCursorEnabled = enabled;
 		if (this.ready) {
 			this.movie.setHandCursor(enabled);

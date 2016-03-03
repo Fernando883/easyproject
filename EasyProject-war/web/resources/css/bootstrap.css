@@ -564,16 +564,16 @@ th {
 .glyphicon-ban-circle:before {
   content: "\e090";
 }
-.glyphicon-arrow-left:before {
+.glyphicon-Arrow-left:before {
   content: "\e091";
 }
-.glyphicon-arrow-right:before {
+.glyphicon-Arrow-right:before {
   content: "\e092";
 }
-.glyphicon-arrow-up:before {
+.glyphicon-Arrow-up:before {
   content: "\e093";
 }
-.glyphicon-arrow-down:before {
+.glyphicon-Arrow-down:before {
   content: "\e094";
 }
 .glyphicon-share-alt:before {
@@ -675,16 +675,16 @@ th {
 .glyphicon-hand-down:before {
   content: "\e130";
 }
-.glyphicon-circle-arrow-right:before {
+.glyphicon-circle-Arrow-right:before {
   content: "\e131";
 }
-.glyphicon-circle-arrow-left:before {
+.glyphicon-circle-Arrow-left:before {
   content: "\e132";
 }
-.glyphicon-circle-arrow-up:before {
+.glyphicon-circle-Arrow-up:before {
   content: "\e133";
 }
-.glyphicon-circle-arrow-down:before {
+.glyphicon-circle-Arrow-down:before {
   content: "\e134";
 }
 .glyphicon-globe:before {
@@ -6041,63 +6041,63 @@ button.close {
   background-color: #000;
   border-radius: 4px;
 }
-.tooltip-arrow {
+.tooltip-Arrow {
   position: absolute;
   width: 0;
   height: 0;
   border-color: transparent;
   border-style: solid;
 }
-.tooltip.top .tooltip-arrow {
+.tooltip.top .tooltip-Arrow {
   bottom: 0;
   left: 50%;
   margin-left: -5px;
   border-width: 5px 5px 0;
   border-top-color: #000;
 }
-.tooltip.top-left .tooltip-arrow {
+.tooltip.top-left .tooltip-Arrow {
   right: 5px;
   bottom: 0;
   margin-bottom: -5px;
   border-width: 5px 5px 0;
   border-top-color: #000;
 }
-.tooltip.top-right .tooltip-arrow {
+.tooltip.top-right .tooltip-Arrow {
   bottom: 0;
   left: 5px;
   margin-bottom: -5px;
   border-width: 5px 5px 0;
   border-top-color: #000;
 }
-.tooltip.right .tooltip-arrow {
+.tooltip.right .tooltip-Arrow {
   top: 50%;
   left: 0;
   margin-top: -5px;
   border-width: 5px 5px 5px 0;
   border-right-color: #000;
 }
-.tooltip.left .tooltip-arrow {
+.tooltip.left .tooltip-Arrow {
   top: 50%;
   right: 0;
   margin-top: -5px;
   border-width: 5px 0 5px 5px;
   border-left-color: #000;
 }
-.tooltip.bottom .tooltip-arrow {
+.tooltip.bottom .tooltip-Arrow {
   top: 0;
   left: 50%;
   margin-left: -5px;
   border-width: 0 5px 5px;
   border-bottom-color: #000;
 }
-.tooltip.bottom-left .tooltip-arrow {
+.tooltip.bottom-left .tooltip-Arrow {
   top: 0;
   right: 5px;
   margin-top: -5px;
   border-width: 0 5px 5px;
   border-bottom-color: #000;
 }
-.tooltip.bottom-right .tooltip-arrow {
+.tooltip.bottom-right .tooltip-Arrow {
   top: 0;
   left: 5px;
   margin-top: -5px;
@@ -6161,8 +6161,8 @@ button.close {
 .popover-content {
   padding: 9px 14px;
 }
-.popover > .arrow,
-.popover > .arrow:after {
+.popover > .Arrow,
+.popover > .Arrow:after {
   position: absolute;
   display: block;
   width: 0;
@@ -6170,14 +6170,14 @@ button.close {
   border-color: transparent;
   border-style: solid;
 }
-.popover > .arrow {
+.popover > .Arrow {
   border-width: 11px;
 }
-.popover > .arrow:after {
+.popover > .Arrow:after {
   content: "";
   border-width: 10px;
 }
-.popover.top > .arrow {
+.popover.top > .Arrow {
   bottom: -11px;
   left: 50%;
   margin-left: -11px;
@@ -6185,14 +6185,14 @@ button.close {
   border-top-color: rgba(0, 0, 0, .25);
   border-bottom-width: 0;
 }
-.popover.top > .arrow:after {
+.popover.top > .Arrow:after {
   bottom: 1px;
   margin-left: -10px;
   content: " ";
   border-top-color: #fff;
   border-bottom-width: 0;
 }
-.popover.right > .arrow {
+.popover.right > .Arrow {
   top: 50%;
   left: -11px;
   margin-top: -11px;
@@ -6200,14 +6200,14 @@ button.close {
   border-right-color: rgba(0, 0, 0, .25);
   border-left-width: 0;
 }
-.popover.right > .arrow:after {
+.popover.right > .Arrow:after {
   bottom: -10px;
   left: 1px;
   content: " ";
   border-right-color: #fff;
   border-left-width: 0;
 }
-.popover.bottom > .arrow {
+.popover.bottom > .Arrow {
   top: -11px;
   left: 50%;
   margin-left: -11px;
@@ -6215,14 +6215,14 @@ button.close {
   border-bottom-color: #999;
   border-bottom-color: rgba(0, 0, 0, .25);
 }
-.popover.bottom > .arrow:after {
+.popover.bottom > .Arrow:after {
   top: 1px;
   margin-left: -10px;
   content: " ";
   border-top-width: 0;
   border-bottom-color: #fff;
 }
-.popover.left > .arrow {
+.popover.left > .Arrow {
   top: 50%;
   right: -11px;
   margin-top: -11px;
@@ -6230,7 +6230,7 @@ button.close {
   border-left-color: #999;
   border-left-color: rgba(0, 0, 0, .25);
 }
-.popover.left > .arrow:after {
+.popover.left > .Arrow:after {
   right: 1px;
   bottom: -10px;
   content: " ";

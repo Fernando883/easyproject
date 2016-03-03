@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByToken", query = "SELECT u FROM Usuario u WHERE u.token = :token")})
 public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private Collection<Mensaje> mensajeCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -147,6 +149,15 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "EasyProject.ejb.Usuario[ idUsuario=" + idUsuario + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Mensaje> getMensajeCollection() {
+        return mensajeCollection;
+    }
+
+    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
+        this.mensajeCollection = mensajeCollection;
     }
 
     

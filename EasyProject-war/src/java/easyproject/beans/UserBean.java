@@ -23,16 +23,18 @@ public class UserBean {
     @EJB
     private UsuarioFacade usuarioFacade;
 
-    
+   
     private String email;
-    private Usuario u;
+    private Usuario user;
+    private String name;
 
-    public Usuario getU() {
-        return u;
+    
+    public Usuario getUser() {
+        return user;
     }
 
-    public void setU(Usuario u) {
-        this.u = u;
+    public void setUser(Usuario user) {
+        this.user = user;
     }
 
     public String getEmail() {
@@ -43,28 +45,41 @@ public class UserBean {
         this.email = email;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
+
  
     /**
      * Creates a new instance of UserBean
      * @return 
      */
-public String doCheckUser()
-{
+    public String doCheckUser(){
    
-    if( (usuarioFacade.find(u)!=null))
-    {   
+        if( (usuarioFacade.find(user)!=null)){   
+            return "User";
+        }
+        else{
+            user=new Usuario();
+            user.setToken("");
+            user.setEmail(email);
+            usuarioFacade.create(user);
+        }
         return "User";
     }
-    else
-    {
-        u=new Usuario();
-        u.setToken("");
-        u.setEmail(email);
-        usuarioFacade.create(u);
-        
+
+    public String doSignOut(){
+        user = new Usuario();
+        email="";
+        return "PageTitle";
     }
-    return "User";
-}
+
     
 
 }

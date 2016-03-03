@@ -67,7 +67,7 @@ body .fc { /* extra precedence to overcome jqui */
 }
 
 
-/* Icons (inline elements with styled text that mock arrow icons)
+/* Icons (inline elements with styled text that mock Arrow icons)
 --------------------------------------------------------------------------------------------------*/
 
 .fc-icon {
@@ -78,21 +78,21 @@ body .fc { /* extra precedence to overcome jqui */
 	font-family: "Courier New", Courier, monospace;
 }
 
-.fc-icon-left-single-arrow:after {
+.fc-icon-left-single-Arrow:after {
 	content: "\02039";
 	font-weight: bold;
 }
 
-.fc-icon-right-single-arrow:after {
+.fc-icon-right-single-Arrow:after {
 	content: "\0203A";
 	font-weight: bold;
 }
 
-.fc-icon-left-double-arrow:after {
+.fc-icon-left-double-Arrow:after {
 	content: "\000AB";
 }
 
-.fc-icon-right-double-arrow:after {
+.fc-icon-right-double-Arrow:after {
 	content: "\000BB";
 }
 

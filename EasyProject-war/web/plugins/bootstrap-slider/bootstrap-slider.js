@@ -238,13 +238,13 @@
 				sliderTrack.appendChild(sliderMaxHandle);
 
 				var createAndAppendTooltipSubElements = function(tooltipElem) {
-					var arrow = document.createElement("div");
-					arrow.className = "tooltip-arrow";
+					var Arrow = document.createElement("div");
+					Arrow.className = "tooltip-Arrow";
 
 					var inner = document.createElement("div");
 					inner.className = "tooltip-inner";
 
-					tooltipElem.appendChild(arrow);
+					tooltipElem.appendChild(Arrow);
 					tooltipElem.appendChild(inner);
 				};
 
@@ -520,7 +520,7 @@
 						return val;
 					}
 				},
-				natural_arrow_keys: false
+				natural_Arrow_keys: false
 			},
 			
 			over: false,
@@ -895,8 +895,8 @@
 					return;
 				}
 
-				// use natural arrow keys instead of from min to max
-				if (this.options.natural_arrow_keys) {
+				// use natural Arrow keys instead of from min to max
+				if (this.options.natural_Arrow_keys) {
 					var ifVerticalAndNotReversed = (this.options.orientation === 'vertical' && !this.options.reversed);
 					var ifHorizontalAndReversed = (this.options.orientation === 'horizontal' && this.options.reversed);
 

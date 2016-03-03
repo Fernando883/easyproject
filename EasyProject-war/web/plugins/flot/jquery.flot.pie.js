@@ -792,7 +792,7 @@ More detail and specific examples can be found in the included HTML file.
 						color: null,
 						opacity: 0
 					},
-					threshold: 0	// percentage at which to hide the label (i.e. the slice is too narrow)
+					threshold: 0	// percentage at which to hide the label (i.e. the slice is too nArrow)
 				},
 				combine: {
 					threshold: -1,	// percentage at which to combine little slices into one larger slice

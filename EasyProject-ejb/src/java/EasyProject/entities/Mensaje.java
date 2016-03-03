@@ -10,7 +10,9 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -28,6 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Mensaje.findAll", query = "SELECT m FROM Mensaje m"),
     @NamedQuery(name = "Mensaje.findByIdMensaje", query = "SELECT m FROM Mensaje m WHERE m.idMensaje = :idMensaje")})
 public class Mensaje implements Serializable {
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
+    @ManyToOne(optional = false)
+    private Usuario idUsuario;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -91,6 +96,14 @@ public class Mensaje implements Serializable {
     @Override
     public String toString() {
         return "EasyProject.ejb.Mensaje[ idMensaje=" + idMensaje + " ]";
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
     
 }
