@@ -6,11 +6,14 @@
 package easyproject.beans;
 
 import EasyProject.ejb.TareaFacade;
+import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 /**
@@ -26,6 +29,11 @@ public class TaskBean {
 
     private String nameTask;
     private BigInteger tiempo;
+    private Collection<Tarea> collectionTask;
+    private List<Tarea> collectionTask2;
+    
+    @ManagedProperty(value = "#{userBean}")
+    private UserBean userBean;
 
     public BigInteger getTiempo() {
         return tiempo;
@@ -34,7 +42,6 @@ public class TaskBean {
     public void setTiempo(BigInteger tiempo) {
         this.tiempo = tiempo;
     }
-    private Collection<Tarea> collectionTask;
 
     public String getNameTask() {
         return nameTask;
@@ -44,15 +51,23 @@ public class TaskBean {
         this.nameTask = nameTask;
     }
 
-   
-
     public Collection<Tarea> getCollectionTask() {
-        return collectionTask;
+        return userBean.getUser().getTareaCollection();
     }
 
     public void setCollectionTask(Collection<Tarea> collectionTask) {
         this.collectionTask = collectionTask;
     }
+
+    public UserBean getUserBean() {
+        return userBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
+    
+    
 
     /**
      * Creates a new instance of TaskBean

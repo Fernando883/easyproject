@@ -10,7 +10,6 @@ import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
 import java.util.ArrayList;
-import javax.annotation.PostConstruct;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -41,6 +40,7 @@ public class ProjectBean {
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
+    private List<Proyecto> proyectos;
 
     @PostConstruct
     public void init() {
@@ -105,6 +105,16 @@ public class ProjectBean {
     public void setTempUsers(List<String> tempUsers) {
         this.tempUsers = tempUsers;
     }
+
+    public List<Proyecto> getProyectos() {
+        return proyectos = (List<Proyecto>) userBean.getUser().getProyectoCollection();
+    }
+
+    public void setProyectos(List<Proyecto> proyectos) {
+        this.proyectos = proyectos;
+    }
+    
+    
 
     public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
