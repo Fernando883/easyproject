@@ -8,13 +8,11 @@
 
     <div class="row">
 
-        <ui:repeat var="proyecto" value="#{userBean.proyectos}">
-
-
+        <ui:repeat var="proyecto" value="#{projectBean.proyectos}">
 
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon #{colors.getColor((userBean.proyectos.indexOf(proyecto))% colors.num)}">
+                    <span class="info-box-icon #{colors.getColor((projectBean.proyectos.indexOf(proyecto))% colors.num)}">
                         <i class="ion ion-person"></i>
                         <span style="font-size: 30px" >#{proyecto.usuarioCollection.size()}</span>
                     </span>
@@ -23,12 +21,14 @@
                         <span class="info-box-text"><b>#{proyecto.nombreP}</b></span>
                         <p><small>#{proyecto.descripcion}</small></p>
                     </div>
-                    
-                    <div class="info-box-content">
-                        <a href="#" >
-                            <span><b>+ info</b></span>
-                        </a>     
-                    </div>
+
+                    <h:form>
+                        <div class="info-box-content">
+                            <h:commandLink  action="#{projectBean.doGoProject(proyecto)}">
+                                <span><b>+ info</b></span>
+                            </h:commandLink>     
+                        </div>
+                    </h:form>
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->

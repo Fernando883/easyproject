@@ -131,7 +131,6 @@ public class ProjectBean {
     }
     
     
-
     public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
 
@@ -142,6 +141,11 @@ public class ProjectBean {
             }
         }
         return results;
+    }
+    
+    public String doGoProject (Proyecto project) {
+        userBean.setProjectSelected(project);
+        return "ViewProjectPage";
     }
 
     public String doAddTempList() {

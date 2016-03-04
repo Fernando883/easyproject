@@ -29,24 +29,21 @@ public class TaskBean {
 
     @EJB
     private TareaFacade tareaFacade;
+    @ManagedProperty(value = "#{userBean}")
+    private UserBean userBean;
 
     private String nameTask;
     private BigInteger tiempo;
     private Collection<Tarea> collectionTask;
-    private List<Tarea> collectionTask2;
     
-    @ManagedProperty(value = "#{userBean}")
-    private UserBean userBean;
+
     private BigInteger duration;
     protected boolean taskAdded;
-    protected Collection<Tarea> collectionTask;
 
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
 
-    @ManagedProperty(value = "#{userBean}")
-    private UserBean userBean;
 
     /**
      * Creates a new instance of TaskBean
@@ -57,6 +54,12 @@ public class TaskBean {
     @PostConstruct
     public void init() {
         taskAdded = false;
+        listUsersName = new ArrayList<>();
+        //System.out.println(userBean.getProjectSelected().getNombreP());
+        /*List<Usuario> users = (List<Usuario>) userBean.getProjectSelected().getUsuarioCollection();
+        for (Usuario user : users) {
+            listUsersName.add(user.getEmail());
+        }*/
 
     }
 
@@ -70,6 +73,8 @@ public class TaskBean {
 
     public Collection<Tarea> getCollectionTask() {
         return userBean.getUser().getTareaCollection();
+    }
+    
     public BigInteger getDuration() {
         return duration;
     }
@@ -86,11 +91,6 @@ public class TaskBean {
         this.userBean = userBean;
     }
     
-    
-
-    /**
-     * Creates a new instance of TaskBean
-     */
     public boolean isTaskAdded() {
         return taskAdded;
     }
@@ -114,15 +114,7 @@ public class TaskBean {
     public void setSearch(String search) {
         this.search = search;
     }
-
-    public UserBean getUserBean() {
-        return userBean;
-    }
-
-    public void setUserBean(UserBean userBean) {
-        this.userBean = userBean;
-    }
-
+    
     public List<String> getTempUsers() {
         return tempUsers;
     }
