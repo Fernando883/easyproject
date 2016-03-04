@@ -138,9 +138,10 @@ public class ProjectBean {
 
         List<Usuario> memberProject = new ArrayList<>();
         
-        for (String user : tempUsers) {
-            if (usuarioFacade.getUser(user) != null) {
-                
+        for (String userString : tempUsers) {    
+            Usuario tmp = usuarioFacade.getUser(userString);
+            if ( tmp != null) {
+                memberProject.add(tmp);
             }
         }
         
@@ -148,8 +149,13 @@ public class ProjectBean {
         project.setNombreP(projectName);
         project.setDescripcion(projectDescription);
         project.setDirector(userBean.getUser());
-
+        project.setUsuarioCollection(memberProject);
         proyectoFacade.create(project);
+        
+        
+    
+
+        
         projectName = "";
         projectDescription = "";
 
