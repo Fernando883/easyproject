@@ -52,12 +52,12 @@ public class Proyecto implements Serializable {
     private Long idProyect;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 200)
     @Column(name = "NOMBRE_P")
     private String nombreP;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 1, max = 499)
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @JoinTable(name = "PROYECTO_USUARIO", joinColumns = {

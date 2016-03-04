@@ -10,38 +10,30 @@
 
         <ui:repeat var="proyecto" value="#{userBean.proyectos}">
 
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box #{colors.getColor((userBean.proyectos.indexOf(proyecto))% colors.num)}">
-                    <div style="width: 40px; height: 40px; float: right; text-align: center">
+
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon #{colors.getColor((userBean.proyectos.indexOf(proyecto))% colors.num)}">
                         <i class="ion ion-person"></i>
-                        #{proyecto.usuarioCollection.size()}
-                    </div>
-                    <div class="inner" style="text-align: center">
-                        <h3>#{proyecto.nombreP}</h3>
+                        <span style="font-size: 30px" >#{proyecto.usuarioCollection.size()}</span>
+                    </span>
 
-                        <p>#{proyecto.descripcion}</p>
+                    <div class="info-box-content">
+                        <span class="info-box-text"><b>#{proyecto.nombreP}</b></span>
+                        <p><small>#{proyecto.descripcion}</small></p>
                     </div>
-
-                    <a href="#" class="small-box-footer">
-                        Acceder <i class="fa fa-arrow-circle-right"></i>
-                    </a>
+                    
+                    <div class="info-box-content">
+                        <a href="#" >
+                            <span><b>+ info</b></span>
+                        </a>     
+                    </div>
+                    <!-- /.info-box-content -->
                 </div>
-
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box">
-                        <span class="info-box-icon #{colors.getColor((userBean.proyectos.indexOf(proyecto))% colors.num)}" style="font-size: 30px"><i class="ion ion-person"></i>#{proyecto.usuarioCollection.size()}</span>
-                        
-                        <div class="info-box-content">
-                            <span class="info-box-text">CPU Traffic</span>
-                            <span class="info-box-number">90<small>%</small></span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                
+                <!-- /.info-box -->
             </div>
+
             <!-- ./col -->
         </ui:repeat>
     </div>

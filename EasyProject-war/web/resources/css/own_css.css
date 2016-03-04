@@ -8,7 +8,8 @@ and open the template in the editor.
     Author     : inftel12
 */
 
-.margin_own_bottom {
+.margin_own_up {
+  margin-top:20px;
    margin-bottom:5px
 }
 
