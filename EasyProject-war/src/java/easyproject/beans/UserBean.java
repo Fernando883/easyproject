@@ -33,7 +33,7 @@ public class UserBean {
     private Usuario user;
     private String name;
     private String image;
-    private String projectSelected;
+    private Proyecto projectSelected;
     
     @PostConstruct
     public void init(){
@@ -79,11 +79,11 @@ public class UserBean {
         this.image = image;
     }
 
-    public String getProjectSelected() {
+    public Proyecto getProjectSelected() {
         return projectSelected;
     }
 
-    public void setProjectSelected(String projectSelected) {
+    public void setProjectSelected(Proyecto projectSelected) {
         this.projectSelected = projectSelected;
     }
 
@@ -131,7 +131,7 @@ public class UserBean {
     }
     
     public String doSelectingProject(String nameProject){
-        projectSelected = nameProject;
+        projectSelected = usuarioFacade.getProject(nameProject);
         return "Main";
     }
 
