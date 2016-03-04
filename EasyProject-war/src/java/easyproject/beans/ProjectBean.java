@@ -122,6 +122,7 @@ public class ProjectBean {
     public void setProjectAdded(boolean proyectoInsertado) {
         this.projectAdded = proyectoInsertado;
     }
+
     public List<Proyecto> getProyectos() {
         return proyectos = (List<Proyecto>) userBean.getUser().getProyectoCollection();
     }
@@ -129,8 +130,7 @@ public class ProjectBean {
     public void setProyectos(List<Proyecto> proyectos) {
         this.proyectos = proyectos;
     }
-    
-    
+
     public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
 
@@ -142,8 +142,8 @@ public class ProjectBean {
         }
         return results;
     }
-    
-    public String doGoProject (Proyecto project) {
+
+    public String doGoProject(Proyecto project) {
         userBean.setProjectSelected(project);
         return "ViewProjectPage";
     }
@@ -176,6 +176,7 @@ public class ProjectBean {
         project.setDirector(userBean.getUser());
         project.setUsuarioCollection(memberProject);
         proyectoFacade.create(project);
+        proyectos.add(project);
 
         projectName = "";
         projectDescription = "";
@@ -185,8 +186,9 @@ public class ProjectBean {
         return null;
     }
 
-    public String doListProject() {
-        return "listProject";
+    public String doGoToNewProject() {
+        return "NewProjectPage";
     }
+
 
 }

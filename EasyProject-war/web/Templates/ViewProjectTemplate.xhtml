@@ -22,8 +22,13 @@
 
                 <section class="content">
                     <div class="row">
-                        <ui:insert name="ProjectDetails"/>
-                        <ui:insert name="Form"/>
+                        <div class="col-md-7">
+                            <ui:insert name="ProjectDetails"/>
+                            <ui:insert name="TaskDetails"/>
+                        </div>
+                        <div class="col-md-5">
+                            <ui:insert name="Form"/>
+                        </div>
                     </div>
                 </section>
             </div>

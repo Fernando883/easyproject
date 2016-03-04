@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author macbookpro
+ * @author inftel12
  */
 @Entity
 @Table(name = "COMENTARIO")
@@ -41,8 +41,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Comentario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "idGenerator_comment", allocationSize = 1, sequenceName = "comment_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_comment")
+    @SequenceGenerator(name = "idGenerator_comentario", allocationSize = 1, sequenceName = "comment_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_comentario")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_COMENT")

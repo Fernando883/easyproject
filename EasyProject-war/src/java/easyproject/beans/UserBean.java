@@ -130,11 +130,11 @@ public class UserBean {
         image="";
         return "PageTitle";
     }
-    
-    public String doSelectingProject(String nameProject){
-        projectSelected = usuarioFacade.getProject(nameProject);
-        System.out.println(projectSelected.getNombreP());
-        return "Main";
+        
+    public String doGoToMainPage () {
+        return "MainPage";
     }
+    
+    
 
 }

@@ -6,6 +6,7 @@
 package easyproject.beans;
 
 import EasyProject.ejb.TareaFacade;
+import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
@@ -27,9 +28,12 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class TaskBean {
-
+    @EJB
+    private UsuarioFacade usuarioFacade;
     @EJB
     private TareaFacade tareaFacade;
+    
+    
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
 
@@ -55,8 +59,9 @@ public class TaskBean {
     @PostConstruct
     public void init() {
         taskAdded = false;
+        duration = null;
         listUsersName = new ArrayList<>();
-        
+
         if (userBean.getProjectSelected() != null) {
 
             List<Usuario> users = (List<Usuario>) userBean.getProjectSelected().getUsuarioCollection();
@@ -171,6 +176,16 @@ public class TaskBean {
     }
 
     public String doAddTask() {
+
+        List<Usuario> memberTask = new ArrayList<>();
+
+        for (String userString : tempUsers) {
+            Usuario tmp = usuarioFacade.getUser(userString);
+            if (tmp != null) {
+                memberTask.add(tmp);
+            }
+        }
+
         Tarea task = new Tarea();
 
         task.setNombre(nameTask);
@@ -180,14 +195,17 @@ public class TaskBean {
         task.setTiempo(durationMinutes);
 
         task.setIdProyecto(userBean.getProjectSelected());
-
         task.setIdUsuario(userBean.getUser());
 
         task.setEstado(statusTask);
+        
+        task.setUsuarioCollection(memberTask);
         tareaFacade.create(task);
+        userBean.getProjectSelected().getTareaCollection().add(task);
 
         nameTask = "";
-        duration = new BigInteger("");
+        duration = null;
+        tempUsers = new ArrayList<>();
         taskAdded = true;
 
         return "";
