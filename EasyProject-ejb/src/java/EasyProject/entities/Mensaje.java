@@ -30,9 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Mensaje.findAll", query = "SELECT m FROM Mensaje m"),
     @NamedQuery(name = "Mensaje.findByIdMensaje", query = "SELECT m FROM Mensaje m WHERE m.idMensaje = :idMensaje")})
 public class Mensaje implements Serializable {
-    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
-    @ManyToOne(optional = false)
-    private Usuario idUsuario;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -44,6 +41,9 @@ public class Mensaje implements Serializable {
     @Lob
     @Column(name = "MENSAJE")
     private String mensaje;
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
+    @ManyToOne(optional = false)
+    private Usuario idUsuario;
 
     public Mensaje() {
     }
@@ -73,6 +73,14 @@ public class Mensaje implements Serializable {
         this.mensaje = mensaje;
     }
 
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -95,15 +103,7 @@ public class Mensaje implements Serializable {
 
     @Override
     public String toString() {
-        return "EasyProject.ejb.Mensaje[ idMensaje=" + idMensaje + " ]";
-    }
-
-    public Usuario getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
+        return "EasyProject.entities.Mensaje[ idMensaje=" + idMensaje + " ]";
     }
     
 }

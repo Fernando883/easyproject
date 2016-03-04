@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -35,18 +36,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
     @NamedQuery(name = "Usuario.findByIdUsuario", query = "SELECT u FROM Usuario u WHERE u.idUsuario = :idUsuario"),
     @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
-    @NamedQuery(name = "Usuario.findByToken", query = "SELECT u FROM Usuario u WHERE u.token = :token")})
+    @NamedQuery(name = "Usuario.findByToken", query = "SELECT u FROM Usuario u WHERE u.token = :token"),
+    @NamedQuery(name = "Usuario.findByNombreU", query = "SELECT u FROM Usuario u WHERE u.nombreU = :nombreU")})
 public class Usuario implements Serializable {
-    @Size(max = 40)
-    @Column(name = "NOMBRE_U")
-    private String nombreU;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private Collection<Mensaje> mensajeCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "USUARIO_SEQUENCE")
-    @SequenceGenerator(name="USUARIO_SEQUENCE",sequenceName="usuario_seq",allocationSize=4)
+    @SequenceGenerator(name = "idGenerator", allocationSize = 1, sequenceName = "usuario_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_USUARIO")
@@ -54,20 +50,27 @@ public class Usuario implements Serializable {
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 100)
     @Column(name = "EMAIL")
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "TOKEN")
     private String token;
+    @Size(max = 100)
+    @Column(name = "NOMBRE_U")
+    private String nombreU;
     @ManyToMany(mappedBy = "usuarioCollection")
     private Collection<Tarea> tareaCollection;
+    @ManyToMany(mappedBy = "usuarioCollection")
+    private Collection<Proyecto> proyectoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private Collection<Comentario> comentarioCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "director")
-    private Collection<Proyecto> proyectoCollection;
+    private Collection<Proyecto> proyectoCollection1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private Collection<Mensaje> mensajeCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private Collection<Tarea> tareaCollection1;
 
     public Usuario() {
     }
@@ -76,10 +79,9 @@ public class Usuario implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public Usuario(Long idUsuario, String email, String token) {
+    public Usuario(Long idUsuario, String email) {
         this.idUsuario = idUsuario;
         this.email = email;
-        this.token = token;
     }
 
     public Long getIdUsuario() {
@@ -106,6 +108,14 @@ public class Usuario implements Serializable {
         this.token = token;
     }
 
+    public String getNombreU() {
+        return nombreU;
+    }
+
+    public void setNombreU(String nombreU) {
+        this.nombreU = nombreU;
+    }
+
     @XmlTransient
     public Collection<Tarea> getTareaCollection() {
         return tareaCollection;
@@ -113,6 +123,15 @@ public class Usuario implements Serializable {
 
     public void setTareaCollection(Collection<Tarea> tareaCollection) {
         this.tareaCollection = tareaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Proyecto> getProyectoCollection() {
+        return proyectoCollection;
+    }
+
+    public void setProyectoCollection(Collection<Proyecto> proyectoCollection) {
+        this.proyectoCollection = proyectoCollection;
     }
 
     @XmlTransient
@@ -125,12 +144,30 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Proyecto> getProyectoCollection() {
-        return proyectoCollection;
+    public Collection<Proyecto> getProyectoCollection1() {
+        return proyectoCollection1;
     }
 
-    public void setProyectoCollection(Collection<Proyecto> proyectoCollection) {
-        this.proyectoCollection = proyectoCollection;
+    public void setProyectoCollection1(Collection<Proyecto> proyectoCollection1) {
+        this.proyectoCollection1 = proyectoCollection1;
+    }
+
+    @XmlTransient
+    public Collection<Mensaje> getMensajeCollection() {
+        return mensajeCollection;
+    }
+
+    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
+        this.mensajeCollection = mensajeCollection;
+    }
+
+    @XmlTransient
+    public Collection<Tarea> getTareaCollection1() {
+        return tareaCollection1;
+    }
+
+    public void setTareaCollection1(Collection<Tarea> tareaCollection1) {
+        this.tareaCollection1 = tareaCollection1;
     }
 
     @Override
@@ -155,25 +192,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "EasyProject.ejb.Usuario[ idUsuario=" + idUsuario + " ]";
+        return "EasyProject.entities.Usuario[ idUsuario=" + idUsuario + " ]";
     }
-
-    @XmlTransient
-    public Collection<Mensaje> getMensajeCollection() {
-        return mensajeCollection;
-    }
-
-    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
-        this.mensajeCollection = mensajeCollection;
-    }
-
-    public String getNombreU() {
-        return nombreU;
-    }
-
-    public void setNombreU(String nombreU) {
-        this.nombreU = nombreU;
-    }
-
     
 }

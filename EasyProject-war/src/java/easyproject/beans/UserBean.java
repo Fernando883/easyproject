@@ -9,13 +9,13 @@ package easyproject.beans;
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,6 +32,7 @@ public class UserBean {
     private String email;
     private Usuario user;
     private String name;
+    private String image;
     private List<Proyecto> proyectos;
     
     @PostConstruct
@@ -78,6 +79,14 @@ public class UserBean {
         this.proyectos = proyectos;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
  
     /**
      * Creates a new instance of UserBean
@@ -100,21 +109,24 @@ public class UserBean {
     public void doLogin(){
         name = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
         email = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("email");
+        image = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("image");
         if(usuarioFacade.getUser(email) == null){
-            System.out.println("NUEVO USUARIO");
-            Usuario NewUser = new Usuario();
-            NewUser.setEmail(email);
-            NewUser.setNombreU(name);
-            usuarioFacade.create(NewUser);
+            System.out.println("NUEVO USER");
+            usuarioFacade.setNewUser(email, name);
         }else{
             user = usuarioFacade.getUser(email);
         }
-        proyectos = (List<Proyecto>) user.getProyectoCollection(); 
+        proyectos = (List<Proyecto>) user.getProyectoCollection();  
     }
 
     public String doSignOut(){
+        HttpSession session =  (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if(session != null){
+            session.invalidate();
+        }
         user = new Usuario();
         email="";
+        image="";
         return "PageTitle";
     }
 
