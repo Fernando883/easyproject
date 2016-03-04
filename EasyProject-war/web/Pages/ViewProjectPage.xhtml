@@ -1,8 +1,8 @@
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
-                 template="/Templates/MainTemplate.xhtml">
-
+                 template="/Templates/ViewProjectTemplate.xhtml">
+    
     <ui:define name="Head">
         <ui:include src="/Sections/Head.xhtml"/>
     </ui:define>
@@ -15,10 +15,15 @@
         <ui:include src="/Sections/Aside.xhtml"/>
     </ui:define>
 
-    <ui:define name="Content">
+    <ui:define name="ProjectDetails">
         <ui:include src="/Sections/ViewProject.xhtml"/>
+        
     </ui:define>
-
+    
+    <ui:define name="Form">
+        <ui:include src="/Sections/NewTask.xhtml"/>       
+    </ui:define>
+    
     <ui:define name="Footer">
         <ui:include src="/Sections/Footer.xhtml"/>
     </ui:define>

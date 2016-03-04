@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <ui:insert name="Head"/>
+    </h:head>
+
+    <h:body class="hold-transition skin-red sidebar-mini">
+
+        <div class="wrapper">
+
+            <ui:insert name="Header"/>
+            <ui:insert name="Aside"/>
+
+            <div class="content-wrapper">
+                <section class="content-header">
+
+                </section>
+
+                <section class="content">
+                    <div class="row">
+                        <ui:insert name="ProjectDetails"/>
+                        <ui:insert name="Form"/>
+                    </div>
+                </section>
+            </div>
+
+            <ui:insert name="Footer"/>
+
+            <div class="control-sidebar-bg"></div>            
+        </div>
+
+    </h:body>
+</html>
+

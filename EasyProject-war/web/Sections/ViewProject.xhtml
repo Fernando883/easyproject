@@ -2,61 +2,67 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <h:outputScript library="js"  name="jQuery.min.js" target="head"></h:outputScript>
+    <div class="col-md-7">
 
-    <div class="row">
-
-        <div class="col-md-6">
-
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><b>#{projectBean.userBean.projectSelected.nombreP}</b></h3>
-                    <br></br>
-                    <span class="margin_own">#{projectBean.userBean.projectSelected.descripcion}</span>
-
-                </div>
-
-                <div class="box-body">
-                    <div class="table-responsive">
-
-                        <table class="table no-margin">
-                            <thead>
-                                <tr>
-                                    <th>Nombre de la tarea</th>
-                                    <th>Propietarios </th>
-                                    <th>Estado </th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                <ui:repeat class="table no-margin" value="#{projectBean.userBean.projectSelected.tareaCollection}" var="tarea">
-
-                                    <h:panelGroup>
-                                        <tr>
-                                            <td>#{tarea.nombre}</td>
-                                            <td>#{tarea.idUsuario}</td>
-                                            <td><span class="label label-success">#{tarea.tiempo}</span></td>
-
-                                        </tr>
-                                    </h:panelGroup>
-
-                                </ui:repeat>
-                                
-                            </tbody>
-                            
-                        </table>
-                    </div>
-                    <!-- /.table-responsive -->
-                </div>
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title"><b>#{projectBean.userBean.projectSelected.nombreP}</b></h3>
+                <br></br>
+                <span class="margin_own">#{projectBean.userBean.projectSelected.descripcion}</span>
 
             </div>
 
-        </div>
+            <div class="box-body">
+                <div class="table-responsive">
 
+                    <table class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th>Nombre de la tarea</th>
+                                <th>Propietarios </th>
+                                <th>Estado </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <ui:repeat class="table no-margin" value="#{projectBean.userBean.projectSelected.tareaCollection}" var="task">
+
+                                <h:panelGroup>
+                                    <tr>
+                                        <td>#{task.nombre}</td>
+                                        <td>
+                                            <ui:repeat value="#{projectBean.userBean.projectSelected.usuarioCollection}" var="user">                                                
+                                                <span>
+                                                    #{user.nombreU}
+                                                    <br></br>
+                                                </span>
+                                            </ui:repeat>
+
+                                        </td>
+
+                                        <td>
+                                            <h:outputLabel class="label label-success" value="#{task.estado}" rendered= "#{task.estado eq 'done'}" />
+                                            <h:outputLabel class="label label-warning" value="#{task.estado}" rendered="#{task.estado eq 'doing'}"/>
+                                            <h:outputLabel class="label label-danger" value="#{task.estado}" rendered="#{task.estado eq 'to do'}"/> 
+                                        </td>
+
+                                    </tr>
+                                </h:panelGroup>
+
+                            </ui:repeat>
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+
+        </div>
+        
     </div>
 
 </html>
