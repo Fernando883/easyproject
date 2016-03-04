@@ -6,6 +6,7 @@
 package easyproject.beans;
 
 import EasyProject.ejb.TareaFacade;
+import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import java.math.BigInteger;
@@ -30,6 +31,12 @@ public class TaskBean {
     private TareaFacade tareaFacade;
 
     private String nameTask;
+    private BigInteger tiempo;
+    private Collection<Tarea> collectionTask;
+    private List<Tarea> collectionTask2;
+    
+    @ManagedProperty(value = "#{userBean}")
+    private UserBean userBean;
     private BigInteger duration;
     protected boolean taskAdded;
     protected Collection<Tarea> collectionTask;
@@ -61,6 +68,8 @@ public class TaskBean {
         this.nameTask = nameTask;
     }
 
+    public Collection<Tarea> getCollectionTask() {
+        return userBean.getUser().getTareaCollection();
     public BigInteger getDuration() {
         return duration;
     }
@@ -69,6 +78,19 @@ public class TaskBean {
         this.duration = duration;
     }
 
+    public UserBean getUserBean() {
+        return userBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
+    
+    
+
+    /**
+     * Creates a new instance of TaskBean
+     */
     public boolean isTaskAdded() {
         return taskAdded;
     }

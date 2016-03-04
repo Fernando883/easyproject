@@ -5,6 +5,7 @@
  */
 package EasyProject.ejb;
 
+import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,6 +31,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
     public UsuarioFacade() {
         super(Usuario.class);
+    }
+    
+    public Proyecto getProject(String nameProject){
+        System.out.println(nameProject);
+        List<Proyecto> project = em.createNamedQuery("Proyecto.findByNombreP").setParameter("nombreP", nameProject).getResultList();  
+        
+        if(project.isEmpty()){
+            System.out.println("ESTOY AKIIII");
+            return null;
+        }
+        return project.get(0);
     }
     
     public Usuario getUser(String email){

@@ -36,8 +36,8 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-dashboard"></i><span>Proyectos</span> <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
-                        <ui:repeat var="proyecto" value="#{userBean.proyectos}" varStatus="status">
-                            <li><a href="#">#{proyecto.nombreP}</a></li>
+                        <ui:repeat var="project" value="#{projectBean.proyectos}" varStatus="status">
+                            <li><h:form><h:commandLink style="padding-left: 15px" value="#{project.nombreP}" action="#{userBean.doSelectingProject(project.nombreP)}"></h:commandLink></h:form></li>
                         </ui:repeat>
                     </ul>
                 </li>
@@ -45,8 +45,9 @@
                 <li class="treeview">
                     <a href="#"><i class="fa fa-files-o"></i><span>Tareas</span> <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
-                        <li><a href="#">Tarea 1</a></li>
-                        <li><a href="#">Tarea 2</a></li>
+                        <ui:repeat var="task" value="#{taskBean.collectionTask}" varStatus="status">
+                            <li><a href="#">#{task.nombre}</a></li>
+                        </ui:repeat>
                     </ul>
                 </li>
                 <li class="treeview">

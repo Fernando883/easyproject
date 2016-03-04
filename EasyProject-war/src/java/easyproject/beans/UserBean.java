@@ -33,7 +33,7 @@ public class UserBean {
     private Usuario user;
     private String name;
     private String image;
-    private List<Proyecto> proyectos;
+    private Proyecto projectSelected;
     
     @PostConstruct
     public void init(){
@@ -71,14 +71,6 @@ public class UserBean {
         this.name = name;
     }
 
-    public List<Proyecto> getProyectos() {
-        return proyectos;
-    }
-
-    public void setProyectos(List<Proyecto> proyectos) {
-        this.proyectos = proyectos;
-    }
-
     public String getImage() {
         return image;
     }
@@ -86,6 +78,15 @@ public class UserBean {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public Proyecto getProjectSelected() {
+        return projectSelected;
+    }
+
+    public void setProjectSelected(Proyecto projectSelected) {
+        this.projectSelected = projectSelected;
+    }
+
 
  
     /**
@@ -115,8 +116,7 @@ public class UserBean {
             usuarioFacade.setNewUser(email, name);
         }else{
             user = usuarioFacade.getUser(email);
-        }
-        proyectos = (List<Proyecto>) user.getProyectoCollection();  
+        } 
     }
 
     public String doSignOut(){
@@ -128,6 +128,11 @@ public class UserBean {
         email="";
         image="";
         return "PageTitle";
+    }
+    
+    public String doSelectingProject(String nameProject){
+        projectSelected = usuarioFacade.getProject(nameProject);
+        return "Main";
     }
 
     
