@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author macbookpro
+ * @author inftel12
  */
 @Entity
 @Table(name = "USUARIO")
@@ -41,8 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "idGenerator", allocationSize = 1, sequenceName = "usuario_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator")
+    @SequenceGenerator(name = "idGenerator_usuario", allocationSize = 1, sequenceName = "usuario_seq") 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_usuario")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_USUARIO")

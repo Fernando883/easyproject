@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author macbookpro
+ * @author inftel12
  */
 @Entity
 @Table(name = "TAREA")
@@ -43,17 +43,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tarea.findByTiempo", query = "SELECT t FROM Tarea t WHERE t.tiempo = :tiempo"),
     @NamedQuery(name = "Tarea.findByEstado", query = "SELECT t FROM Tarea t WHERE t.estado = :estado")})
 public class Tarea implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "idGenerator_task", allocationSize = 1, sequenceName = "task_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_task")
+    @SequenceGenerator(name = "idGenerator_tarea", allocationSize = 1, sequenceName = "task_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_tarea")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_TAREA")
     private Long idTarea;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 100)
     @Column(name = "NOMBRE")
     private String nombre;
     @Basic(optional = false)
@@ -194,5 +195,5 @@ public class Tarea implements Serializable {
     public String toString() {
         return "EasyProject.entities.Tarea[ idTarea=" + idTarea + " ]";
     }
-    
+
 }

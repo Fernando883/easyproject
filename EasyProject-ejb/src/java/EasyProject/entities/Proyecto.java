@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author macbookpro
+ * @author inftel12
  */
 @Entity
 @Table(name = "PROYECTO")
@@ -43,8 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Proyecto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "idGenerator_project", allocationSize = 1, sequenceName = "project_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_project")
+    @SequenceGenerator(name = "idGenerator_proyecto", allocationSize = 1, sequenceName = "project_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_proyecto")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PROYECT")
