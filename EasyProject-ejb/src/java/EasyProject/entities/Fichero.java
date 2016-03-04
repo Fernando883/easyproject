@@ -9,11 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,8 +34,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Fichero.findByIdFichero", query = "SELECT f FROM Fichero f WHERE f.idFichero = :idFichero"),
     @NamedQuery(name = "Fichero.findByRuta", query = "SELECT f FROM Fichero f WHERE f.ruta = :ruta")})
 public class Fichero implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @SequenceGenerator(name = "idGenerator_file", allocationSize = 1, sequenceName = "file_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_file")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_FICHERO")
@@ -106,5 +112,5 @@ public class Fichero implements Serializable {
     public String toString() {
         return "EasyProject.entities.Fichero[ idFichero=" + idFichero + " ]";
     }
-    
+
 }

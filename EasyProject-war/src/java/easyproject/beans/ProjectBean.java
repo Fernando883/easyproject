@@ -153,11 +153,9 @@ public class ProjectBean {
         proyectoFacade.create(project);
         
         
-    
-
-        
         projectName = "";
         projectDescription = "";
+        tempUsers = new ArrayList<>();
 
         return null;
     }

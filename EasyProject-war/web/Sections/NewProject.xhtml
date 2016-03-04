@@ -32,8 +32,9 @@
                             <br></br>
                             <h:outputLabel class="col-sm-2 control-label"> Nombre </h:outputLabel>
                             <div class="col-sm-10">
-                                <h:inputText value="#{projectBean.projectName}" class="form-control" p:placeholder ="Introduzca el nombre del proyecto"/>
-                                <br></br>
+                                <h:inputText id="name_project" value="#{projectBean.projectName}" class="form-control" style="margin-bottom:5px" p:placeholder ="Introduzca el nombre del proyecto" required="true" requiredMessage="Debe introducir algo"/>
+                                <c:message for="name_project" display="text" ></c:message>
+                                
                             </div>
 
                         </div>
@@ -42,8 +43,8 @@
 
                             <h:outputLabel class="col-sm-2 control-label"> Descripción </h:outputLabel>
                             <div class="col-sm-10">
-                                <h:inputText value="#{projectBean.projectDescription}" class="form-control" p:placeholder ="Introduzca la descripción del proyecto"/>
-                                <br></br>
+                                <h:inputText id="description_project" value="#{projectBean.projectDescription}" class="form-control" style="margin-bottom:5px; margin-top:5px;" p:placeholder ="Introduzca la descripción del proyecto" required="true" requiredMessage="Debe introducir algo"/>
+                                <c:message for="description_project" display="text" ></c:message>
                             </div>
 
                         </div>
@@ -57,14 +58,14 @@
                             <h:outputLabel class="col-sm-2 control-label"> Miembros </h:outputLabel>
                             <div class="col-sm-9">
                                 <c:autoComplete id="entrada" value="#{projectBean.search}" completeMethod="#{projectBean.completeName}"
-                                                required="true" inputStyleClass="form-control">
+                                                required="true" inputStyleClass="form-control" style="margin-bottom:5px; margin-top:5px;">
                                 </c:autoComplete>
                                 <br></br> <br></br>
                             </div>
 
                             <div class="col-sm-1">
                                 <h:commandLink action="#{projectBean.doAddTempList}">
-                                    <i class="fa fa-2x fa-plus" style="color:grey;"></i>
+                                    <i class="fa fa-2x fa-plus" style="color:grey; margin-top:7px;"></i>
                                     <f:ajax render="output entrada" execute="entrada"/>
                                 </h:commandLink>
 

@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,8 +42,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tarea.findByNombre", query = "SELECT t FROM Tarea t WHERE t.nombre = :nombre"),
     @NamedQuery(name = "Tarea.findByTiempo", query = "SELECT t FROM Tarea t WHERE t.tiempo = :tiempo")})
 public class Tarea implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @SequenceGenerator(name = "idGenerator_task", allocationSize = 1, sequenceName = "task_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_task")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_TAREA")
@@ -174,5 +180,5 @@ public class Tarea implements Serializable {
     public String toString() {
         return "EasyProject.entities.Tarea[ idTarea=" + idTarea + " ]";
     }
-    
+
 }

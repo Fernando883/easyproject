@@ -5,9 +5,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <h:outputScript library="js"  name="jQuery.min.js" target="head"></h:outputScript>
-    
+
     <div class="row">
-        
+
         <ui:repeat var="proyecto" value="#{userBean.proyectos}">
 
             <div class="col-lg-3 col-xs-6">
@@ -27,6 +27,20 @@
                         Acceder <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon #{colors.getColor((userBean.proyectos.indexOf(proyecto))% colors.num)}" style="font-size: 30px"><i class="ion ion-person"></i>#{proyecto.usuarioCollection.size()}</span>
+                        
+                        <div class="info-box-content">
+                            <span class="info-box-text">CPU Traffic</span>
+                            <span class="info-box-number">90<small>%</small></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                
             </div>
             <!-- ./col -->
         </ui:repeat>
