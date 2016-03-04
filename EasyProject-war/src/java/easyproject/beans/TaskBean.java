@@ -9,6 +9,7 @@ import EasyProject.ejb.TareaFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
@@ -30,7 +31,6 @@ public class TaskBean {
     private String nameTask;
     private BigInteger tiempo;
     private Collection<Tarea> collectionTask;
-    private List<Tarea> collectionTask2;
     
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
@@ -52,7 +52,18 @@ public class TaskBean {
     }
 
     public Collection<Tarea> getCollectionTask() {
-        return userBean.getUser().getTareaCollection();
+        collectionTask = new ArrayList<Tarea>();
+        if (userBean.getProjectSelected() != null)
+        {
+            Collection<Tarea> taskUserSelected = userBean.getUser().getTareaCollection();
+            for (Tarea task : taskUserSelected) {
+                System.out.println(task.getNombre());
+                if(task.getIdProyecto().getIdProyect() == userBean.getProjectSelected().getIdProyect()){
+                    collectionTask.add(task);
+                } 
+            } 
+        }
+        return collectionTask;
     }
 
     public void setCollectionTask(Collection<Tarea> collectionTask) {

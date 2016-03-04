@@ -39,7 +39,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comentario.findByTexto", query = "SELECT c FROM Comentario c WHERE c.texto = :texto"),
     @NamedQuery(name = "Comentario.findByFecha", query = "SELECT c FROM Comentario c WHERE c.fecha = :fecha")})
 public class Comentario implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "idGenerator_comment", allocationSize = 1, sequenceName = "comment_seq")
@@ -156,5 +155,5 @@ public class Comentario implements Serializable {
     public String toString() {
         return "EasyProject.entities.Comentario[ idComent=" + idComent + " ]";
     }
-
+    
 }

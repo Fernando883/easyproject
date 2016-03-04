@@ -68,8 +68,6 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "director")
     private Collection<Proyecto> proyectoCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private Collection<Mensaje> mensajeCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private Collection<Tarea> tareaCollection1;
 
     public Usuario() {
@@ -150,15 +148,6 @@ public class Usuario implements Serializable {
 
     public void setProyectoCollection1(Collection<Proyecto> proyectoCollection1) {
         this.proyectoCollection1 = proyectoCollection1;
-    }
-
-    @XmlTransient
-    public Collection<Mensaje> getMensajeCollection() {
-        return mensajeCollection;
-    }
-
-    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
-        this.mensajeCollection = mensajeCollection;
     }
 
     @XmlTransient

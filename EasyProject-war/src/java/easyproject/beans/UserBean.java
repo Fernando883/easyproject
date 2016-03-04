@@ -33,7 +33,7 @@ public class UserBean {
     private Usuario user;
     private String name;
     private String image;
-    private Proyecto projectSelected;
+    private Proyecto projectSelected = null;
     
     @PostConstruct
     public void init(){
@@ -108,6 +108,7 @@ public class UserBean {
     }
     
     public void doLogin(){
+        projectSelected = null;
         name = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
         email = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("email");
         image = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("image");
@@ -132,6 +133,7 @@ public class UserBean {
     
     public String doSelectingProject(String nameProject){
         projectSelected = usuarioFacade.getProject(nameProject);
+        System.out.println(projectSelected.getNombreP());
         return "Main";
     }
 

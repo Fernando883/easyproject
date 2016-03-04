@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Proyecto.findByNombreP", query = "SELECT p FROM Proyecto p WHERE p.nombreP = :nombreP"),
     @NamedQuery(name = "Proyecto.findByDescripcion", query = "SELECT p FROM Proyecto p WHERE p.descripcion = :descripcion")})
 public class Proyecto implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "idGenerator_project", allocationSize = 1, sequenceName = "project_seq")
@@ -52,12 +51,12 @@ public class Proyecto implements Serializable {
     private Long idProyect;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 200)
     @Column(name = "NOMBRE_P")
     private String nombreP;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 250)
+    @Size(min = 1, max = 499)
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @JoinTable(name = "PROYECTO_USUARIO", joinColumns = {
@@ -68,6 +67,8 @@ public class Proyecto implements Serializable {
     @JoinColumn(name = "DIRECTOR", referencedColumnName = "ID_USUARIO")
     @ManyToOne(optional = false)
     private Usuario director;
+    @OneToMany(mappedBy = "idProject")
+    private Collection<Mensaje> mensajeCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProyecto")
     private Collection<Tarea> tareaCollection;
 
@@ -126,6 +127,15 @@ public class Proyecto implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Mensaje> getMensajeCollection() {
+        return mensajeCollection;
+    }
+
+    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
+        this.mensajeCollection = mensajeCollection;
+    }
+
+    @XmlTransient
     public Collection<Tarea> getTareaCollection() {
         return tareaCollection;
     }
@@ -158,5 +168,5 @@ public class Proyecto implements Serializable {
     public String toString() {
         return "EasyProject.entities.Proyecto[ idProyect=" + idProyect + " ]";
     }
-
+    
 }

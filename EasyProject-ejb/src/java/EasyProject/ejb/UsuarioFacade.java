@@ -36,9 +36,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public Proyecto getProject(String nameProject){
         System.out.println(nameProject);
         List<Proyecto> project = em.createNamedQuery("Proyecto.findByNombreP").setParameter("nombreP", nameProject).getResultList();  
-        
         if(project.isEmpty()){
-            System.out.println("ESTOY AKIIII");
             return null;
         }
         return project.get(0);
