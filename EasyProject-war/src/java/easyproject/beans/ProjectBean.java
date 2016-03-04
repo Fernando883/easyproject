@@ -41,12 +41,15 @@ public class ProjectBean {
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
+    protected boolean proyectoInsertado;
 
     @PostConstruct
     public void init() {
         search = "";
         listUsersName = usuarioFacade.getUsersEmail();
+        listUsersName.remove(userBean.getUser().getEmail());
         tempUsers = new ArrayList<>();
+        proyectoInsertado = false;
 
     }
 
@@ -106,6 +109,15 @@ public class ProjectBean {
         this.tempUsers = tempUsers;
     }
 
+    public boolean isProyectoInsertado() {
+        return proyectoInsertado;
+    }
+
+    public void setProyectoInsertado(boolean proyectoInsertado) {
+        this.proyectoInsertado = proyectoInsertado;
+    }
+    
+
     public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
 
@@ -145,6 +157,7 @@ public class ProjectBean {
             }
         }
         
+        memberProject.add(userBean.getUser());
         Proyecto project = new Proyecto();
         project.setNombreP(projectName);
         project.setDescripcion(projectDescription);
@@ -156,7 +169,8 @@ public class ProjectBean {
         projectName = "";
         projectDescription = "";
         tempUsers = new ArrayList<>();
-
+        proyectoInsertado = true;
+        
         return null;
     }
 

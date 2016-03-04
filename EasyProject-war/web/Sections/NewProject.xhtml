@@ -32,7 +32,7 @@
                             <br></br>
                             <h:outputLabel class="col-sm-2 control-label"> Nombre </h:outputLabel>
                             <div class="col-sm-10">
-                                <h:inputText id="name_project" value="#{projectBean.projectName}" class="form-control" style="margin-bottom:5px" p:placeholder ="Introduzca el nombre del proyecto" required="true" requiredMessage="Debe introducir algo"/>
+                                <h:inputText id="name_project" value="#{projectBean.projectName}" class="form-control margin_own_bottom" p:placeholder ="Introduzca el nombre del proyecto" required="true" requiredMessage="Debe introducir algo"/>
                                 <c:message for="name_project" display="text" ></c:message>
                                 
                             </div>
@@ -43,7 +43,7 @@
 
                             <h:outputLabel class="col-sm-2 control-label"> Descripción </h:outputLabel>
                             <div class="col-sm-10">
-                                <h:inputText id="description_project" value="#{projectBean.projectDescription}" class="form-control" style="margin-bottom:5px; margin-top:5px;" p:placeholder ="Introduzca la descripción del proyecto" required="true" requiredMessage="Debe introducir algo"/>
+                                <h:inputText id="description_project" value="#{projectBean.projectDescription}" class="form-control margin_own"  p:placeholder ="Introduzca la descripción del proyecto" required="true" requiredMessage="Debe introducir algo"/>
                                 <c:message for="description_project" display="text" ></c:message>
                             </div>
 
@@ -56,16 +56,16 @@
                         <div class="form-group">
 
                             <h:outputLabel class="col-sm-2 control-label"> Miembros </h:outputLabel>
-                            <div class="col-sm-9">
+                            <div class="col-sm-8">
                                 <c:autoComplete id="entrada" value="#{projectBean.search}" completeMethod="#{projectBean.completeName}"
-                                                required="true" inputStyleClass="form-control" style="margin-bottom:5px; margin-top:5px;">
+                                                required="true" style="width: 100%" inputStyleClass="form-control" class="margin_own">
                                 </c:autoComplete>
-                                <br></br> <br></br>
+              
                             </div>
 
                             <div class="col-sm-1">
                                 <h:commandLink action="#{projectBean.doAddTempList}">
-                                    <i class="fa fa-2x fa-plus" style="color:grey; margin-top:7px;"></i>
+                                    <i class="fa fa-2x fa-plus plus_own"></i>
                                     <f:ajax render="output entrada" execute="entrada"/>
                                 </h:commandLink>
 
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-10" style="padding-left:20%" id="panel">
+                            <div class="col-sm-10 add_user_project" id="panel">
                                 <h:panelGrid id="output">
                                     <ui:repeat  var="user" value="#{projectBean.tempUsers}">
                                         <h:outputText value="#{user}"></h:outputText>
@@ -82,8 +82,9 @@
                                     </ui:repeat>
                                 </h:panelGrid>
                             </div>
-
                         </div>
+                        
+                        <h:outputLabel rendered="#{projectBean.proyectoInsertado == true}" class="box-title text-green add_user_project"  >Proyecto creado con éxito</h:outputLabel>
                     </h:form>
                 </div> 
 
