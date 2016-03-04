@@ -7,9 +7,11 @@ package EasyProject.ejb;
 
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +25,9 @@ import javax.persistence.Query;
 public class UsuarioFacade extends AbstractFacade<Usuario> {
     @PersistenceContext(unitName = "EasyProject-ejbPU")
     private EntityManager em;
+    
+    @EJB
+    private Mail mail;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -49,6 +54,14 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         }
         return userSelected.get(0);
     }
+    
+    public void sendEmail(String user,String email,String desteny, String subject, String message){
+        
+        String message1 = "El usuario " + user + ", con email " + email + ", le ha mandado el siguiente mensaje: \n\n" + message;
+        
+        mail = new Mail(subject, message1,desteny);
+        mail.sendMail();
+        }
     
     
     public List<String> getUsersEmail () {
