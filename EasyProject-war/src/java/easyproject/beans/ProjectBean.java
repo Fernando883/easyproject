@@ -40,13 +40,22 @@ public class ProjectBean {
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
+    protected boolean projectAdded;
+
+    /**
+     * Creates a new instance of addProjectBean
+     */
+    public ProjectBean() {
+    }
     private List<Proyecto> proyectos;
 
     @PostConstruct
     public void init() {
         search = "";
         listUsersName = usuarioFacade.getUsersEmail();
+        listUsersName.remove(userBean.getUser().getEmail());
         tempUsers = new ArrayList<>();
+        projectAdded = false;
 
     }
 
@@ -106,6 +115,13 @@ public class ProjectBean {
         this.tempUsers = tempUsers;
     }
 
+    public boolean isProjectAdded() {
+        return projectAdded;
+    }
+
+    public void setProjectAdded(boolean proyectoInsertado) {
+        this.projectAdded = proyectoInsertado;
+    }
     public List<Proyecto> getProyectos() {
         return proyectos = (List<Proyecto>) userBean.getUser().getProyectoCollection();
     }
@@ -115,7 +131,6 @@ public class ProjectBean {
     }
     
     
-
     public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
 
@@ -127,11 +142,10 @@ public class ProjectBean {
         }
         return results;
     }
-
-    /**
-     * Creates a new instance of addProjectBean
-     */
-    public ProjectBean() {
+    
+    public String doGoProject (Proyecto project) {
+        userBean.setProjectSelected(project);
+        return "ViewProjectPage";
     }
 
     public String doAddTempList() {
@@ -147,25 +161,26 @@ public class ProjectBean {
     public String doAddProject() {
 
         List<Usuario> memberProject = new ArrayList<>();
-        
-        for (String userString : tempUsers) {    
+
+        for (String userString : tempUsers) {
             Usuario tmp = usuarioFacade.getUser(userString);
-            if ( tmp != null) {
+            if (tmp != null) {
                 memberProject.add(tmp);
             }
         }
-        
+
+        memberProject.add(userBean.getUser());
         Proyecto project = new Proyecto();
         project.setNombreP(projectName);
         project.setDescripcion(projectDescription);
         project.setDirector(userBean.getUser());
         project.setUsuarioCollection(memberProject);
         proyectoFacade.create(project);
-        
-        
+
         projectName = "";
         projectDescription = "";
         tempUsers = new ArrayList<>();
+        projectAdded = true;
 
         return null;
     }

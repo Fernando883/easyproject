@@ -11,7 +11,7 @@
     <h:outputScript library="primefaces"  name="jQuery.min.js" target="head"></h:outputScript>
 
     <div class="row">
-
+        
         <div class="col-md-6">
 
             <div class="box box-danger">
@@ -21,9 +21,9 @@
 
                         <div class="box-header with-border ">
 
-                            <div class="box-title box-header pull-left">Nuevo proyecto</div>
+                            <div class="box-title box-header pull-left">Nueva tarea</div>
                             <div class="pull-right" >
-                                <button jsf:action="#{projectBean.doAddProject()}" type="submit" class="btn btn-danger"><i class="fa fa-external-link"></i><span> Guardar proyecto</span></button>
+                                <button jsf:action="#{taskBean.doAddTask()}" type="submit" class="btn btn-danger"><i class="fa fa-external-link"></i><span> Guardar tarea</span></button>
                             </div>
 
                         </div>
@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <h:outputLabel class="col-sm-2 control-label margin_own_up"> Nombre </h:outputLabel>
                             <div class="col-sm-10">
-                                <h:inputText id="name_project" value="#{projectBean.projectName}" class="form-control margin_own_up" p:placeholder ="Introduzca el nombre del proyecto" required="true" requiredMessage="Debe introducir algo"/>
+                                <h:inputText id="name_project" value="#{taskBean.nameTask}" class="form-control margin_own_up" p:placeholder ="Introduzca el nombre de la tarea" required="true" requiredMessage="Debe introducir algo"/>
                                 <c:message for="name_project" display="text" ></c:message>
                                 
                             </div>
@@ -40,9 +40,9 @@
 
                         <div class="form-group">
 
-                            <h:outputLabel class="col-sm-2 control-label"> Descripción </h:outputLabel>
+                            <h:outputLabel class="col-sm-2 control-label"> Duración </h:outputLabel>
                             <div class="col-sm-10">
-                                <h:inputText id="description_project" value="#{projectBean.projectDescription}" class="form-control margin_own"  p:placeholder ="Introduzca la descripción del proyecto" required="true" requiredMessage="Debe introducir algo"/>
+                                <h:inputText id="description_project" value="#{taskBean.duration}" class="form-control margin_own"  p:placeholder ="Introduzca la duración de la tarea en horas" required="true" requiredMessage="Debe introducir algo"/>
                                 <c:message for="description_project" display="text" ></c:message>
                             </div>
 
@@ -54,16 +54,16 @@
 
                         <div class="form-group">
 
-                            <h:outputLabel class="col-sm-2 control-label"> Miembros </h:outputLabel>
+                            <h:outputLabel class="col-sm-2 control-label"> Ejecutores </h:outputLabel>
                             <div class="col-sm-8">
-                                <c:autoComplete id="entrada" value="#{projectBean.search}" completeMethod="#{projectBean.completeName}"
+                                <c:autoComplete id="entrada" value="#{taskBean.search}" completeMethod="#{taskBean.completeName}"
                                                 style="width: 100%" inputStyleClass="form-control" class="margin_own">
                                 </c:autoComplete>
               
                             </div>
 
                             <div class="col-sm-1">
-                                <h:commandLink action="#{projectBean.doAddTempList}">
+                                <h:commandLink action="#{taskBean.doAddTempList}">
                                     <i class="fa fa-2x fa-plus plus_own"></i>
                                     <f:ajax render="output entrada" execute="entrada"/>
                                 </h:commandLink>
@@ -75,7 +75,7 @@
                         <div class="form-group">
                             <div class="col-sm-10 add_user_project" id="panel">
                                 <h:panelGrid id="output">
-                                    <ui:repeat  var="user" value="#{projectBean.tempUsers}">
+                                    <ui:repeat  var="user" value="#{taskBean.tempUsers}">
                                         <h:outputText value="#{user}"></h:outputText>
                                         <br></br>
                                     </ui:repeat>
@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         
-                        <h:outputLabel rendered="#{projectBean.projectAdded == true}" class="box-title text-green add_user_project"  >Proyecto creado con éxito</h:outputLabel>
+                        <h:outputLabel rendered="#{taskBean.taskAdded == true}" class="box-title text-green add_user_project"  >Tarea creada con éxito</h:outputLabel>
                     </h:form>
                 </div> 
 

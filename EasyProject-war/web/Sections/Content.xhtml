@@ -8,40 +8,32 @@
 
     <div class="row">
 
-        <ui:repeat var="proyecto" value="#{userBean.proyectos}">
+        <ui:repeat var="proyecto" value="#{projectBean.proyectos}">
 
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box #{colors.getColor((userBean.proyectos.indexOf(proyecto))% colors.num)}">
-                    <div style="width: 40px; height: 40px; float: right; text-align: center">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon #{colors.getColor((projectBean.proyectos.indexOf(proyecto))% colors.num)}">
                         <i class="ion ion-person"></i>
-                        #{proyecto.usuarioCollection.size()}
+                        <span style="font-size: 30px" >#{proyecto.usuarioCollection.size()}</span>
+                    </span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text"><b>#{proyecto.nombreP}</b></span>
+                        <p><small>#{proyecto.descripcion}</small></p>
                     </div>
-                    <div class="inner" style="text-align: center">
-                        <h3>#{proyecto.nombreP}</h3>
 
-                        <p>#{proyecto.descripcion}</p>
-                    </div>
-
-                    <a href="#" class="small-box-footer">
-                        Acceder <i class="fa fa-arrow-circle-right"></i>
-                    </a>
-                </div>
-
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box">
-                        <span class="info-box-icon #{colors.getColor((userBean.proyectos.indexOf(proyecto))% colors.num)}" style="font-size: 30px"><i class="ion ion-person"></i>#{proyecto.usuarioCollection.size()}</span>
-                        
+                    <h:form>
                         <div class="info-box-content">
-                            <span class="info-box-text">CPU Traffic</span>
-                            <span class="info-box-number">90<small>%</small></span>
+                            <h:commandLink  action="#{projectBean.doGoProject(proyecto)}">
+                                <span><b>+ info</b></span>
+                            </h:commandLink>     
                         </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
+                    </h:form>
+                    <!-- /.info-box-content -->
                 </div>
-                
+                <!-- /.info-box -->
             </div>
+
             <!-- ./col -->
         </ui:repeat>
     </div>

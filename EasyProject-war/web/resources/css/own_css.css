@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 04-mar-2016, 10:07:57
+    Author     : inftel12
+*/
+
+.margin_own_up {
+  margin-top:20px;
+   margin-bottom:5px
+}
+
+.margin_own {
+    margin-bottom:5px; 
+    margin-top:5px;
+}
+
+
+.plus_own {
+    color:grey; 
+    margin-top:50%;    
+}
+
+.add_user_project {
+    padding-left:20%;
+}

@@ -8,10 +8,12 @@ package easyproject.beans;
 import EasyProject.ejb.TareaFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
+import EasyProject.entities.Usuario;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -27,20 +29,38 @@ public class TaskBean {
 
     @EJB
     private TareaFacade tareaFacade;
+    @ManagedProperty(value = "#{userBean}")
+    private UserBean userBean;
 
     private String nameTask;
     private BigInteger tiempo;
     private Collection<Tarea> collectionTask;
     
-    @ManagedProperty(value = "#{userBean}")
-    private UserBean userBean;
 
-    public BigInteger getTiempo() {
-        return tiempo;
+    private BigInteger duration;
+    protected boolean taskAdded;
+
+    protected List<String> listUsersName;
+    protected List<String> tempUsers;
+    protected String search;
+
+
+    /**
+     * Creates a new instance of TaskBean
+     */
+    public TaskBean() {
     }
 
-    public void setTiempo(BigInteger tiempo) {
-        this.tiempo = tiempo;
+    @PostConstruct
+    public void init() {
+        taskAdded = false;
+        listUsersName = new ArrayList<>();
+        //System.out.println(userBean.getProjectSelected().getNombreP());
+        /*List<Usuario> users = (List<Usuario>) userBean.getProjectSelected().getUsuarioCollection();
+        for (Usuario user : users) {
+            listUsersName.add(user.getEmail());
+        }*/
+
     }
 
     public String getNameTask() {
@@ -65,9 +85,13 @@ public class TaskBean {
         }
         return collectionTask;
     }
+    
+    public BigInteger getDuration() {
+        return duration;
+    }
 
-    public void setCollectionTask(Collection<Tarea> collectionTask) {
-        this.collectionTask = collectionTask;
+    public void setDuration(BigInteger duration) {
+        this.duration = duration;
     }
 
     public UserBean getUserBean() {
@@ -78,21 +102,78 @@ public class TaskBean {
         this.userBean = userBean;
     }
     
-    
-
-    /**
-     * Creates a new instance of TaskBean
-     */
-    public String doAddTask() {
-          Tarea tarea=new Tarea();
-          tarea.setNombre(nameTask);
-          tarea.setTiempo(tiempo);
-          tareaFacade.create(tarea);
-          collectionTask.add(tarea);
-        
-        return "task";
+    public boolean isTaskAdded() {
+        return taskAdded;
     }
 
-  
+    public void setTaskAdded(boolean taskAdded) {
+        this.taskAdded = taskAdded;
+    }
+
+    public List<String> getListUsersName() {
+        return listUsersName;
+    }
+
+    public void setListUsersName(List<String> listUsersName) {
+        this.listUsersName = listUsersName;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+    
+    public List<String> getTempUsers() {
+        return tempUsers;
+    }
+
+    public void setTempUsers(List<String> tempUsers) {
+        this.tempUsers = tempUsers;
+    }
+
+    public List<String> completeName(String query) {
+        List<String> results = new ArrayList<>();
+
+        for (String nombre : this.listUsersName) {
+            if (nombre.startsWith(query)) {
+                results.add(nombre);
+
+            }
+        }
+        return results;
+    }
+
+    public String doAddTempList() {
+
+        if (!tempUsers.contains(search)) {
+            tempUsers.add(search);
+        }
+
+        search = "";
+        return null;
+    }
+
+    public String doAddTask() {
+        Tarea task = new Tarea();
+
+        task.setNombre(nameTask);
+
+        BigInteger min = new BigInteger("60");
+        BigInteger durationMinutes = duration.multiply(min);
+        task.setTiempo(durationMinutes);
+
+        task.setIdProyecto(null);
+        task.setIdUsuario(userBean.getUser());
+        //tareaFacade.create(task);
+
+        nameTask = "";
+        duration = new BigInteger("");
+        taskAdded = true;
+
+        return "";
+    }
 
 }
