@@ -5,103 +5,87 @@
  */
 
 
-window.onload = init;
-var socket = new WebSocket("ws://localhost:8080/EasyProject-war/actions");
+//window.onload = init;
+
 socket.onmessage = onMessage;
 
 function onMessage(event) {
-    var device = JSON.parse(event.data);
-    if (device.action === "add") {
-        printDeviceElement(device);
-    }
-    if (device.action === "remove") {
-        document.getElementById(device.id).remove();
-        //device.parentNode.removeChild(device);
-    }
-    if (device.action === "toggle") {
-        var node = document.getElementById(device.id);
-        var statusText = node.children[2];
-        if (device.status === "On") {
-            statusText.innerHTML = "Status: " + device.status + " (<a href=\"#\" OnClick=toggleDevice(" + device.id + ")>Turn off</a>)";
-        } else if (device.status === "Off") {
-            statusText.innerHTML = "Status: " + device.status + " (<a href=\"#\" OnClick=toggleDevice(" + device.id + ")>Turn on</a>)";
-        }
+    var message = JSON.parse(event.data);
+    if (message.action === "add") {
+        printNewMessage(message);
     }
 }
 
-function addDevice(name, type, description) {
-    var DeviceAction = {
+function addMessage(message, name, photoURL, email) {
+    var MessageAction = {
         action: "add",
+        message: message,
         name: name,
-        type: type,
-        description: description
+        photoURL: photoURL,
+        email: email
+        
     };
-    socket.send(JSON.stringify(DeviceAction));
-}
-
-function removeDevice(element) {
-    var id = element;
-    var DeviceAction = {
-        action: "remove",
-        id: id
-    };
-    socket.send(JSON.stringify(DeviceAction));
-}
-
-function toggleDevice(element) {
-    var id = element;
-    var DeviceAction = {
-        action: "toggle",
-        id: id
-    };
-    socket.send(JSON.stringify(DeviceAction));
-}
-
-function printDeviceElement(device) {
-    var content = document.getElementById("content");
     
-    var deviceDiv = document.createElement("div");
-    deviceDiv.setAttribute("id", device.id);
-    deviceDiv.setAttribute("class", "device " + device.type);
-    content.appendChild(deviceDiv);
-
-    var deviceName = document.createElement("span");
-    deviceName.setAttribute("class", "deviceName");
-    deviceName.innerHTML = "<b>Usuario: </b>" + device.name;
-    deviceDiv.appendChild(deviceName);
-
-    var deviceType = document.createElement("span");
-    deviceType.innerHTML = "<b> Proyecto:</b> " + device.type;
-    deviceDiv.appendChild(deviceType);
-
-    var deviceDescription = document.createElement("span");
-    deviceDescription.innerHTML = "<b> Comentario:</b> " + device.description;
-    deviceDiv.appendChild(deviceDescription);
-
-    var removeDevice = document.createElement("span");
-    removeDevice.setAttribute("class", "removeDevice");
-    removeDevice.innerHTML = " <a href=\"#\" OnClick=removeDevice(" + device.id + ")> Eliminar comentario</a>";
-    deviceDiv.appendChild(removeDevice);
+    socket.send(JSON.stringify(MessageAction));
 }
 
-function showForm() {
-    document.getElementById("addDeviceForm").style.display = '';
-}
+function printNewMessage(message) {
+   
+    var content = document.getElementById("chat-content");
+    
+    var messageBody = document.createElement("div");
+    messageBody.setAttribute("id", message.id);
+    if (getCurrentUser() == message.email)
+        messageBody.setAttribute("class", "direct-chat-msg right");
+    else
+        messageBody.setAttribute("class", "direct-chat-msg");
+    content.appendChild(messageBody);
 
-function hideForm() {
-    document.getElementById("addDeviceForm").style.display = "none";
+    var messageInfo = document.createElement("div");
+    messageInfo.setAttribute("class", "direct-chat-info clearfix");
+    messageBody.appendChild(messageInfo);
+
+    var messageAuthor = document.createElement("span");
+    if (getCurrentUser() == message.email)
+        messageAuthor.setAttribute("class", "direct-chat-name pull-right");
+    else
+        messageAuthor.setAttribute("class", "direct-chat-name pull-left");
+    messageAuthor.innerHTML = message.name;
+    messageInfo.appendChild(messageAuthor);
+
+    var messageTimestamp = document.createElement("span");
+    messageTimestamp.setAttribute("class", "direct-chat-timestamp pull-left");
+    messageTimestamp.innerHTML = "";
+    messageInfo.appendChild(messageTimestamp);
+    
+    var authorImage = document.createElement("img");
+    authorImage.setAttribute("class", "direct-chat-img");
+    authorImage.setAttribute("src", message.photoURL);
+    messageBody.appendChild(authorImage);
+
+    var messageText = document.createElement("div");
+    messageText.setAttribute("class", "direct-chat-text");
+    messageText.innerHTML = message.message;
+    messageBody.appendChild(messageText);
+    
+    updateScroll();
 }
 
 function formSubmit() {
-    var form = document.getElementById("addDeviceForm");
-    var name = form.elements["device_name"].value;
-    var type = form.elements["device_type"].value;
-    var description = form.elements["device_description"].value;
-    hideForm();
-    document.getElementById("addDeviceForm").reset();
-    addDevice(name, type, description);
+    var form = document.getElementById("sendMessage");
+    var message = form.elements["message"].value;
+    var name = form.elements["name"].value;
+    var photoURL = form.elements["photoURL"].value;
+    var email = form.elements["email"].value;
+    
+    document.getElementById("sendMessage").reset();
+    if (message.length > 0)
+        addMessage( message, name, photoURL, email);
+    
+    return false;
 }
 
-function init() {
-    hideForm();
+function updateScroll(){
+    var element = document.getElementById("chat-content");
+    element.scrollTop = element.scrollHeight;
 }

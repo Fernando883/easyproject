@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      >
+    
+    <h:outputScript library="js"  name="jQuery.min.js" target="head"></h:outputScript>
+    
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <h:outputScript>
+            function getCurrentUser() {
+            return "#{userBean.email}";
+            }
+            
+            var socket = new WebSocket("ws://localhost:8080/EasyProject-war/actions/#{userBean.projectSelected.idProyect}");
+         </h:outputScript>
+        <script src="../js/websocket.js"></script>
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            
+            
+            <div id="wrapper">
+                <div class="col-md-6" style="position: fixed; bottom: 0; right: 0">
+          <!-- DIRECT CHAT DANGER -->
+          <div class="box box-danger direct-chat direct-chat-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Chat de #{userBean.projectSelected.nombreP}</h3>
+
+              <div class="box-tools pull-right">
+                <span data-toggle="tooltip" title="3 New Messages" class="badge bg-red"></span>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle" data-original-title="Contacts">
+                  <i class="fa fa-comments"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- Conversations are loaded here -->
+              <div id="chat-content" class="direct-chat-messages">
+                
+                
+                
+                
+                <!-- /.direct-chat-msg -->
+              </div>
+              <!--/.direct-chat-messages-->
+
+              
+              <!-- /.direct-chat-pane -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              <form id="sendMessage" action="#" method="post">
+                <div class="input-group">
+                  <input type="text" name="message" id="message" placeholder="Escribe un mensaje..." class="form-control" />
+                  <input type="hidden" name="name" value="#{userBean.name}" />
+                  <input type="hidden" name="photoURL" value="#{userBean.image}" />
+                  <input type="hidden" name="email" value="#{userBean.email}" />
+                      <span class="input-group-btn">
+                        <button value="Send" onclick="formSubmit()" class="btn btn-danger btn-flat">Enviar</button>
+                      </span>
+                </div>
+              </form>
+            </div>
+            <!-- /.box-footer-->
+          </div>
+          <!--/.direct-chat -->
+        </div>
+            </div>
+
+        </section>
+
+        <!-- Main content -->
+        
+        <section class="content">
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+    
+    
+</html>
+
+
+
