@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author inftel12
+ * @author macbookpro
  */
 @Entity
 @Table(name = "COMENTARIO")
@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Comentario.findAll", query = "SELECT c FROM Comentario c"),
     @NamedQuery(name = "Comentario.findByIdComent", query = "SELECT c FROM Comentario c WHERE c.idComent = :idComent"),
-    @NamedQuery(name = "Comentario.findByTitulo", query = "SELECT c FROM Comentario c WHERE c.titulo = :titulo"),
     @NamedQuery(name = "Comentario.findByTexto", query = "SELECT c FROM Comentario c WHERE c.texto = :texto"),
     @NamedQuery(name = "Comentario.findByFecha", query = "SELECT c FROM Comentario c WHERE c.fecha = :fecha")})
 public class Comentario implements Serializable {
@@ -47,11 +46,6 @@ public class Comentario implements Serializable {
     @NotNull
     @Column(name = "ID_COMENT")
     private Long idComent;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "TITULO")
-    private String titulo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -76,9 +70,8 @@ public class Comentario implements Serializable {
         this.idComent = idComent;
     }
 
-    public Comentario(Long idComent, String titulo, String texto, Date fecha) {
+    public Comentario(Long idComent, String texto, Date fecha) {
         this.idComent = idComent;
-        this.titulo = titulo;
         this.texto = texto;
         this.fecha = fecha;
     }
@@ -89,14 +82,6 @@ public class Comentario implements Serializable {
 
     public void setIdComent(Long idComent) {
         this.idComent = idComent;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String getTexto() {
