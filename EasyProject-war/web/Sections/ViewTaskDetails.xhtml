@@ -36,7 +36,7 @@
             <div class="with-border">
 
             </div>
-           
+
             <ui:repeat value="#{userBean.taskSelected.comentarioCollection}" var="comment">
 
                 <div class='box-footer box-comments with-border'>
@@ -66,7 +66,10 @@
                     </div>
                     <pr:defaultCommand target="save"/>
                     <h:commandButton id="save" action="#{commentBean.doSaveComment()}" value="Guardar" style="display: none"/>
-
+                </h:form>
+                <h:form enctype="multipart/form-data">
+                    <h:inputFile id="input-1" class="file" value="#{taskBean.file1}"></h:inputFile>
+                    <h:commandButton tabindex="500" title="Abort ongoing upload" style="float: right" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{taskBean.doUpdateFile}" value="Update"></h:commandButton>
                 </h:form>
             </div><!-- /.box-footer -->
         </div><!-- /.box -->
