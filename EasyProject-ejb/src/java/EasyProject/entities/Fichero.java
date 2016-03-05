@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author inftel12
+ * @author macbookpro
  */
 @Entity
 @Table(name = "FICHERO")
@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Fichero.findByIdFichero", query = "SELECT f FROM Fichero f WHERE f.idFichero = :idFichero"),
     @NamedQuery(name = "Fichero.findByRuta", query = "SELECT f FROM Fichero f WHERE f.ruta = :ruta")})
 public class Fichero implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "idGenerator_fichero", allocationSize = 1, sequenceName = "file_seq")
@@ -112,5 +111,5 @@ public class Fichero implements Serializable {
     public String toString() {
         return "EasyProject.entities.Fichero[ idFichero=" + idFichero + " ]";
     }
-
+    
 }

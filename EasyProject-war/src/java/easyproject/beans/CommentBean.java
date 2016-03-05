@@ -16,11 +16,25 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean
 @RequestScoped
 public class CommentBean {
+    
+    private String Message;
 
     /**
      * Creates a new instance of CommentBean
      */
     public CommentBean() {
     }
+
+    public String getMessage() {
+        return Message;
+    }
+
+    public void setMessage(String Message) {
+        this.Message = Message;
+    }
     
+    public String doSaveComment(){
+        return "";
+    }
+  
 }

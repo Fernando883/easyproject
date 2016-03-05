@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author inftel12
+ * @author macbookpro
  */
 @Entity
 @Table(name = "TAREA")
@@ -41,9 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tarea.findByIdTarea", query = "SELECT t FROM Tarea t WHERE t.idTarea = :idTarea"),
     @NamedQuery(name = "Tarea.findByNombre", query = "SELECT t FROM Tarea t WHERE t.nombre = :nombre"),
     @NamedQuery(name = "Tarea.findByTiempo", query = "SELECT t FROM Tarea t WHERE t.tiempo = :tiempo"),
-    @NamedQuery(name = "Tarea.findByEstado", query = "SELECT t FROM Tarea t WHERE t.estado = :estado")})
+    @NamedQuery(name = "Tarea.findByEstado", query = "SELECT t FROM Tarea t WHERE t.estado = :estado"),
+    @NamedQuery(name = "Tarea.findByDescripcion", query = "SELECT t FROM Tarea t WHERE t.descripcion = :descripcion")})
 public class Tarea implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "idGenerator_tarea", allocationSize = 1, sequenceName = "task_seq")
@@ -66,6 +66,11 @@ public class Tarea implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "ESTADO")
     private String estado;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
+    @Column(name = "DESCRIPCION")
+    private String descripcion;
     @JoinTable(name = "TAREA_USUARIO", joinColumns = {
         @JoinColumn(name = "ID_TAREA", referencedColumnName = "ID_TAREA")}, inverseJoinColumns = {
         @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")})
@@ -89,11 +94,12 @@ public class Tarea implements Serializable {
         this.idTarea = idTarea;
     }
 
-    public Tarea(Long idTarea, String nombre, BigInteger tiempo, String estado) {
+    public Tarea(Long idTarea, String nombre, BigInteger tiempo, String estado, String descripcion) {
         this.idTarea = idTarea;
         this.nombre = nombre;
         this.tiempo = tiempo;
         this.estado = estado;
+        this.descripcion = descripcion;
     }
 
     public Long getIdTarea() {
@@ -126,6 +132,14 @@ public class Tarea implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @XmlTransient
@@ -195,5 +209,5 @@ public class Tarea implements Serializable {
     public String toString() {
         return "EasyProject.entities.Tarea[ idTarea=" + idTarea + " ]";
     }
-
+    
 }
