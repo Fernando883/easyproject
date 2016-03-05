@@ -11,7 +11,7 @@
             <h3 class="box-title"><b>#{projectBean.userBean.projectSelected.nombreP} <small> #{projectBean.userBean.projectSelected.director.nombreU}</small> </b></h3>
             <p></p>
             <span class="margin_own">#{projectBean.userBean.projectSelected.descripcion}</span>
-            
+
 
         </div>
 
@@ -47,7 +47,13 @@
 
                             <h:panelGroup>
                                 <tr>
-                                    <td>#{task.nombre}</td>
+                                    <td>
+                                        <h:form>
+                                            <h:commandLink action="#{taskBean.doShowTaskDetail(task)}" class="text-bold">
+                                                #{task.nombre}
+                                            </h:commandLink>
+                                        </h:form>
+                                    </td>
                                     <td>
                                         <ui:repeat value="#{task.usuarioCollection}" var="user">                                                
                                             <span>

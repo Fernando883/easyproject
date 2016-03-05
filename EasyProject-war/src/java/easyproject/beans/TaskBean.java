@@ -40,6 +40,7 @@ public class TaskBean {
     private String nameTask;
     private BigInteger tiempo;
     private String statusTask;
+    private String description;
     private Collection<Tarea> collectionTask;
 
     private BigInteger duration;
@@ -49,6 +50,8 @@ public class TaskBean {
     protected List<String> tempUsers;
     protected String search;
 
+    protected Tarea taskSelected;
+    protected boolean viewTask = false;
     /**
      * Creates a new instance of TaskBean
      */
@@ -59,6 +62,7 @@ public class TaskBean {
     @PostConstruct
     public void init() {
         taskAdded = false;
+        viewTask = false;
         duration = null;
         listUsersName = new ArrayList<>();
 
@@ -153,6 +157,39 @@ public class TaskBean {
         this.statusTask = statusTask;
     }
 
+    public Tarea getTaskSelected() {
+        return taskSelected;
+    }
+
+    public void setTaskSelected(Tarea taskSelected) {
+        this.taskSelected = taskSelected;
+    }
+
+    public boolean isViewTask() {
+        return viewTask;
+    }
+
+    public void setViewTask(boolean viewTask) {
+        this.viewTask = viewTask;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
+    
+    public String doShowTaskDetail (Tarea task) {
+        this.viewTask = true;
+        this.taskSelected = task;
+           
+        return "";
+    }
+    
     public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
 
@@ -199,11 +236,14 @@ public class TaskBean {
 
         task.setEstado(statusTask);
         
+        task.setDescripcion(description);
+        
         task.setUsuarioCollection(memberTask);
         tareaFacade.create(task);
         userBean.getProjectSelected().getTareaCollection().add(task);
 
         nameTask = "";
+        description = "";
         duration = null;
         tempUsers = new ArrayList<>();
         taskAdded = true;

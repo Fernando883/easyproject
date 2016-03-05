@@ -8,6 +8,7 @@ package easyproject.beans;
 
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
+import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import java.util.List;
 import javax.annotation.PostConstruct;

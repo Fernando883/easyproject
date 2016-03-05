@@ -42,6 +42,7 @@ public class ProjectBean {
     protected String search;
     protected boolean projectAdded;
 
+
     /**
      * Creates a new instance of addProjectBean
      */
@@ -189,6 +190,8 @@ public class ProjectBean {
     public String doGoToNewProject() {
         return "NewProjectPage";
     }
+    
+
 
 
 }
