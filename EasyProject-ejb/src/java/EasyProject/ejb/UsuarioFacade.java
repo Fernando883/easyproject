@@ -62,7 +62,11 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         mail = new Mail(subject, message1,desteny);
         mail.sendMail();
         }
-    
+    public void sendEmailCreate(String desteny, String subject, String message)
+    {
+        mail=new Mail(subject,message,desteny);
+        mail.sendMail();
+    }
     
     public List<String> getUsersEmail () {
         

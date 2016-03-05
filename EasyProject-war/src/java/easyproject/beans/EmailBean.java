@@ -6,6 +6,9 @@
 package easyproject.beans;
 
 import EasyProject.ejb.UsuarioFacade;
+import EasyProject.entities.Usuario;
+import java.util.Collection;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -93,5 +96,6 @@ public class EmailBean {
         sendEmail = true;
         return "";
     }
+   
     
 }

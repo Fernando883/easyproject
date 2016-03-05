@@ -162,7 +162,10 @@ public class ProjectBean {
     public String doAddProject() {
 
         List<Usuario> memberProject = new ArrayList<>();
+       String email;
+       
 
+        String message = "has sido añadido al proyecto";
         for (String userString : tempUsers) {
             Usuario tmp = usuarioFacade.getUser(userString);
             if (tmp != null) {
@@ -183,7 +186,16 @@ public class ProjectBean {
         projectDescription = "";
         tempUsers = new ArrayList<>();
         projectAdded = true;
-
+        message = message + project.getNombreP();
+        
+        List<Usuario> usuario = (List<Usuario>) project.getUsuarioCollection();
+        for (Usuario usuario1 : usuario) {
+            
+            email=usuario1.getEmail();
+            usuarioFacade.sendEmailCreate(email, project.getNombreP(), message);
+        }
+        
+      
         return null;
     }
 
@@ -191,6 +203,7 @@ public class ProjectBean {
         return "NewProjectPage";
     }
     
+
 
 
 

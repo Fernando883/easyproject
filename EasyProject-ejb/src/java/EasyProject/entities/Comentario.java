@@ -48,7 +48,7 @@ public class Comentario implements Serializable {
     private Long idComent;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 499)
     @Column(name = "TEXTO")
     private String texto;
     @Basic(optional = false)

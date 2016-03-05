@@ -10,6 +10,7 @@ import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -28,12 +30,12 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class TaskBean {
+
     @EJB
     private UsuarioFacade usuarioFacade;
     @EJB
     private TareaFacade tareaFacade;
-    
-    
+
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
 
@@ -45,13 +47,16 @@ public class TaskBean {
 
     private BigInteger duration;
     protected boolean taskAdded;
+    protected boolean taskEdited;
 
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
+    
+    protected Part file1;
 
-    protected Tarea taskSelected;
     protected boolean viewTask = false;
+
     /**
      * Creates a new instance of TaskBean
      */
@@ -157,14 +162,6 @@ public class TaskBean {
         this.statusTask = statusTask;
     }
 
-    public Tarea getTaskSelected() {
-        return taskSelected;
-    }
-
-    public void setTaskSelected(Tarea taskSelected) {
-        this.taskSelected = taskSelected;
-    }
-
     public boolean isViewTask() {
         return viewTask;
     }
@@ -180,16 +177,46 @@ public class TaskBean {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public boolean isTaskEdited() {
+        return taskEdited;
+    }
+
+    public void setTaskEdited(boolean taskEdited) {
+        this.taskEdited = taskEdited;
+    }
+
+    public Part getFile1() {
+        return file1;
+    }
+
+    public void setFile1(Part file1) {
+        this.file1 = file1;
+    }
     
-    
-    
-    public String doShowTaskDetail (Tarea task) {
-        this.viewTask = true;
-        this.taskSelected = task;
-           
+    public String doUpdateFile() throws IOException{
+        file1.write(getFilename(file1));
         return "";
     }
     
+    public static String getFilename(Part part){
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if(cd.trim().startsWith("filename")){
+                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1);
+            }
+        }
+        return null;
+    }
+    
+
+    public String doShowTaskDetail(Tarea task) {
+        this.viewTask = true;
+        this.userBean.taskSelected = task;
+
+        return "";
+    }
+
     public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
 
@@ -210,6 +237,34 @@ public class TaskBean {
 
         search = "";
         return null;
+    }
+
+    public String doEditTask() {
+
+        //Lo que había antes más los nuevos
+        List<Usuario> memberTask = (List<Usuario>) userBean.taskSelected.getUsuarioCollection();
+
+        for (String userString : tempUsers) {
+            Usuario tmp = usuarioFacade.getUser(userString);
+            if (tmp != null) {
+                memberTask.add(tmp);
+            }
+        }
+        userBean.taskSelected.setUsuarioCollection(memberTask);
+
+        userBean.taskSelected.setEstado(statusTask);
+
+        BigInteger min = new BigInteger("60");
+        BigInteger durationMinutes = duration.multiply(min);
+        userBean.taskSelected.setTiempo(durationMinutes);
+
+        tareaFacade.edit(userBean.taskSelected);
+
+        duration = null;
+        tempUsers = new ArrayList<>();
+        taskEdited = true;
+
+        return "";
     }
 
     public String doAddTask() {
@@ -235,9 +290,9 @@ public class TaskBean {
         task.setIdUsuario(userBean.getUser());
 
         task.setEstado(statusTask);
-        
+
         task.setDescripcion(description);
-        
+
         task.setUsuarioCollection(memberTask);
         tareaFacade.create(task);
         userBean.getProjectSelected().getTareaCollection().add(task);

@@ -4,26 +4,40 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"    
-      xmlns:pr="http://primefaces.org/ui">
+      xmlns:pr="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <h:outputScript library="primefaces"  name="jQuery.min.js" target="head"></h:outputScript>
 
-    <h:panelGroup  rendered="#{taskBean.viewTask == true}">
+    <h:panelGroup rendered="#{taskBean.viewTask == true}">
 
 
         <div class="box box-warning" >
             <div class='box-header with-border'>
-                <h3 class="box-title text-yellow text-bold">#{taskBean.taskSelected.nombre}</h3><!-- /.user-block -->
+                <h3 class="box-title text-yellow text-bold">#{userBean.taskSelected.nombre}</h3><!-- /.user-block -->
+                <div class='box-tools' id="status_task">                   
+                    <h:outputLabel class="label label-success" value="#{task.estado}" rendered= "#{task.estado eq 'done'}" />
+                    <h:outputLabel class="label label-warning" value="#{task.estado}" rendered="#{task.estado eq 'doing'}"/>
+                    <h:outputLabel class="label label-danger" value="#{task.estado}" rendered="#{task.estado eq 'to do'}"/>
 
-                <div class='box-tools'>
-                    <button class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button>
+                    <button id="closeTask" class='btn btn-box-tool' jsf:action="#{taskBean.setViewTask(false)}" data-widget='remove'><i class='fa fa-times'></i>
+                        <f:ajax render="editTask" execute="closeTask"/>                                                
+                    </button>
+
                 </div><!-- /.box-tools -->
             </div><!-- /.box-header -->
-            <div class='box-body'>
-                <p>#{taskBean.taskSelected.descripcion}</p>
-            </div><!-- /.box-body -->
+            <div class="box-body with-border">
+                <span class="text-maroon text-bold">
+                    #{userBean.taskSelected.tiempo/60} horas:
+                </span>
+                #{userBean.taskSelected.descripcion}
+            </div>
+            <div class="with-border">
 
-            <ui:repeat value="#{taskBean.taskSelected.comentarioCollection}" var="comment">
+            </div>
+
+            <ui:repeat value="#{userBean.taskSelected.comentarioCollection}" var="comment">
 
                 <div class='box-footer box-comments with-border'>
                     <div class='box-comment'>
@@ -31,7 +45,9 @@
                         <div class="margin_own-left">
                             <span class="username">
                                 #{comment.idUsuario.nombreU}
-                                <span class="text-muted pull-right">#{comment.fecha}</span>
+                                <h:outputLabel class="text-muted pull-right" value="#{comment.fecha}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                </h:outputLabel>
                             </span><!-- /.username -->
                             #{comment.texto}
                         </div><!-- /.comment-text -->
@@ -45,14 +61,15 @@
                 <h:form>
                     <img class="img-responsive img-circle img-sm" src="#{userBean.image}" alt="alt text"/>
                     <!-- .img-push is used to add margin to elements next to floating images -->
-                    <pr:defaultCommand target="save"/>
-
-                    <h:commandButton id="save" action="#{commentBean.doSaveComment()}" value="Guardar" type="hidden" rendered="false"/>
-
                     <div class="img-push">
-                        <h:inputText class="form-control input-sm" p:placeholder="Press enter to post comment"/>
+                        <h:inputText class="form-control input-sm" p:placeholder="Pulsa para insertar tu comentario" value="#{commentBean.message}"/>
                     </div>
-
+                    <pr:defaultCommand target="save"/>
+                    <h:commandButton id="save" action="#{commentBean.doSaveComment()}" value="Guardar" style="display: none"/>
+                </h:form>
+                <h:form enctype="multipart/form-data">
+                    <h:inputFile id="input-1" class="file" value="#{taskBean.file1}"></h:inputFile>
+                    <h:commandButton tabindex="500" title="Abort ongoing upload" style="float: right" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{taskBean.doUpdateFile}" value="Update"></h:commandButton>
                 </h:form>
             </div><!-- /.box-footer -->
         </div><!-- /.box -->
