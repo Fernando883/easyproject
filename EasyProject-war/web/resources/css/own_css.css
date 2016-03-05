@@ -12,6 +12,9 @@ and open the template in the editor.
 .margin_own-left {
     padding-left: 2%;
 }
+.margin_own-right {
+    padding-right: 2%;
+}
 
 .margin_own_up {
     margin-top:20px;
@@ -30,5 +33,5 @@ and open the template in the editor.
 }
 
 .add_user_project {
-    padding-left:20%;
+    padding-left:28%;
 }

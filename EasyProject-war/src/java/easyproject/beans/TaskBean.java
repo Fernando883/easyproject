@@ -28,12 +28,12 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class TaskBean {
+
     @EJB
     private UsuarioFacade usuarioFacade;
     @EJB
     private TareaFacade tareaFacade;
-    
-    
+
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
 
@@ -45,13 +45,14 @@ public class TaskBean {
 
     private BigInteger duration;
     protected boolean taskAdded;
+    protected boolean taskEdited;
 
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
 
-    protected Tarea taskSelected;
     protected boolean viewTask = false;
+
     /**
      * Creates a new instance of TaskBean
      */
@@ -157,14 +158,6 @@ public class TaskBean {
         this.statusTask = statusTask;
     }
 
-    public Tarea getTaskSelected() {
-        return taskSelected;
-    }
-
-    public void setTaskSelected(Tarea taskSelected) {
-        this.taskSelected = taskSelected;
-    }
-
     public boolean isViewTask() {
         return viewTask;
     }
@@ -180,16 +173,24 @@ public class TaskBean {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
-    
-    public String doShowTaskDetail (Tarea task) {
-        this.viewTask = true;
-        this.taskSelected = task;
-           
-        return "";
+
+    public boolean isTaskEdited() {
+        return taskEdited;
+    }
+
+    public void setTaskEdited(boolean taskEdited) {
+        this.taskEdited = taskEdited;
     }
     
+    
+
+    public String doShowTaskDetail(Tarea task) {
+        this.viewTask = true;
+        this.userBean.taskSelected = task;
+
+        return "";
+    }
+
     public List<String> completeName(String query) {
         List<String> results = new ArrayList<>();
 
@@ -210,6 +211,34 @@ public class TaskBean {
 
         search = "";
         return null;
+    }
+
+    public String doEditTask() {
+
+        //Lo que había antes más los nuevos
+        List<Usuario> memberTask = (List<Usuario>) userBean.taskSelected.getUsuarioCollection();
+
+        for (String userString : tempUsers) {
+            Usuario tmp = usuarioFacade.getUser(userString);
+            if (tmp != null) {
+                memberTask.add(tmp);
+            }
+        }
+        userBean.taskSelected.setUsuarioCollection(memberTask);
+
+        userBean.taskSelected.setEstado(statusTask);
+
+        BigInteger min = new BigInteger("60");
+        BigInteger durationMinutes = duration.multiply(min);
+        userBean.taskSelected.setTiempo(durationMinutes);
+
+        tareaFacade.edit(userBean.taskSelected);
+
+        duration = null;
+        tempUsers = new ArrayList<>();
+        taskEdited = true;
+
+        return "";
     }
 
     public String doAddTask() {
@@ -235,9 +264,9 @@ public class TaskBean {
         task.setIdUsuario(userBean.getUser());
 
         task.setEstado(statusTask);
-        
+
         task.setDescripcion(description);
-        
+
         task.setUsuarioCollection(memberTask);
         tareaFacade.create(task);
         userBean.getProjectSelected().getTareaCollection().add(task);
