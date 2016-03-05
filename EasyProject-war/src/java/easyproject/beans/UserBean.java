@@ -6,8 +6,11 @@
 package easyproject.beans;
 
 
+import EasyProject.ejb.ProyectoFacade;
+import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
+import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,9 +27,14 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 @SessionScoped
 public class UserBean {
-
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    @EJB
+    private TareaFacade tareaFacade;
     @EJB
     private UsuarioFacade usuarioFacade;
+    
+    
 
    
     private String email;
@@ -34,6 +42,7 @@ public class UserBean {
     private String name;
     private String image;
     private Proyecto projectSelected = null;
+    protected Tarea taskSelected = null;
     
     @PostConstruct
     public void init(){
@@ -87,7 +96,14 @@ public class UserBean {
         this.projectSelected = projectSelected;
     }
 
+    public Tarea getTaskSelected() {
+        return taskSelected;
+    }
 
+    public void setTaskSelected(Tarea taskSelected) {
+        
+        this.taskSelected = taskSelected;
+    }
  
     /**
      * Creates a new instance of UserBean
@@ -113,8 +129,8 @@ public class UserBean {
         email = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("email");
         image = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("image");
         if(usuarioFacade.getUser(email) == null){
-            System.out.println("NUEVO USER");
             usuarioFacade.setNewUser(email, name);
+            user = usuarioFacade.getUser(email);
         }else{
             user = usuarioFacade.getUser(email);
         } 

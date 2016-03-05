@@ -1,44 +1,78 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"    
+      xmlns:pr="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <div class="box box-warning">
-        <div class='box-header with-border'>
-            <h3 class="box-title text-yellow">Jonathan Burke Jr.</h3><!-- /.user-block -->
-            
-            <div class='box-tools'>
-                <button class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button>
-            </div><!-- /.box-tools -->
-        </div><!-- /.box-header -->
-        <div class='box-body'>
-            <p>I took this photo this morning. What do you guys think?</p>
-        </div><!-- /.box-body -->
-        
-        <div class='box-footer box-comments with-border'>
-            <div class='box-comment'>
-                <!-- User image -->
-                <div class="margin_own-left">
-                    <span class="username">
-                        Maria Gonzales
-                    </span><!-- /.username -->
-                    It is a long established fact that a reader will be distracted
-                     the readable content of a page when looking at its layout.by
-                </div><!-- /.comment-text -->
-            </div><!-- /.box-comment -->
-            
-        </div><!-- /.box-footer -->
-        
-        
-        <div class="box-footer">
-            <form action="#" method="post">
-                <img class="img-responsive img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="alt text"/>
-                <!-- .img-push is used to add margin to elements next to floating images -->
-                <div class="img-push">
-                    <input type="text" class="form-control input-sm" placeholder="Press enter to post comment"/>
-                </div>
-            </form>
-        </div><!-- /.box-footer -->
-    </div><!-- /.box -->
+    <h:outputScript library="primefaces"  name="jQuery.min.js" target="head"></h:outputScript>
+
+    <h:panelGroup rendered="#{taskBean.viewTask == true}">
+
+
+        <div class="box box-warning" >
+            <div class='box-header with-border'>
+                <h3 class="box-title text-yellow text-bold">#{userBean.taskSelected.nombre}</h3><!-- /.user-block -->
+                <div class='box-tools' id="status_task">                   
+                    <h:outputLabel class="label label-success" value="#{task.estado}" rendered= "#{task.estado eq 'done'}" />
+                    <h:outputLabel class="label label-warning" value="#{task.estado}" rendered="#{task.estado eq 'doing'}"/>
+                    <h:outputLabel class="label label-danger" value="#{task.estado}" rendered="#{task.estado eq 'to do'}"/>
+
+                    <button id="closeTask" class='btn btn-box-tool' jsf:action="#{taskBean.setViewTask(false)}" data-widget='remove'><i class='fa fa-times'></i>
+                        <f:ajax render="editTask" execute="closeTask"/>                                                
+                    </button>
+
+                </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body with-border">
+                <span class="text-maroon text-bold">
+                    #{userBean.taskSelected.tiempo/60} horas:
+                </span>
+                #{userBean.taskSelected.descripcion}
+            </div>
+            <div class="with-border">
+
+            </div>
+
+            <ui:repeat value="#{userBean.taskSelected.comentarioCollection}" var="comment">
+
+                <div class='box-footer box-comments with-border'>
+                    <div class='box-comment'>
+                        <!-- User image -->
+                        <div class="margin_own-left">
+                            <span class="username">
+                                #{comment.idUsuario.nombreU}
+                                <h:outputLabel class="text-muted pull-right" value="#{comment.fecha}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                </h:outputLabel>
+                            </span><!-- /.username -->
+                            #{comment.texto}
+                        </div><!-- /.comment-text -->
+                    </div><!-- /.box-comment -->
+
+                </div><!-- /.box-footer -->
+            </ui:repeat>
+
+
+            <div class="box-footer">
+                <h:form>
+                    <img class="img-responsive img-circle img-sm" src="#{userBean.image}" alt="alt text"/>
+                    <!-- .img-push is used to add margin to elements next to floating images -->
+                    <div class="img-push">
+                        <h:inputText class="form-control input-sm" p:placeholder="Pulsa para insertar tu comentario" value="#{commentBean.message}"/>
+                    </div>
+                    <pr:defaultCommand target="save"/>
+                    <h:commandButton id="save" action="#{commentBean.doSaveComment()}" value="Guardar" style="display: none"/>
+                </h:form>
+                <h:form enctype="multipart/form-data">
+                    <h:inputFile id="input-1" class="file" value="#{taskBean.file1}"></h:inputFile>
+                    <h:commandButton tabindex="500" title="Abort ongoing upload" style="float: right" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{taskBean.doUpdateFile}" value="Update"></h:commandButton>
+                </h:form>
+            </div><!-- /.box-footer -->
+        </div><!-- /.box -->
+    </h:panelGroup>
 </html>
 
