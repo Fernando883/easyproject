@@ -7,12 +7,14 @@ package easyproject.beans;
 
 import EasyProject.ejb.ComentarioFacade;
 import EasyProject.entities.Comentario;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -28,6 +30,8 @@ public class CommentBean {
     private String message;
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
+    
+    protected Part file;
 
     /**
      * Creates a new instance of CommentBean
@@ -51,6 +55,14 @@ public class CommentBean {
         this.userBean = userBean;
     }
     
+    public Part getFile() {
+        return file;
+    }
+
+    public void setFile(Part file) {
+        this.file = file;
+    }
+    
 
     public String doSaveComment() {
 
@@ -66,6 +78,32 @@ public class CommentBean {
         
         message="";
         return "";
+    }
+    
+    public String doUpdateFile() throws IOException{
+        file.write(getFilename(file));
+        Comentario comment = new Comentario();
+        message = "Ha subido el fichero: " + getFilename(file);
+        comment.setTexto(message);
+        Date date = Calendar.getInstance().getTime();
+        comment.setFecha(date);
+        comment.setIdTarea(userBean.getTaskSelected());
+        comment.setIdUsuario(userBean.getUser());
+        
+        comentarioFacade.create(comment);
+        userBean.getTaskSelected().getComentarioCollection().add(comment);
+        message="";
+        return "";
+    }
+    
+    public static String getFilename(Part part){
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if(cd.trim().startsWith("filename")){
+                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1);
+            }
+        }
+        return null;
     }
 
 }

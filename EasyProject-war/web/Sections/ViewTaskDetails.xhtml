@@ -61,15 +61,17 @@
                 <h:form>
                     <img class="img-responsive img-circle img-sm" src="#{userBean.image}" alt="alt text"/>
                     <!-- .img-push is used to add margin to elements next to floating images -->
-                    <div class="img-push">
+                    <div class="img-push" style="margin-bottom: 20px">
                         <h:inputText class="form-control input-sm" p:placeholder="Pulsa para insertar tu comentario" value="#{commentBean.message}"/>
                     </div>
                     <pr:defaultCommand target="save"/>
                     <h:commandButton id="save" action="#{commentBean.doSaveComment()}" value="Guardar" style="display: none"/>
                 </h:form>
                 <h:form enctype="multipart/form-data">
-                    <h:inputFile id="input-1" class="file" value="#{taskBean.file1}"></h:inputFile>
-                    <h:commandButton tabindex="500" title="Abort ongoing upload" style="float: right" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{taskBean.doUpdateFile}" value="Update"></h:commandButton>
+                    <h:panelGrid columns="3">
+                        <h:inputFile id="input-1" class="file" value="#{commentBean.file}" style="width: 490px"></h:inputFile>
+                        <h:commandButton tabindex="500" title="Abort ongoing upload" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{commentBean.doUpdateFile}" value="Update"></h:commandButton>
+                    </h:panelGrid>
                 </h:form>
             </div><!-- /.box-footer -->
         </div><!-- /.box -->

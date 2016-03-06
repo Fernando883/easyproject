@@ -7,40 +7,45 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
-    
+
     <h:outputScript library="js"  name="jQuery.min.js" target="head"></h:outputScript>
 
-    
+
     <section class="content">
-            <!-- quick email widget -->
-            <h:form>
-              <div class="box box-info">
-                <div class="box-header">
-                  <i class="fa fa-envelope"></i>
-                  <h3 class="box-title">Quick Email</h3>
-                </div>
-                <div class="box-body">
-                  
+        <!-- quick email widget -->
+
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-envelope"></i>
+                <h3 class="box-title">Email</h3>
+            </div>
+            <div class="box-body">
+                <h:form>  
                     <div class="form-group">
                         <h:inputText id="desteny" style="margin-bottom: 10px" class="form-control" value="#{emailBean.desteny}" p:placeholder ="Email to" required="true" requiredMessage="Debe introducir un email"/>
                         <c:message for="desteny" display="text" ></c:message>
                     </div>
                     <div class="form-group">
-                        <h:inputText id="subject" style="margin-bottom: 10px" class="form-control" value="#{emailBean.subject}" p:placeholder ="Subject" required="true" requiredMessage="Debe introducir un asunto"/>
+                        <h:inputText id="subject" style="margin-bottom: 10px" label="Asunto" class="form-control" value="#{emailBean.subject}" p:placeholder ="Subject" required="true" requiredMessage="Debe introducir un asunto">
+                            <f:validateLength maximum="100"/>
+                        </h:inputText>
                         <c:message for="subject" display="text" ></c:message>
+                        
                     </div>
                     <div>
-                        <h:inputTextarea class="textarea" p:placeholder ="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" value="#{emailBean.message}"></h:inputTextarea>
+                        <h:inputTextarea id="Message" label="Mensaje" class="textarea" p:placeholder ="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" value="#{emailBean.message}">
+                        <f:validateLength maximum="1000"/>
+                        </h:inputTextarea>
+                        <c:message for="Message" display="text" ></c:message>
                     </div>
-                </div>
-                  <h:outputLabel rendered="#{emailBean.sendEmail == true}" class="box-title text-green" style="padding-left: 20px"  >Email enviado con éxito</h:outputLabel>
 
-                <div class="box-footer clearfix">
-                    <h:commandButton class="pull-right btn btn-default fa fa-arrow-circle-right" id="sendEmail" action="#{emailBean.doSendEmail()}" value="Send"></h:commandButton>
-                </div>
+                    <h:outputLabel rendered="#{emailBean.sendEmail == true}" class="box-title text-green" style="padding-left: 20px"  >Email enviado con éxito</h:outputLabel>
 
-              </div>
-
+                    <div class="box-footer clearfix">
+                        <h:commandButton class="pull-right btn btn-default" id="sendEmail" action="#{emailBean.doSendEmail()}" value="Enviar"></h:commandButton>
+                    </div>
                 </h:form>
+            </div>
+        </div>
     </section>
 </html>

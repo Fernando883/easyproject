@@ -53,7 +53,6 @@ public class TaskBean {
     protected List<String> tempUsers;
     protected String search;
     
-    protected Part file1;
 
     protected boolean viewTask = false;
 
@@ -184,29 +183,6 @@ public class TaskBean {
 
     public void setTaskEdited(boolean taskEdited) {
         this.taskEdited = taskEdited;
-    }
-
-    public Part getFile1() {
-        return file1;
-    }
-
-    public void setFile1(Part file1) {
-        this.file1 = file1;
-    }
-    
-    public String doUpdateFile() throws IOException{
-        file1.write(getFilename(file1));
-        return "";
-    }
-    
-    public static String getFilename(Part part){
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if(cd.trim().startsWith("filename")){
-                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1);
-            }
-        }
-        return null;
     }
     
 
