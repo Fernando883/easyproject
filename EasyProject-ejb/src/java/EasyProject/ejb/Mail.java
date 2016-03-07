@@ -53,11 +53,13 @@ public class Mail {
 
           try {
            MimeMessage message = new MimeMessage(session);
+           
            message.addRecipient(Message.RecipientType.TO, new InternetAddress(
              destino));
            message.setSubject(asunto);
            message.setSentDate(new Date());
-           message.setText(mensaje);
+           message.setContent(mensaje,"text/html; charset=utf-8");
+           
 
            Transport tr = session.getTransport("smtp");
            tr.connect(servidorSMTP, usuario, password);

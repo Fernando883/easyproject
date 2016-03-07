@@ -116,7 +116,6 @@ public class UserBean {
         }
         else{
             user=new Usuario();
-            user.setToken("");
             user.setEmail(email);
             usuarioFacade.create(user);
         }

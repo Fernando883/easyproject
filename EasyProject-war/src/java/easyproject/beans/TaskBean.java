@@ -90,10 +90,10 @@ public class TaskBean {
     public Collection<Tarea> getCollectionTask() {
         collectionTask = new ArrayList<Tarea>();
         if (userBean.getProjectSelected() != null) {
-
-            Collection<Tarea> taskUserSelected = userBean.getUser().getTareaCollection();
+            Usuario userSelected;
+            userSelected = usuarioFacade.getUser(userBean.getUser().getIdUsuario());
+            Collection<Tarea> taskUserSelected = userSelected.getTareaCollection();
             for (Tarea task : taskUserSelected) {
-                System.out.println(task.getNombre());
                 if (task.getIdProyecto().getIdProyect() == userBean.getProjectSelected().getIdProyect()) {
                     collectionTask.add(task);
                 }
