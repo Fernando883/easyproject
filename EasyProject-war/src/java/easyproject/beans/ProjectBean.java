@@ -10,12 +10,14 @@ import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import org.example.model.SendMail;
 
 /**
  *
@@ -37,11 +39,11 @@ public class ProjectBean {
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
 
+    
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
     protected boolean projectAdded;
-
 
     /**
      * Creates a new instance of addProjectBean
@@ -159,52 +161,59 @@ public class ProjectBean {
         return null;
     }
 
-    public String doAddProject() {
+    public String doAddProject(){
+
+       
+         String email;
+        String message = "";
 
         List<Usuario> memberProject = new ArrayList<>();
-       String email;
-       
 
-        String message = "has sido añadido al proyecto";
-        for (String userString : tempUsers) {
-            Usuario tmp = usuarioFacade.getUser(userString);
-            if (tmp != null) {
-                memberProject.add(tmp);
-            }
-        }
-
-        memberProject.add(userBean.getUser());
-        Proyecto project = new Proyecto();
-        project.setNombreP(projectName);
-        project.setDescripcion(projectDescription);
-        project.setDirector(userBean.getUser());
-        project.setUsuarioCollection(memberProject);
-        proyectoFacade.create(project);
-        proyectos.add(project);
-
-        projectName = "";
-        projectDescription = "";
-        tempUsers = new ArrayList<>();
-        projectAdded = true;
-        message = message + project.getNombreP();
         
+            
+            for (String userString : tempUsers) {
+                Usuario tmp = usuarioFacade.getUser(userString);
+                if (tmp != null) {
+                    memberProject.add(tmp);
+                }
+            }
+
+            memberProject.add(userBean.getUser());
+            Proyecto project = new Proyecto();
+            project.setNombreP(projectName);
+            project.setDescripcion(projectDescription);
+            project.setDirector(userBean.getUser());
+            project.setUsuarioCollection(memberProject);
+
+            proyectoFacade.create(project);
+            proyectos.add(project);
+
+            projectName = "";
+
+            projectDescription = "";
+            tempUsers = new ArrayList<>();
+            projectAdded = true;
+
+      
+       
+        message ="has sido añadido al proyecto"+ project.getNombreP()+"por el usuario:"+userBean.getName();
+
         List<Usuario> usuario = (List<Usuario>) project.getUsuarioCollection();
         for (Usuario usuario1 : usuario) {
-            
-            email=usuario1.getEmail();
-            usuarioFacade.sendEmailCreate(email, project.getNombreP(), message);
+
+            email = usuario1.getEmail();
+            new SendMail(email, project.getNombreP(), message).start();
+             
+               //mail.toString();
         }
+
         
-      
         return null;
     }
 
     public String doGoToNewProject() {
         return "NewProjectPage";
     }
-    
-
-
 
 
 }
