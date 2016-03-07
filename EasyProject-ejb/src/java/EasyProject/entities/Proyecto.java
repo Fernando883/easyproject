@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -59,6 +60,9 @@ public class Proyecto implements Serializable {
     @Size(min = 1, max = 499)
     @Column(name = "DESCRIPCION")
     private String descripcion;
+    @Lob
+    @Column(name = "CHAT")
+    private String chat;
     @JoinTable(name = "PROYECTO_USUARIO", joinColumns = {
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECT")}, inverseJoinColumns = {
         @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")})
@@ -67,8 +71,6 @@ public class Proyecto implements Serializable {
     @JoinColumn(name = "DIRECTOR", referencedColumnName = "ID_USUARIO")
     @ManyToOne(optional = false)
     private Usuario director;
-    @OneToMany(mappedBy = "idProject")
-    private Collection<Mensaje> mensajeCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProyecto")
     private Collection<Tarea> tareaCollection;
 
@@ -109,6 +111,14 @@ public class Proyecto implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public String getChat() {
+        return chat;
+    }
+
+    public void setChat(String chat) {
+        this.chat = chat;
+    }
+
     @XmlTransient
     public Collection<Usuario> getUsuarioCollection() {
         return usuarioCollection;
@@ -124,15 +134,6 @@ public class Proyecto implements Serializable {
 
     public void setDirector(Usuario director) {
         this.director = director;
-    }
-
-    @XmlTransient
-    public Collection<Mensaje> getMensajeCollection() {
-        return mensajeCollection;
-    }
-
-    public void setMensajeCollection(Collection<Mensaje> mensajeCollection) {
-        this.mensajeCollection = mensajeCollection;
     }
 
     @XmlTransient

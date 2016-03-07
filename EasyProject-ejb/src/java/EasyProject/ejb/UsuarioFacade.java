@@ -8,6 +8,7 @@ package EasyProject.ejb;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +40,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     }
     
     public Proyecto getProject(String nameProject){
-        System.out.println(nameProject);
         List<Proyecto> project = em.createNamedQuery("Proyecto.findByNombreP").setParameter("nombreP", nameProject).getResultList();  
         if(project.isEmpty()){
             return null;
@@ -54,6 +54,13 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         }
         return userSelected.get(0);
     }
+    
+    public Usuario getUser(Long user){
+        Usuario userSelected = em.find(Usuario.class, user);
+        em.refresh(userSelected);
+        return userSelected;
+    }
+    
     
     public void sendEmail(String user,String email,String desteny, String subject, String message){
         

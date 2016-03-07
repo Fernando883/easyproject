@@ -125,7 +125,10 @@ public class ProjectBean {
     }
 
     public List<Proyecto> getProyectos() {
-        return proyectos = (List<Proyecto>) userBean.getUser().getProyectoCollection();
+        Usuario userSelected;
+        userSelected = usuarioFacade.getUser(userBean.getUser().getIdUsuario());
+
+        return proyectos = (List<Proyecto>) userSelected.getProyectoCollection();
     }
 
     public void setProyectos(List<Proyecto> proyectos) {

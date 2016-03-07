@@ -5,8 +5,7 @@
  */
 package org.example.websocket;
 
-import EasyProject.ejb.MensajeFacade;
-import EasyProject.entities.Mensaje;
+
 import com.google.gson.Gson;
 import java.io.StringReader;
 import java.util.logging.Level;
@@ -78,12 +77,6 @@ public class ChatWebSocketServer {
         }
     }
         
-    private void saveChatOnBD() {
-        Gson gson = new Gson();
-        String jsonChat = gson.toJson(sessionHandler);
-        Mensaje msg = new Mensaje();
-        
-    } 
        
     /*private MensajeFacade lookupMensajeFacadeBean() {
         try {
