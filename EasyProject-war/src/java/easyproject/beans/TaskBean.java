@@ -7,10 +7,8 @@ package easyproject.beans;
 
 import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
-import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,9 +17,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
-import javax.servlet.http.Part;
+import org.example.model.SendMail;
+
 
 /**
  *
@@ -246,6 +244,8 @@ public class TaskBean {
     public String doAddTask() {
 
         List<Usuario> memberTask = new ArrayList<>();
+        String email;
+        String message = "";
 
         for (String userString : tempUsers) {
             Usuario tmp = usuarioFacade.getUser(userString);
@@ -279,7 +279,20 @@ public class TaskBean {
         tempUsers = new ArrayList<>();
         taskAdded = true;
 
+         message = "has sido añadido a la tarea"+ task.getNombre()+"en el proyecto:"+task.getIdProyecto().getNombreP()+"por el usuario:"+userBean.getName();
+
+        List<Usuario> usuario = (List<Usuario>) task.getUsuarioCollection();
+        for (Usuario usuario1 : usuario) {
+
+            email = usuario1.getEmail();
+            new SendMail(email, task.getNombre(), message).start();
+             
+               
+        }
+        
         return "";
+        
+        
     }
 
 }
