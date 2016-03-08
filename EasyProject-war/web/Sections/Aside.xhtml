@@ -32,7 +32,9 @@
                 <li class="header">#{userBean.name}</li>
 
                 <li class="treeview">
-                    <h:link outcome="#{projectBean.doGoToNewProject()}"><i class="fa fa-edit"></i><span>Crear nuevo proyecto</span> </h:link>
+
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
                 </li>
 
                 <li class="treeview" >
@@ -67,5 +69,13 @@
         </section>
         <!-- /.sidebar -->
     </aside>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <ui:include src="/Sections/NewProject.xhtml"/>
+        </div>
+    </div>
 </html>
 
