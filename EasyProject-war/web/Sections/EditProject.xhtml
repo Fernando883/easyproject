@@ -38,15 +38,22 @@
                     <h:outputLabel class="col-sm-2 control-label"> Descripción </h:outputLabel>
                     <div class="col-sm-10">
                         <h:inputText id="description_project" value="#{projectBean.projectDescription}" class="form-control margin_own"  p:placeholder ="#{userBean.projectSelected.descripcion}"/>
-
-                     
                     </div>
 
                 </div>
 
-                <div class="form-group">
-                   
 
+                <div class="form-group margin_own_onlyUP">
+
+                    <ui:repeat value="#{userBean.projectSelected.usuarioCollection}" var="user">
+
+                        <div class="row" style="margin-left: 17%">
+                            <h:outputLabel class="col-sm-5"> <span class="text-muted">#{user.nombreU}</span></h:outputLabel>
+                            <div class="col-sm-1">
+                                <h:selectBooleanCheckbox value="#{projectBean.checked[user.idUsuario]}" />
+                            </div>
+                        </div>
+                    </ui:repeat>
                 </div>
 
 

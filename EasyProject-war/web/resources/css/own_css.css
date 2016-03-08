@@ -26,6 +26,11 @@ and open the template in the editor.
     margin-bottom:5px
 }
 
+.margin_own_onlyUP {
+    margin-top:20px;
+}
+
+
 .margin_own {
     margin-bottom:5px; 
     margin-top:5px;

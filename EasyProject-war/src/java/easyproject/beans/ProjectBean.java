@@ -11,7 +11,9 @@ import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -48,6 +50,7 @@ public class ProjectBean {
     protected boolean editProject = false;
 
     protected ArrayList<Usuario> userRemove;
+    private Map<Integer, Boolean> checked = new HashMap<Integer, Boolean>();
 
     /**
      * Creates a new instance of addProjectBean
@@ -156,6 +159,16 @@ public class ProjectBean {
     public void setListUsersNameEdit(List<String> listUsersNameEdit) {
         this.listUsersNameEdit = listUsersNameEdit;
     }
+
+    public Map<Integer, Boolean> getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Map<Integer, Boolean> checked) {
+        this.checked = checked;
+    }
+    
+    
 
     public String doPrepareEdit() {
 
