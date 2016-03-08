@@ -39,7 +39,6 @@ public class ProjectBean {
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
 
-    
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
@@ -164,59 +163,62 @@ public class ProjectBean {
         return null;
     }
 
-    public String doAddProject(){
+    public String cleanProject() {
+        
+        projectName = "";
 
-       
-         String email;
+        projectDescription = "";
+        tempUsers = new ArrayList<>();
+
+        return "";
+    }
+
+    public String doAddProject() {
+
+        String email;
         String message = "";
 
         List<Usuario> memberProject = new ArrayList<>();
 
-        
-            
-            for (String userString : tempUsers) {
-                Usuario tmp = usuarioFacade.getUser(userString);
-                if (tmp != null) {
-                    memberProject.add(tmp);
-                }
+        for (String userString : tempUsers) {
+            Usuario tmp = usuarioFacade.getUser(userString);
+            if (tmp != null) {
+                memberProject.add(tmp);
             }
+        }
 
-            memberProject.add(userBean.getUser());
-            Proyecto project = new Proyecto();
-            project.setNombreP(projectName);
-            project.setDescripcion(projectDescription);
-            project.setDirector(userBean.getUser());
-            project.setUsuarioCollection(memberProject);
+        memberProject.add(userBean.getUser());
+        Proyecto project = new Proyecto();
+        project.setNombreP(projectName);
+        project.setDescripcion(projectDescription);
+        project.setDirector(userBean.getUser());
+        project.setUsuarioCollection(memberProject);
 
-            proyectoFacade.create(project);
-            proyectos.add(project);
+        proyectoFacade.create(project);
+        proyectos.add(project);
 
-            projectName = "";
+        projectName = "";
 
-            projectDescription = "";
-            tempUsers = new ArrayList<>();
-            projectAdded = true;
+        projectDescription = "";
+        tempUsers = new ArrayList<>();
+        projectAdded = true;
 
-      
-       
-        message ="has sido añadido al proyecto"+ project.getNombreP()+"por el usuario:"+userBean.getName();
+        message = "has sido añadido al proyecto" + project.getNombreP() + "por el usuario:" + userBean.getName();
 
         List<Usuario> usuario = (List<Usuario>) project.getUsuarioCollection();
         for (Usuario usuario1 : usuario) {
 
             email = usuario1.getEmail();
             new SendMail(email, project.getNombreP(), message).start();
-             
-               //mail.toString();
+
+            //mail.toString();
         }
 
-        
         return null;
     }
 
     public String doGoToNewProject() {
         return "NewProjectPage";
     }
-
 
 }
