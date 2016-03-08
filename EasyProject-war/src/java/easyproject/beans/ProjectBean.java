@@ -40,10 +40,14 @@ public class ProjectBean {
     private UserBean userBean;
 
     protected List<String> listUsersName;
+    protected List<String> listUsersNameEdit;
     protected List<String> tempUsers;
     protected String search;
     protected boolean projectAdded;
-    protected boolean editProject;
+    protected boolean projectEdited;
+    protected boolean editProject = false;
+
+    protected ArrayList<Usuario> userRemove;
 
     /**
      * Creates a new instance of addProjectBean
@@ -55,10 +59,10 @@ public class ProjectBean {
     @PostConstruct
     public void init() {
         search = "";
-        listUsersName = usuarioFacade.getUsersEmail();
-        listUsersName.remove(userBean.getUser().getEmail());
-        tempUsers = new ArrayList<>();
+
+        userRemove = new ArrayList<>();
         projectAdded = false;
+        projectEdited = false;
 
     }
 
@@ -121,23 +125,9 @@ public class ProjectBean {
     public boolean isProjectAdded() {
         return projectAdded;
     }
-    
+
     public void setProjectAdded(boolean proyectoInsertado) {
         this.projectAdded = proyectoInsertado;
-    }
-
-    public boolean isEditProject() {
-        return editProject;
-    }
-
-    public void setEditProject(boolean editProject) {
-        this.editProject = editProject;
-    }
-    
-    public String doEditableProject () {
-        setEditProject(true);
-        
-        return "";
     }
 
     public List<Proyecto> getProyectos() {
@@ -149,6 +139,46 @@ public class ProjectBean {
 
     public void setProyectos(List<Proyecto> proyectos) {
         this.proyectos = proyectos;
+    }
+
+    public ArrayList<Usuario> getUserRemove() {
+        return userRemove;
+    }
+
+    public void setUserRemove(ArrayList<Usuario> userRemove) {
+        this.userRemove = userRemove;
+    }
+
+    public List<String> getListUsersNameEdit() {
+        return listUsersNameEdit;
+    }
+
+    public void setListUsersNameEdit(List<String> listUsersNameEdit) {
+        this.listUsersNameEdit = listUsersNameEdit;
+    }
+
+    public String doPrepareEdit() {
+
+        listUsersName = usuarioFacade.getUsersEmail();
+        listUsersName.remove(userBean.getUser().getEmail());
+
+        for (Usuario user : userBean.getProjectSelected().getUsuarioCollection()) {
+            listUsersName.remove(user.getEmail());
+        }
+
+        System.out.println("Longi: " + userBean.getProjectSelected().getUsuarioCollection().size());
+        tempUsers = new ArrayList<>();
+
+        return "";
+    }
+
+    public String doPrepareCreate() {
+
+        listUsersName = usuarioFacade.getUsersEmail();
+        listUsersName.remove(userBean.getUser().getEmail());
+        tempUsers = new ArrayList<>();
+
+        return "";
     }
 
     public List<String> completeName(String query) {
@@ -179,12 +209,44 @@ public class ProjectBean {
     }
 
     public String doCleanProject() {
-        
+
         projectName = "";
 
         projectDescription = "";
         tempUsers = new ArrayList<>();
 
+        return "";
+    }
+
+    public String doEditProject() {
+
+        //Lo que había antes más los nuevos
+        List<Usuario> memberProject = (List<Usuario>) userBean.projectSelected.getUsuarioCollection();
+        
+        for (String userString : tempUsers) {
+            Usuario tmp = usuarioFacade.getUser(userString);
+            if (tmp != null) {
+                memberProject.add(tmp);
+            }
+        }
+
+        userBean.getProjectSelected().setUsuarioCollection(memberProject);
+
+        if (projectName.length() != 0) {
+            userBean.getProjectSelected().setNombreP(projectName);
+
+        }
+
+        if (projectDescription.length() != 0) {
+            userBean.getProjectSelected().setNombreP(projectName);
+
+        }
+        proyectoFacade.edit(userBean.getProjectSelected());
+
+        projectName = "";
+        projectDescription = "";
+        tempUsers = new ArrayList<>();
+        projectEdited = true;
         return "";
     }
 

@@ -41,7 +41,7 @@ public class UserBean {
     private Usuario user;
     private String name;
     private String image;
-    private Proyecto projectSelected = null;
+    protected Proyecto projectSelected = null;
     protected Tarea taskSelected = null;
     
     @PostConstruct
