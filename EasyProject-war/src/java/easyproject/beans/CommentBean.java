@@ -22,6 +22,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -109,21 +110,26 @@ public class CommentBean {
         fileUpload.setIdTarea(userBean.getTaskSelected());
         ficheroFacade.create(fileUpload);
         userBean.getTaskSelected().getComentarioCollection().add(comment);
+        
+        
+        File dowloadFile = new File("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/generated/jsp/EasyProject/EasyProject-war_war/"+ getFilename(file));
+	File newFile = new File("/Users/inftel11/NetBeansProjects/carlos/easyproject/EasyProject-war/web/uploaded/"+ getFilename(file));
+	Path sourcePath = dowloadFile.toPath();
+	Path newtPath = newFile.toPath();
+	Files.copy(sourcePath, newtPath, REPLACE_EXISTING); 
+        
+        
         message="";
         return "";
     }
     
     public String downloadFile(String text) throws IOException {
         String file = text.substring(22);
-	File dowloadFile = new File("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/generated/jsp/EasyProject/EasyProject-war_war/"+file);
-	File newFile = new File("/Users/macbookpro/Desktop/"+file);
-	Path sourcePath = dowloadFile.toPath();
-	Path newtPath = newFile.toPath();
-	Files.copy(sourcePath, newtPath, REPLACE_EXISTING); 
-        
-        
-	return "";
 	
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        externalContext.redirect("http://localhost:8080/EasyProject-war/faces/uploaded/"+file);
+	
+        return "";
     }
     
     public static String getFilename(Part part){
