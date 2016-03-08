@@ -136,6 +136,7 @@ public class ProjectBean {
     
     public String doEditableProject () {
         setEditProject(true);
+        
         return "";
     }
 
