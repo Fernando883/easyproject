@@ -8,90 +8,87 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <h:outputScript library="primefaces"  name="jQuery.min.js" target="head"></h:outputScript>
+    <div class="modal-content">
 
-    <div class="row">
+        <div class="box-body">
+            <h:form role="form">
+                <div class="modal-header">
 
-        <div class="col-md-6">
+                    <div class="pull-left">
+                        <button type="button" class="close" data-dismiss="modal" jsf:action="#{projectBean.doCleanProject()}">&times;</button>
+                    </div>
+                    <div class="pull-right">
+                        <button jsf:action="#{projectBean.doAddProject()}" type="submit" class="btn btn-danger"><i class="fa fa-external-link"></i><span> Guardar nuevo proyecto </span></button>
+                    </div>
+                </div>
 
-            <div class="box box-danger">
-                <div class="box-body">
+                <div class="box-header with-border ">
+                    <div class="box-title pull-left text-bold">Nuevo proyecto</div>
+                </div>
 
-                    <h:form role="form">
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label margin_own_up"> Nombre </h:outputLabel>
+                    <div class="col-sm-10">
+                        <h:inputText id="name_project" value="#{projectBean.projectName}" class="form-control margin_own_up" p:placeholder ="Introduzca el nombre del proyecto" required="true" requiredMessage="Debe introducir algo"/>
+                        <c:message for="name_project" display="text" ></c:message>
 
-                        <div class="box-header with-border ">
+                    </div>
+                </div>
+                <div class="form-group">
 
-                            <div class="box-title box-header pull-left">Nuevo proyecto</div>
-                            <div class="pull-right" >
-                                <button jsf:action="#{projectBean.doAddProject()}" type="submit" class="btn btn-danger"><i class="fa fa-external-link"></i><span> Guardar proyecto</span></button>
-                            </div>
+                    <h:outputLabel class="col-sm-2 control-label"> Descripción </h:outputLabel>
+                    <div class="col-sm-10">
+                        <h:inputText id="description_project" value="#{projectBean.projectDescription}" class="form-control margin_own"  p:placeholder ="Introduzca la descripción del proyecto" required="true" requiredMessage="Debe introducir algo"/>
+                        <c:message for="description_project" display="text" ></c:message>
+                    </div>
 
-                        </div>
+                </div>
 
-                        <div class="form-group">
-                            <h:outputLabel class="col-sm-2 control-label margin_own_up"> Nombre </h:outputLabel>
-                            <div class="col-sm-10">
-                                <h:inputText id="name_project" value="#{projectBean.projectName}" class="form-control margin_own_up" p:placeholder ="Introduzca el nombre del proyecto" required="true" requiredMessage="Debe introducir algo"/>
-                                <c:message for="name_project" display="text" ></c:message>
-                                
-                            </div>
 
-                        </div>
+            </h:form>
 
-                        <div class="form-group">
+            <h:form>
 
-                            <h:outputLabel class="col-sm-2 control-label"> Descripción </h:outputLabel>
-                            <div class="col-sm-10">
-                                <h:inputText id="description_project" value="#{projectBean.projectDescription}" class="form-control margin_own"  p:placeholder ="Introduzca la descripción del proyecto" required="true" requiredMessage="Debe introducir algo"/>
-                                <c:message for="description_project" display="text" ></c:message>
-                            </div>
+                <div class="form-group">
 
-                        </div>
+                    <h:outputLabel class="col-sm-2 control-label"> Miembros </h:outputLabel>
+                    <div class="col-sm-8">
+                        <c:autoComplete appendTo="myModal" id="entrada" value="#{projectBean.search}" completeMethod="#{projectBean.completeName}"
+                                        inputStyleClass="form-control" style="width: 100%" class="margin_own">
+                        </c:autoComplete>
 
-                    </h:form>
+                    </div>
 
-                    <h:form>
+                    <div class="col-sm-1">
+                        <h:commandLink action="#{projectBean.doAddTempList}">
+                            <i class="fa fa-2x fa-plus plus_own"></i>
+                            <f:ajax render="output entrada" execute="entrada"/>
+                        </h:commandLink>
 
-                        <div class="form-group">
+                    </div>
 
-                            <h:outputLabel class="col-sm-2 control-label"> Miembros </h:outputLabel>
-                            <div class="col-sm-8">
-                                <c:autoComplete id="entrada" value="#{projectBean.search}" completeMethod="#{projectBean.completeName}"
-                                                style="width: 100%" inputStyleClass="form-control" class="margin_own">
-                                </c:autoComplete>
-              
-                            </div>
+                </div>
 
-                            <div class="col-sm-1">
-                                <h:commandLink action="#{projectBean.doAddTempList}">
-                                    <i class="fa fa-2x fa-plus plus_own"></i>
-                                    <f:ajax render="output entrada" execute="entrada"/>
-                                </h:commandLink>
+                <div class="form-group">
+                    <div class="col-sm-10" id="panel">
+                        <h:panelGrid id="output">
+                            <ui:repeat  var="user" value="#{projectBean.tempUsers}">
+                                <h:outputText value="#{user}"></h:outputText>
+                                <br></br>
+                            </ui:repeat>
+                        </h:panelGrid>
+                    </div>
+                </div>
 
-                            </div>
+                <h:outputLabel rendered="#{projectBean.projectAdded == true}" class="box-title text-green add_user_project">Proyecto creado con éxito</h:outputLabel>
 
-                        </div>
 
-                        <div class="form-group">
-                            <div class="col-sm-10 add_user_project" id="panel">
-                                <h:panelGrid id="output">
-                                    <ui:repeat  var="user" value="#{projectBean.tempUsers}">
-                                        <h:outputText value="#{user}"></h:outputText>
-                                        <br></br>
-                                    </ui:repeat>
-                                </h:panelGrid>
-                            </div>
-                        </div>
-                        
-                        <h:outputLabel rendered="#{projectBean.projectAdded == true}" class="box-title text-green add_user_project">Proyecto creado con éxito</h:outputLabel>
-                    </h:form>
-                </div> 
+            </h:form>
 
-            </div>
 
         </div>
-
     </div>
+
 
 </html>
 

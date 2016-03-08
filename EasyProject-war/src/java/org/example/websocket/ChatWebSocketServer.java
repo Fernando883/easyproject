@@ -29,7 +29,6 @@ import org.example.model.Message;
 @ApplicationScoped
 @ServerEndpoint("/actions/{projectID}")
 public class ChatWebSocketServer {
-    //MensajeFacade mensajeFacade = lookupMensajeFacadeBean();
     
     @Inject
     private MessageSessionHandler sessionHandler;
@@ -77,14 +76,4 @@ public class ChatWebSocketServer {
         }
     }
         
-       
-    /*private MensajeFacade lookupMensajeFacadeBean() {
-        try {
-            Context c = new InitialContext();
-            return (MensajeFacade) c.lookup("java:global/EasyProject/EasyProject-ejb/MensajeFacade!EasyProject.ejb.MensajeFacade");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }*/
 }    

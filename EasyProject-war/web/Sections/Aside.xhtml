@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://primefaces.org/ui"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!-- Left side column. contains the logo and sidebar -->
@@ -26,13 +27,13 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-
-
                 <!-- List -->
                 <li class="header">#{userBean.name}</li>
 
                 <li class="treeview">
-                    <h:link outcome="#{projectBean.doGoToNewProject()}"><i class="fa fa-edit"></i><span>Crear nuevo proyecto</span> </h:link>
+
+                    <a type="button" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i><span>Nuevo proyecto</span></a>
+
                 </li>
 
                 <li class="treeview" >
@@ -67,5 +68,12 @@
         </section>
         <!-- /.sidebar -->
     </aside>
+
+    <!-- Modal -->
+    <div jsf:id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+                <ui:include src="/Sections/NewProject.xhtml"/>            
+        </div>
+    </div>
 </html>
 

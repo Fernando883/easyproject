@@ -54,8 +54,11 @@ function printNewMessage(message) {
     messageInfo.appendChild(messageAuthor);
 
     var messageTimestamp = document.createElement("span");
-    messageTimestamp.setAttribute("class", "direct-chat-timestamp pull-left");
-    messageTimestamp.innerHTML = "";
+    if (getCurrentUser() == message.email)
+        messageTimestamp.setAttribute("class", "direct-chat-timestamp pull-left");
+    else
+        messageTimestamp.setAttribute("class", "direct-chat-timestamp pull-right");
+    messageTimestamp.innerHTML = message.timestamp;
     messageInfo.appendChild(messageTimestamp);
     
     var authorImage = document.createElement("img");

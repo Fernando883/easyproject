@@ -127,6 +127,11 @@ public class UserBean {
         name = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("name");
         email = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("email");
         image = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("image");
+        
+        if (image.equals("")) {
+            image = "https://freeiconshop.com/files/edd/person-flat.png";
+        }
+        
         if(usuarioFacade.getUser(email) == null){
             usuarioFacade.setNewUser(email, name);
             user = usuarioFacade.getUser(email);
