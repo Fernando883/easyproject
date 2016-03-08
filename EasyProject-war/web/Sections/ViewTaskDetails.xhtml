@@ -35,40 +35,48 @@
 
             </div>
 
-            <ui:repeat value="#{userBean.taskSelected.comentarioCollection}" var="comment">
+            <h:panelGroup id="outComment">
+                <ui:repeat value="#{userBean.taskSelected.comentarioCollection}" var="comment">
 
-                <div class='box-footer box-comments with-border'>
-                    <div class='box-comment'>
-                        <!-- User image -->
-                        <div class="margin_own-left">
-                            <span class="username">
-                                #{comment.idUsuario.nombreU}
-                                <h:outputLabel class="text-muted pull-right" value="#{comment.fecha}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-                                </h:outputLabel>
-                            </span><!-- /.username -->
-                            #{comment.texto}
-                        </div><!-- /.comment-text -->
-                    </div><!-- /.box-comment -->
+                    <div class='box-footer box-comments with-border'>
+                        <div class='box-comment'>
+                            <!-- User image -->
+                            <div class="margin_own-left">
+                                <span class="username">
+                                    #{comment.idUsuario.nombreU}
+                                    <h:outputLabel class="text-muted pull-right" value="#{comment.fecha}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                    </h:outputLabel>
+                                </span><!-- /.username -->
+                                #{comment.texto}
+                                <h:form><h:commandButton style="margin-left: 20px" action="#{commentBean.downloadFile(comment.texto)}" value="Descargar" rendered="#{comment.texto.contains('Ha subido el fichero: ')}"></h:commandButton></h:form>
 
-                </div><!-- /.box-footer -->
-            </ui:repeat>
+                            </div><!-- /.comment-text -->
+                        </div><!-- /.box-comment -->
+
+                    </div><!-- /.box-footer -->
+                </ui:repeat>
+            </h:panelGroup>
 
 
             <div class="box-footer">
-                <h:form>
+                <h:form id="inText">
                     <img class="img-responsive img-circle img-sm" src="#{userBean.image}" alt="alt text"/>
                     <!-- .img-push is used to add margin to elements next to floating images -->
                     <div class="img-push" style="margin-bottom: 20px">
-                        <h:inputText class="form-control input-sm" p:placeholder="Pulsa para insertar tu comentario" value="#{commentBean.message}"/>
+                        <h:inputText id="inText" class="form-control input-sm" p:placeholder="Pulsa para insertar tu comentario" value="#{commentBean.message}"/>
                     </div>
                     <pr:defaultCommand target="save"/>
-                    <h:commandButton id="save" action="#{commentBean.doSaveComment()}" value="Guardar" style="display: none"/>
+                    <h:commandButton id="save" action="#{commentBean.doSaveComment()}" value="Guardar" style="display: none">
+                        <f:ajax render="outComment inText" execute="inText"/>
+                    </h:commandButton>
                 </h:form>
                 <h:form enctype="multipart/form-data">
                     <h:panelGrid columns="3">
                         <h:inputFile id="input-1" class="file" value="#{commentBean.file}" style="width: 490px"></h:inputFile>
-                        <h:commandButton tabindex="500" title="Abort ongoing upload" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{commentBean.doUpdateFile}" value="Update"></h:commandButton>
+                        <h:commandButton tabindex="500" title="Abort ongoing upload" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{commentBean.doUpdateFile}" value="Update">
+                            <f:ajax render="outComment input-1" execute="input-1"/>
+                        </h:commandButton>
                     </h:panelGrid>
                 </h:form>
             </div><!-- /.box-footer -->

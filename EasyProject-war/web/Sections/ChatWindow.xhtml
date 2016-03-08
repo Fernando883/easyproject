@@ -59,7 +59,7 @@
                   <input type="hidden" name="photoURL" value="#{userBean.image}" />
                   <input type="hidden" name="email" value="#{userBean.email}" />
                       <span class="input-group-btn">
-                        <button value="Send" onclick="formSubmit()" class="btn btn-danger btn-flat">Enviar</button>
+                        <button value="Send" onclick="event.preventDefault(); formSubmit()" class="btn btn-danger btn-flat">Enviar</button>
                       </span>
                 </div>
               </form>

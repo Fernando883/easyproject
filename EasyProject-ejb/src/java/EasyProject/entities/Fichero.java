@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Fichero implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "idGenerator_fichero", allocationSize = 1, sequenceName = "file_seq")
+    @SequenceGenerator(name = "idGenerator_fichero", allocationSize = 1, sequenceName = "fich_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator_fichero")
     @Basic(optional = false)
     @NotNull
@@ -44,7 +44,7 @@ public class Fichero implements Serializable {
     private Long idFichero;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 200)
     @Column(name = "RUTA")
     private String ruta;
     @JoinColumn(name = "ID_TAREA", referencedColumnName = "ID_TAREA")
