@@ -43,6 +43,7 @@ public class ProjectBean {
     protected List<String> tempUsers;
     protected String search;
     protected boolean projectAdded;
+    protected boolean editProject;
 
     /**
      * Creates a new instance of addProjectBean
@@ -120,9 +121,22 @@ public class ProjectBean {
     public boolean isProjectAdded() {
         return projectAdded;
     }
-
+    
     public void setProjectAdded(boolean proyectoInsertado) {
         this.projectAdded = proyectoInsertado;
+    }
+
+    public boolean isEditProject() {
+        return editProject;
+    }
+
+    public void setEditProject(boolean editProject) {
+        this.editProject = editProject;
+    }
+    
+    public String doEditableProject () {
+        setEditProject(true);
+        return "";
     }
 
     public List<Proyecto> getProyectos() {
@@ -163,7 +177,7 @@ public class ProjectBean {
         return null;
     }
 
-    public String cleanProject() {
+    public String doCleanProject() {
         
         projectName = "";
 

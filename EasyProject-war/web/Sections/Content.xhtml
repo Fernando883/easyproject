@@ -2,12 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <div class="pad margin no-print">
-        <div class="callout callout-danger" style="margin-bottom: 0!important;">
+    <div class="pad margin no-print" jsf:rendered = "#{userBean.user.proyectoCollection.size() == 0}" >
+        <div class="callout callout-warning" style="margin-bottom: 0!important;">
             <h4><i class="fa fa-info"></i> Note:</h4>
-            This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
+            Todavía no está asignado a ningún proyecto. Cuando esté en alguno aquí podrá previsualizar los proyectos que tiene asignado.
         </div>
     </div>
 
