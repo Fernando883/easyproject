@@ -6,14 +6,25 @@
 package easyproject.beans;
 
 import EasyProject.ejb.ComentarioFacade;
+import EasyProject.ejb.FicheroFacade;
 import EasyProject.entities.Comentario;
+import EasyProject.entities.Fichero;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 /**
@@ -23,6 +34,8 @@ import javax.servlet.http.Part;
 @ManagedBean
 @RequestScoped
 public class CommentBean {
+    @EJB
+    private FicheroFacade ficheroFacade;
     @EJB
     private ComentarioFacade comentarioFacade;
 
@@ -89,11 +102,28 @@ public class CommentBean {
         comment.setFecha(date);
         comment.setIdTarea(userBean.getTaskSelected());
         comment.setIdUsuario(userBean.getUser());
-        
         comentarioFacade.create(comment);
+        
+        Fichero fileUpload = new Fichero();
+        fileUpload.setRuta("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/generated/jsp/EasyProject/EasyProject-war_war/" + getFilename(file));
+        fileUpload.setIdTarea(userBean.getTaskSelected());
+        ficheroFacade.create(fileUpload);
         userBean.getTaskSelected().getComentarioCollection().add(comment);
         message="";
         return "";
+    }
+    
+    public String downloadFile(String text) throws IOException {
+        String file = text.substring(22);
+	File dowloadFile = new File("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/generated/jsp/EasyProject/EasyProject-war_war/"+file);
+	File newFile = new File("/Users/macbookpro/Desktop/"+file);
+	Path sourcePath = dowloadFile.toPath();
+	Path newtPath = newFile.toPath();
+	Files.copy(sourcePath, newtPath, REPLACE_EXISTING); 
+        
+        
+	return "";
+	
     }
     
     public static String getFilename(Part part){
