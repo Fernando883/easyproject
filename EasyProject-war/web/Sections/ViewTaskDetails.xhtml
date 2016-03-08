@@ -19,7 +19,7 @@
                     <h:outputLabel class="label label-warning" value="#{task.estado}" rendered="#{task.estado eq 'doing'}"/>
                     <h:outputLabel class="label label-danger" value="#{task.estado}" rendered="#{task.estado eq 'to do'}"/>
 
-                    <button id="closeTask" class='btn btn-box-tool' jsf:action="#{taskBean.setViewTask(false)}" data-widget='remove'><i class='fa fa-times'></i>
+                    <button id="closeTask" class='btn btn-box-tool' jsf:action="#{taskBean.setViewTask(false)}" onclick="jQuery('#editTask').fadeOut()" data-widget='remove'><i class='fa fa-times'></i>
                         <f:ajax render="editTask" execute="closeTask"/>                                                
                     </button>
 
