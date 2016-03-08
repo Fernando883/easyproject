@@ -8,10 +8,15 @@
     <div class="box box-info">
         <div class="box-header with-border">
 
+            <div class="pull-right">
+                <h:link outcome="#{projectBean.doEditableProject()}">
+                    <i class="fa fa-pencil"></i><span> Editar</span>
+                </h:link>
+            </div>
+
             <h3 class="box-title"><b>#{projectBean.userBean.projectSelected.nombreP} <small> #{projectBean.userBean.projectSelected.director.nombreU}</small> </b></h3>
             <p></p>
             <span class="margin_own">#{projectBean.userBean.projectSelected.descripcion}</span>
-
 
         </div>
 
