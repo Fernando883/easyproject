@@ -36,7 +36,7 @@ public class ProjectBean {
 
     private String projectName;
     private String projectDescription;
-    private Usuario projectDirector;
+    //private Usuario projectDirector;
 
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
@@ -85,13 +85,13 @@ public class ProjectBean {
         this.projectDescription = projectDescription;
     }
 
-    public Usuario getProjectDirector() {
+    /*public Usuario getProjectDirector() {
         return projectDirector;
     }
 
     public void setProjectDirector(Usuario projectDirector) {
         this.projectDirector = projectDirector;
-    }
+    }*/
 
     public UserBean getUserBean() {
         return userBean;

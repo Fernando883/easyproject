@@ -44,17 +44,6 @@ public class UserBean {
     protected Proyecto projectSelected = null;
     protected Tarea taskSelected = null;
     
-    @PostConstruct
-    public void init(){
-//        user = usuarioFacade.getUser(2L);
-//        System.out.println(user.getEmail());
-//        proyectos = (List<Proyecto>) user.getProyectoCollection();
-//        name = user.getNombreU();
-//        
-//        for (Proyecto proyecto : proyectos) {
-//            System.out.println(proyecto.getNombreP());
-//        }
-    }
     
     public Usuario getUser() {
         return user;
@@ -108,7 +97,7 @@ public class UserBean {
     /**
      * Creates a new instance of UserBean
      * @return 
-     */
+    
     public String doCheckUser(){
    
         if( (usuarioFacade.find(user)!=null)){   
@@ -120,7 +109,7 @@ public class UserBean {
             usuarioFacade.create(user);
         }
         return "User";
-    }
+    } */
     
     public void doLogin(){
         projectSelected = null;
