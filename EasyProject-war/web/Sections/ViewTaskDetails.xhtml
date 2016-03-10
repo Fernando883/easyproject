@@ -48,8 +48,9 @@
                                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
                                     </h:outputLabel>
                                 </span><!-- /.username -->
+                                <h:form>
                                 #{comment.texto}
-                                <h:form><h:commandButton style="margin-left: 20px" action="#{commentBean.downloadFile(comment.texto)}" value="Descargar" rendered="#{comment.texto.contains('Ha subido el fichero: ')}"></h:commandButton></h:form>
+                                <h:commandButton style="margin-left: 20px" action="#{commentBean.downloadFile(comment.texto)}" value="Descargar" rendered="#{comment.texto.contains('Ha subido el fichero: ')}"></h:commandButton></h:form>
 
                             </div><!-- /.comment-text -->
                         </div><!-- /.box-comment -->
@@ -74,7 +75,7 @@
                 <h:form enctype="multipart/form-data">
                     <h:panelGrid columns="3">
                         <h:inputFile id="input-1" class="file" value="#{commentBean.file}" style="width: 490px"></h:inputFile>
-                        <h:commandButton tabindex="500" title="Abort ongoing upload" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{commentBean.doUpdateFile}" value="Update">
+                        <h:commandButton tabindex="500" title="Abort ongoing upload" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{commentBean.doUpdateFile}" value="Subir">
                             <f:ajax render="outComment input-1" execute="input-1"/>
                         </h:commandButton>
                     </h:panelGrid>
