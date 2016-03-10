@@ -6,13 +6,16 @@
 package easyproject.beans;
 
 import EasyProject.ejb.ProyectoFacade;
+import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
+import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -30,6 +33,8 @@ import org.example.model.SendMail;
 @ViewScoped
 public class ProjectBean {
 
+    @EJB
+    private TareaFacade tareaFacade;
     @EJB
     private ProyectoFacade proyectoFacade;
     @EJB
@@ -51,7 +56,10 @@ public class ProjectBean {
     protected boolean editProject = false;
 
     protected ArrayList<Usuario> userRemove;
-    private Map<Integer, Boolean> checked = new HashMap<Integer, Boolean>();
+    private Map<Usuario, Boolean> checked = new HashMap<>();
+    
+    private String message = "Ha intentado eliminar un usuario asignado a una tarea";
+    private boolean show = false;
 
     /**
      * Creates a new instance of addProjectBean
@@ -67,31 +75,30 @@ public class ProjectBean {
         userRemove = new ArrayList<>();
         projectAdded = false;
         projectEdited = false;
-        
-        cargarProjects ();
+
+        cargarProjects();
 
     }
-    
-    private void cargarProjects () {
+
+    private void cargarProjects() {
         Usuario userSelected;
         userSelected = usuarioFacade.getUser(userBean.getUser().getIdUsuario());
-  
+
         proyectos = (List<Proyecto>) userSelected.getProyectoCollection();
-        
+
         List<String> nameProject = new ArrayList<>();
-        
+
         for (Proyecto project : proyectos) {
             nameProject.add(project.getNombreP());
         }
-        
+
         Collections.sort(nameProject);
         proyectos = new ArrayList<>();
-        
+
         for (String nameProject1 : nameProject) {
             proyectos.add(usuarioFacade.getProject(nameProject1));
         }
-        
-        
+
     }
 
     public String getProjectName() {
@@ -111,13 +118,12 @@ public class ProjectBean {
     }
 
     /*public Usuario getProjectDirector() {
-        return projectDirector;
-    }
+     return projectDirector;
+     }
 
-    public void setProjectDirector(Usuario projectDirector) {
-        this.projectDirector = projectDirector;
-    }*/
-
+     public void setProjectDirector(Usuario projectDirector) {
+     this.projectDirector = projectDirector;
+     }*/
     public UserBean getUserBean() {
         return userBean;
     }
@@ -182,14 +188,29 @@ public class ProjectBean {
         this.listUsersNameEdit = listUsersNameEdit;
     }
 
-    public Map<Integer, Boolean> getChecked() {
+    public Map<Usuario, Boolean> getChecked() {
         return checked;
     }
 
-    public void setChecked(Map<Integer, Boolean> checked) {
+    public void setChecked(Map<Usuario, Boolean> checked) {
         this.checked = checked;
     }
-    
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+    }
     
 
     public String doPrepareEdit() {
@@ -212,6 +233,7 @@ public class ProjectBean {
         listUsersName = usuarioFacade.getUsersEmail();
         listUsersName.remove(userBean.getUser().getEmail());
         tempUsers = new ArrayList<>();
+        projectAdded = false;
 
         return "";
     }
@@ -257,7 +279,7 @@ public class ProjectBean {
 
         //Lo que había antes más los nuevos
         List<Usuario> memberProject = (List<Usuario>) userBean.projectSelected.getUsuarioCollection();
-        
+
         for (String userString : tempUsers) {
             Usuario tmp = usuarioFacade.getUser(userString);
             if (tmp != null) {
@@ -276,16 +298,37 @@ public class ProjectBean {
             userBean.getProjectSelected().setNombreP(projectName);
 
         }
+
+        Iterator it = checked.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
+            if (pair.getValue().equals(true)) {
+                Usuario user = (Usuario) pair.getKey();
+                for (Tarea task : userBean.projectSelected.getTareaCollection()) {
+                    if (!user.getTareaCollection().contains(task)) {
+                        userBean.projectSelected.getUsuarioCollection().remove(pair.getKey());
+                    } else {
+                        show = true;
+                    }
+                }
+
+            }
+
+        }
+
         proyectoFacade.edit(userBean.getProjectSelected());
 
         projectName = "";
         projectDescription = "";
         tempUsers = new ArrayList<>();
         projectEdited = true;
+
         return "";
     }
 
-    public String doAddProject() {
+    public void doAddProject() {
 
         String email;
         String message = "";
@@ -326,7 +369,6 @@ public class ProjectBean {
             //mail.toString();
         }
 
-        return null;
     }
 
     public String doGoToNewProject() {
