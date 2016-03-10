@@ -362,7 +362,14 @@ public class ProjectBean {
             new SendMail(email, project.getNombreP(), message).start();
 
         }
+       
 
+    }
+    
+    public String doDeleteProject (Proyecto project){   
+        proyectoFacade.remove(project);
+        loadProjects();
+        return "";
     }
 
     public String doGoToNewProject() {

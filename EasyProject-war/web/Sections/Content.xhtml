@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:jsf="http://xmlns.jcp.org/jsf">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <div class="pad margin no-print" jsf:rendered = "#{userBean.user.proyectoCollection.size() == 0}" >
         <div class="callout callout-warning" style="margin-bottom: 0!important;">
@@ -12,30 +14,47 @@
         </div>
     </div>
 
-    <ui:repeat var="proyecto" value="#{projectBean.proyectos}">
-        <div class="row margin_own-left margin_own-right">
-            <div class="info-box">
-                <span class="info-box-icon #{colors.getColor((projectBean.proyectos.indexOf(proyecto))% colors.num)}">
-                    <i class="ion ion-person"></i>
-                    <span style="font-size: 30px" >#{proyecto.usuarioCollection.size()}</span>
-                </span>
+    <h:panelGroup id="tableContent">
 
-                <div class="info-box-content">
+        <ui:repeat var="proyecto" value="#{projectBean.proyectos}">
+            <div class="row margin_own-left margin_own-right">
+
+                <div class="box-header pull-right" jsf:rendered="#{proyecto.director.equals(userBean.user)}">
                     <h:form>
-                        <h:commandLink  action="#{projectBean.doGoProject(proyecto)}">
-                            <span class="info-box-text text-black text-bold"><b>#{proyecto.nombreP} </b></span>
-                        </h:commandLink> 
+
+                        <h:commandButton class="btn btn-danger" value="Borrar" action="#{projectBean.doDeleteProject(proyecto)}" onclick="if (!confirm('Realmente desea eliminar el proyecto?')) return false">
+
+                        </h:commandButton>
+
+
+
+
                     </h:form>
-
-                    <p>#{proyecto.director.nombreU}</p>
-                    <p><small>#{proyecto.descripcion}</small></p>
                 </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
 
-        <!-- ./col -->
-    </ui:repeat>
+                <div class="info-box">
+                    <span class="info-box-icon #{colors.getColor((projectBean.proyectos.indexOf(proyecto))% colors.num)}">
+                        <i class="ion ion-person"></i>
+                        <span style="font-size: 30px" >#{proyecto.usuarioCollection.size()}</span>
+                    </span>
+
+                    <div class="info-box-content">
+                        <h:form>
+                            <h:commandLink  action="#{projectBean.doGoProject(proyecto)}">
+                                <span class="info-box-text text-black text-bold"><b>#{proyecto.nombreP} </b></span>
+                            </h:commandLink> 
+                        </h:form>
+
+                        <p>#{proyecto.director.nombreU}</p>
+                        <p><small>#{proyecto.descripcion}</small></p>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <!-- ./col -->
+        </ui:repeat>
+    </h:panelGroup>
 
 </html>
