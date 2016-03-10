@@ -372,8 +372,5 @@ public class ProjectBean {
         return "";
     }
 
-    public String doGoToNewProject() {
-        return "NewProjectPage";
-    }
 
 }

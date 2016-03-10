@@ -16,37 +16,30 @@
 
     <h:panelGroup id="tableContent">
 
-        <ui:repeat var="proyecto" value="#{projectBean.proyectos}">
+        <ui:repeat var="project" value="#{projectBean.proyectos}">
             <div class="row margin_own-left margin_own-right">
 
-                <div class="box-header pull-right" jsf:rendered="#{proyecto.director.equals(userBean.user)}">
+                <div class="box-header pull-right" jsf:rendered="#{project.director.equals(userBean.user)}">
                     <h:form>
-
-                        <h:commandButton class="btn btn-danger" value="Borrar" action="#{projectBean.doDeleteProject(proyecto)}" onclick="if (!confirm('Realmente desea eliminar el proyecto?')) return false">
-
-                        </h:commandButton>
-
-
-
-
+                        <h:commandButton class="btn btn-danger" value="Borrar" action="#{projectBean.doDeleteProject(project)}" onclick="if (!confirm('Realmente desea eliminar el proyecto?')) return false"/>
                     </h:form>
                 </div>
 
                 <div class="info-box">
-                    <span class="info-box-icon #{colors.getColor((projectBean.proyectos.indexOf(proyecto))% colors.num)}">
+                    <span class="info-box-icon #{colors.getColor((projectBean.proyectos.indexOf(project))% colors.num)}">
                         <i class="ion ion-person"></i>
-                        <span style="font-size: 30px" >#{proyecto.usuarioCollection.size()}</span>
+                        <span style="font-size: 30px" >#{project.usuarioCollection.size()}</span>
                     </span>
 
                     <div class="info-box-content">
                         <h:form>
-                            <h:commandLink  action="#{projectBean.doGoProject(proyecto)}">
-                                <span class="info-box-text text-black text-bold"><b>#{proyecto.nombreP} </b></span>
+                            <h:commandLink  action="#{projectBean.doGoProject(project)}">
+                                <span class="info-box-text text-black text-bold"><b>#{project.nombreP} </b></span>
                             </h:commandLink> 
                         </h:form>
 
-                        <p>#{proyecto.director.nombreU}</p>
-                        <p><small>#{proyecto.descripcion}</small></p>
+                        <p>#{project.director.nombreU}</p>
+                        <p><small>#{project.descripcion}</small></p>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
