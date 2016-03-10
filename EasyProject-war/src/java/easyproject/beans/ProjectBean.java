@@ -11,6 +11,7 @@ import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,31 @@ public class ProjectBean {
         userRemove = new ArrayList<>();
         projectAdded = false;
         projectEdited = false;
+        
+        cargarProjects ();
 
+    }
+    
+    private void cargarProjects () {
+        Usuario userSelected;
+        userSelected = usuarioFacade.getUser(userBean.getUser().getIdUsuario());
+  
+        proyectos = (List<Proyecto>) userSelected.getProyectoCollection();
+        
+        List<String> nameProject = new ArrayList<>();
+        
+        for (Proyecto project : proyectos) {
+            nameProject.add(project.getNombreP());
+        }
+        
+        Collections.sort(nameProject);
+        proyectos = new ArrayList<>();
+        
+        for (String nameProject1 : nameProject) {
+            proyectos.add(usuarioFacade.getProject(nameProject1));
+        }
+        
+        
     }
 
     public String getProjectName() {
@@ -134,10 +159,7 @@ public class ProjectBean {
     }
 
     public List<Proyecto> getProyectos() {
-        Usuario userSelected;
-        userSelected = usuarioFacade.getUser(userBean.getUser().getIdUsuario());
-
-        return proyectos = (List<Proyecto>) userSelected.getProyectoCollection();
+        return proyectos;
     }
 
     public void setProyectos(List<Proyecto> proyectos) {

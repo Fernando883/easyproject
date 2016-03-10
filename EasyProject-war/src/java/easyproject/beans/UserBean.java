@@ -94,9 +94,9 @@ public class UserBean {
         this.taskSelected = taskSelected;
     }
  
-    /**
-     * Creates a new instance of UserBean
-     * @return 
+    
+     // Creates a new instance of UserBean
+     // @return 
     
     public String doCheckUser(){
    
@@ -109,7 +109,7 @@ public class UserBean {
             usuarioFacade.create(user);
         }
         return "User";
-    } */
+    } 
     
     public void doLogin(){
         projectSelected = null;
@@ -135,8 +135,11 @@ public class UserBean {
             session.invalidate();
         }
         user = new Usuario();
+        name="";
         email="";
         image="";
+        projectSelected = new Proyecto();
+        taskSelected = new Tarea();
         return "PageTitle";
     }
         
