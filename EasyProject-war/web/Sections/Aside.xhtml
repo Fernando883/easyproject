@@ -56,7 +56,11 @@
                     <a href="#"><i class="fa fa-files-o"></i><span>Tareas</span> <i class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
                         <ui:repeat var="task" value="#{taskBean.collectionTask}" varStatus="status">
-                            <li><a href="#">#{task.nombre}</a></li>
+                            <li>
+                                <h:form>
+                                    <h:commandLink style="padding-left: 15px" value="#{task.nombre}" action="#{projectBean.doGoProjectByTask(task)}"/>
+                                </h:form>
+                            </li>
                         </ui:repeat>
                     </ul>
                 </li>

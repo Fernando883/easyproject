@@ -47,7 +47,7 @@
 
                     <ui:repeat value="#{userBean.projectSelected.usuarioCollection}" var="user">
 
-                        <div class="row" style="margin-left: 17%">
+                        <div class="row" style="margin-left: 17%" jsf:rendered="#{!userBean.projectSelected.director.equals(user)}">
                             <h:outputLabel class="col-sm-5"> <span class="text-muted">#{user.nombreU}</span></h:outputLabel>
                             <div class="col-sm-1">
                                 <h:selectBooleanCheckbox value="#{projectBean.checked[user]}" />
@@ -85,15 +85,12 @@
                     <div class="col-sm-10" id="panel">
                         <h:panelGrid id="output">
                             <ui:repeat  var="user" value="#{projectBean.tempUsers}">
-                                <h:outputText value="#{user}"></h:outputText>
+                                <h:outputText value="#{user}" ></h:outputText>
                                 <br></br>
                             </ui:repeat>
                         </h:panelGrid>
                     </div>
                 </div>
-
-                <h:outputLabel rendered="#{projectBean.projectAdded == true}" class="box-title text-green add_user_project">Proyecto creado con éxito</h:outputLabel>
-
 
             </h:form>
 

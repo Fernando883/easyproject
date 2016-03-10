@@ -8,7 +8,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <h:panelGroup rendered="#{taskBean.viewTask == true}">
+    <h:panelGroup id="taskDetails" rendered="#{taskBean.viewTask == true}">
 
 
         <div class="box box-warning" >
@@ -49,8 +49,8 @@
                                     </h:outputLabel>
                                 </span><!-- /.username -->
                                 <h:form>
-                                #{comment.texto}
-                                <h:commandButton style="margin-left: 20px" action="#{commentBean.downloadFile(comment.texto)}" value="Descargar" rendered="#{comment.texto.contains('Ha subido el fichero: ')}"></h:commandButton></h:form>
+                                    #{comment.texto}
+                                    <h:commandButton class="btn btn-sm btn-box-tool text-yellow text-bold" action="#{commentBean.downloadFile(comment.texto)}" value="Descargar" rendered="#{comment.texto.contains('Ha subido el fichero: ')}"></h:commandButton></h:form>
 
                             </div><!-- /.comment-text -->
                         </div><!-- /.box-comment -->
@@ -72,13 +72,13 @@
                         <f:ajax render="outComment inText" execute="inText"/>
                     </h:commandButton>
                 </h:form>
+                
                 <h:form enctype="multipart/form-data">
-                    <h:panelGrid columns="3">
-                        <h:inputFile id="input-1" class="file" value="#{commentBean.file}" style="width: 490px"></h:inputFile>
-                        <h:commandButton tabindex="500" title="Abort ongoing upload" class="lyphicon glyphicon-folder-open btn btn-primary btn-file" action="#{commentBean.doUpdateFile}" value="Subir">
-                            <f:ajax render="outComment input-1" execute="input-1"/>
-                        </h:commandButton>
-                    </h:panelGrid>
+                    <h:inputFile id="input-1" class="col-sm-9" value="#{commentBean.file}" style="width: 490px"></h:inputFile>
+                    <h:commandButton tabindex="500" title="Abort ongoing upload" class="btn btn-warning col-sm-1 pull-right" action="#{commentBean.doUpdateFile}" value="Subir">
+                        <f:ajax render="outComment input-1" execute="input-1"/>
+                    </h:commandButton>
+
                 </h:form>
             </div><!-- /.box-footer -->
         </div><!-- /.box -->

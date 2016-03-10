@@ -28,8 +28,7 @@
 
                         <h:outputLabel class="col-sm-3 control-label margin_own_up"> Duración </h:outputLabel>
                         <div class="col-sm-9">
-                            <h:inputText id="duration_project" value="#{taskBean.duration}" class="form-control margin_own_up"  p:placeholder ="Introduzca la duración de la tarea en horas" required="true" requiredMessage="Debe introducir algo"/>
-                            <c:message for="duration_project" display="text" ></c:message>
+                            <h:inputText id="duration_project" value="#{taskBean.duration}" class="form-control margin_own_up"  p:placeholder ="Introduzca la duración de la tarea en horas"/>
                         </div>
 
                     </div>
@@ -81,7 +80,7 @@
                         </div>
                     </div>
 
-                    <h:outputLabel rendered="#{taskBean.taskAdded == true}" class="box-title text-green add_user_project">Tarea editada con éxito</h:outputLabel>
+                    <h:outputLabel rendered="#{taskBean.taskEdited == true}" class="box-title text-green add_user_project">Tarea editada con éxito</h:outputLabel>
                 </h:form>
             </div> 
 

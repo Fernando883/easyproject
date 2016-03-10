@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://primefaces.org/ui"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
     <div class="box box-info">
@@ -70,7 +71,7 @@
                                     <tr>
                                         <td>
                                             <h:form>
-                                                <h:commandLink action="#{taskBean.doShowTaskDetail(task)}" class="text-bold">
+                                                <h:commandLink id="viewTask" action="#{taskBean.doShowTaskDetail(task)}" class="text-bold">
                                                     #{task.nombre}
                                                 </h:commandLink>
                                             </h:form>

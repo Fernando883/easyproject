@@ -10,9 +10,7 @@ import EasyProject.ejb.FicheroFacade;
 import EasyProject.entities.Comentario;
 import EasyProject.entities.Fichero;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -24,8 +22,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 /**
@@ -35,18 +31,20 @@ import javax.servlet.http.Part;
 @ManagedBean
 @RequestScoped
 public class CommentBean {
+    
+    //EJB inyections
     @EJB
     private FicheroFacade ficheroFacade;
     @EJB
     private ComentarioFacade comentarioFacade;
 
-    
-    private String message;
+    //Session bean
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
     
+    //Form vars
     protected Part file;
-
+    private String message;
     /**
      * Creates a new instance of CommentBean
      */

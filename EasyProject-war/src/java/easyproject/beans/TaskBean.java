@@ -20,7 +20,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.example.model.SendMail;
 
-
 /**
  *
  * @author victo
@@ -29,29 +28,32 @@ import org.example.model.SendMail;
 @ViewScoped
 public class TaskBean {
 
+    //EJB inyections
     @EJB
     private UsuarioFacade usuarioFacade;
     @EJB
     private TareaFacade tareaFacade;
 
+    //Session bean
     @ManagedProperty(value = "#{userBean}")
     private UserBean userBean;
 
+    //Form vars
     private String nameTask;
-    private BigInteger tiempo;
     private String statusTask;
     private String description;
-    private Collection<Tarea> collectionTask;
-
     private BigInteger duration;
-    protected boolean taskAdded;
-    protected boolean taskEdited;
 
+    //Autocomplete vars
     protected List<String> listUsersName;
     protected List<String> tempUsers;
     protected String search;
-    
 
+    protected boolean taskAdded;
+    protected boolean taskEdited;
+    private Collection<Tarea> collectionTask;
+
+    //Task Panel
     protected boolean viewTask = false;
 
     /**
@@ -63,19 +65,9 @@ public class TaskBean {
 
     @PostConstruct
     public void init() {
-        taskAdded = false;
-        viewTask = false;
-        duration = null;
-        listUsersName = new ArrayList<>();
 
-        if (userBean.getProjectSelected() != null) {
-
-            List<Usuario> users = (List<Usuario>) userBean.getProjectSelected().getUsuarioCollection();
-            for (Usuario user : users) {
-                listUsersName.add(user.getEmail());
-
-            }
-        }
+        doPrepareTask();
+        loadTask();
 
     }
 
@@ -88,18 +80,7 @@ public class TaskBean {
     }
 
     public Collection<Tarea> getCollectionTask() {
-        collectionTask = new ArrayList<Tarea>();
-        if (userBean.getProjectSelected() != null) {
-            Usuario userSelected;
-            userSelected = usuarioFacade.getUser(userBean.getUser().getIdUsuario());
-            Collection<Tarea> taskUserSelected = userSelected.getTareaCollection();
-            for (Tarea task : taskUserSelected) {
-                if (task.getIdProyecto().getIdProyect() == userBean.getProjectSelected().getIdProyect()) {
-                    collectionTask.add(task);
-                }
-            }
 
-        }
         return collectionTask;
     }
 
@@ -182,7 +163,24 @@ public class TaskBean {
     public void setTaskEdited(boolean taskEdited) {
         this.taskEdited = taskEdited;
     }
-    
+
+    public void doPrepareTask() {
+
+        taskAdded = false;
+        viewTask = false;
+        duration = null;
+        listUsersName = new ArrayList<>();
+
+        if (userBean.getProjectSelected() != null) {
+
+            List<Usuario> users = (List<Usuario>) userBean.getProjectSelected().getUsuarioCollection();
+            for (Usuario user : users) {
+                listUsersName.add(user.getEmail());
+
+            }
+        }
+
+    }
 
     public String doShowTaskDetail(Tarea task) {
         this.viewTask = true;
@@ -213,6 +211,23 @@ public class TaskBean {
         return null;
     }
 
+    public void loadTask() {
+
+        collectionTask = new ArrayList<Tarea>();
+        if (userBean.getProjectSelected() != null) {
+            Usuario userSelected;
+            userSelected = usuarioFacade.getUser(userBean.getUser().getIdUsuario());
+            Collection<Tarea> taskUserSelected = userSelected.getTareaCollection();
+            for (Tarea task : taskUserSelected) {
+                if (task.getIdProyecto().getIdProyect() == userBean.getProjectSelected().getIdProyect()) {
+                    collectionTask.add(task);
+                }
+            }
+
+        }
+
+    }
+
     public String doEditTask() {
 
         //Lo que había antes más los nuevos
@@ -220,7 +235,7 @@ public class TaskBean {
 
         for (String userString : tempUsers) {
             Usuario tmp = usuarioFacade.getUser(userString);
-            if (tmp != null) {
+            if (tmp != null && !userBean.taskSelected.getUsuarioCollection().contains(tmp)) {
                 memberTask.add(tmp);
             }
         }
@@ -228,9 +243,11 @@ public class TaskBean {
 
         userBean.taskSelected.setEstado(statusTask);
 
-        BigInteger min = new BigInteger("60");
-        BigInteger durationMinutes = duration.multiply(min);
-        userBean.taskSelected.setTiempo(durationMinutes);
+        if (duration != null) {
+            BigInteger min = new BigInteger("60");
+            BigInteger durationMinutes = duration.multiply(min);
+            userBean.taskSelected.setTiempo(durationMinutes);
+        }
 
         tareaFacade.edit(userBean.taskSelected);
 
@@ -238,6 +255,7 @@ public class TaskBean {
         tempUsers = new ArrayList<>();
         taskEdited = true;
 
+        loadTask();
         return "";
     }
 
@@ -272,6 +290,7 @@ public class TaskBean {
         task.setUsuarioCollection(memberTask);
         tareaFacade.create(task);
         userBean.getProjectSelected().getTareaCollection().add(task);
+        
 
         nameTask = "";
         description = "";
@@ -279,20 +298,19 @@ public class TaskBean {
         tempUsers = new ArrayList<>();
         taskAdded = true;
 
-         message = "has sido añadido a la tarea"+ task.getNombre()+"en el proyecto:"+task.getIdProyecto().getNombreP()+"por el usuario:"+userBean.getName();
+        message = "Has sido añadido a la tarea: " + task.getNombre() + " del proyecto: " + task.getIdProyecto().getNombreP() + ". El director del proyecto es: " + userBean.getName();
 
         List<Usuario> usuario = (List<Usuario>) task.getUsuarioCollection();
         for (Usuario usuario1 : usuario) {
 
             email = usuario1.getEmail();
             new SendMail(email, task.getNombre(), message).start();
-             
-               
+
         }
-        
+
+        loadTask();
         return "";
-        
-        
+
     }
 
 }
