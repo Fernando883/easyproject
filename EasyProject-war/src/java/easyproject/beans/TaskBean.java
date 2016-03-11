@@ -7,6 +7,7 @@ package easyproject.beans;
 
 import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
+import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import java.math.BigInteger;
@@ -54,7 +55,7 @@ public class TaskBean {
     private Collection<Tarea> collectionTask;
 
     //Task Panel
-    protected boolean viewTask = false;
+    protected boolean viewTask;
 
     /**
      * Creates a new instance of TaskBean

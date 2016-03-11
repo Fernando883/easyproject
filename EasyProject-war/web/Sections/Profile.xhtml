@@ -10,7 +10,7 @@
                     <div class="col-md-3">
 
                         <!-- Profile Image -->
-                        <div class="box box-primary">
+                        <div class="box box-danger">
                             <div class="box-body box-profile">
                                 <img class="profile-user-img img-responsive img-circle" src="#{userBean.image}" alt="Foto de perfil"/>
                                 <h3 class="profile-username text-center">#{userBean.name}</h3>
@@ -25,7 +25,7 @@
                                     </li>
                                 </ul>
 
-                                <a href="#" class="btn btn-primary btn-block"><b>PDF</b></a>
+                                <a href="#" class="btn btn-danger btn-block"><b>PDF</b></a>
                             </div><!-- /.box-body -->
                         </div><!-- /.box -->
 
@@ -42,7 +42,7 @@
                             <div class="tab-content">
                                 <div class="active tab-pane" id="Proyectos">
                                     <c:dataTable value="#{userBean.user.proyectoCollection}" var="project">
-                                            <c:column headerText="Nombre">        
+                                            <c:column headerText="Nombre">
                                                 <h:outputText value="#{project.nombreP}"/>
                                             </c:column>
                                             <c:column headerText="Descripción">
@@ -55,8 +55,10 @@
                                 </div><!-- /.tab-pane -->
                                 <div class="tab-pane" id="toDo">
                                     <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
-                                            <c:column headerText="Nombre">        
-                                                <h:outputText value="#{task.nombre}" rendered="#{task.estado eq 'to do'}"/>
+                                            <c:column headerText="Nombre">
+                                                <h:form>
+                                                    <h:commandLink value="#{task.nombre}" action="#{projectBean.doGoProject(task.idProyecto)}" rendered="#{task.estado eq 'to do'}"/>
+                                                </h:form>
                                             </c:column>
                                             <c:column headerText="Descripción">
                                                 <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'to do'}"/>
@@ -72,8 +74,10 @@
 
                                 <div class="tab-pane" id="doing">
                                     <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
-                                            <c:column headerText="Nombre">        
-                                                <h:outputText value="#{task.nombre}" rendered="#{task.estado eq 'doing'}"/>
+                                            <c:column headerText="Nombre">
+                                                <h:form>
+                                                    <h:commandLink value="#{task.nombre}" action="#{projectBean.doGoProject(task.idProyecto)}" rendered="#{task.estado eq 'doing'}"/>
+                                                </h:form>
                                             </c:column>
                                             <c:column headerText="Descripción">
                                                 <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'doing'}"/>
@@ -89,8 +93,10 @@
 
                                 <div class="tab-pane" id="done">
                                     <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
-                                            <c:column headerText="Nombre">        
-                                                <h:outputText value="#{task.nombre}" rendered="#{task.estado eq 'done'}"/>
+                                            <c:column headerText="Nombre">
+                                                <h:form>
+                                                    <h:commandLink value="#{task.nombre}" rendered="#{task.estado eq 'done'}"/>
+                                                </h:form>
                                             </c:column>
                                             <c:column headerText="Descripción">
                                                 <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'done'}"/>
@@ -202,10 +208,10 @@
                             <a href="javascript::;">
                                 <h4 class="control-sidebar-subheading">
                                     Back End Framework
-                                    <span class="label label-primary pull-right">68%</span>
+                                    <span class="label label-danger pull-right">68%</span>
                                 </h4>
                                 <div class="progress progress-xxs">
-                                    <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                                    <div class="progress-bar progress-bar-danger" style="width: 68%"></div>
                                 </div>
                             </a>
                         </li>
