@@ -50,7 +50,9 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                    <h:form>
+                                        <h:commandLink action="#{userBean.doProfile()}" class="btn btn-default btn-flat" value="Perfil"></h:commandLink>
+                                    </h:form>
                                 </div>
                                 <div class="pull-right">
                                     <h:form>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:c="http://primefaces.org/ui" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <section>
+        <div>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <!-- Profile Image -->
+                        <div class="box box-danger">
+                            <div class="box-body box-profile">
+                                <img class="profile-user-img img-responsive img-circle" src="#{userBean.image}" alt="Foto de perfil"/>
+                                <h3 class="profile-username text-center">#{userBean.name}</h3>
+                                <p class="text-muted text-center"></p>
+
+                                <ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                        <b>Proyectos</b> <a class="pull-right">#{userBean.user.proyectoCollection.size()}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Tareas</b> <a class="pull-right">#{userBean.user.tareaCollection.size()}</a>
+                                    </li>
+                                </ul>
+
+                                <a href="#" class="btn btn-danger btn-block"><b>PDF</b></a>
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
+
+
+                    </div><!-- /.col -->
+                    <div class="col-md-9">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#Proyectos" data-toggle="tab">Proyectos</a></li>
+                                <li><a href="#toDo" data-toggle="tab">To Do</a></li>
+                                <li><a href="#doing" data-toggle="tab">Doing</a></li>
+                                <li><a href="#done" data-toggle="tab">Done</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="Proyectos">
+                                    <c:dataTable value="#{userBean.user.proyectoCollection}" var="project">
+                                            <c:column headerText="Nombre">
+                                                <h:outputText value="#{project.nombreP}"/>
+                                            </c:column>
+                                            <c:column headerText="Descripción">
+                                                <h:outputText value="#{project.descripcion}"/>
+                                            </c:column>
+                                            <c:column headerText="Director">
+                                                <h:outputText value="#{project.director.nombreU}"/>
+                                            </c:column>
+                                    </c:dataTable>
+                                </div><!-- /.tab-pane -->
+                                <div class="tab-pane" id="toDo">
+                                    <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
+                                            <c:column headerText="Nombre">
+                                                <h:form>
+                                                    <h:commandLink value="#{task.nombre}" action="#{projectBean.doGoProject(task.idProyecto)}" rendered="#{task.estado eq 'to do'}"/>
+                                                </h:form>
+                                            </c:column>
+                                            <c:column headerText="Descripción">
+                                                <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'to do'}"/>
+                                            </c:column>
+                                            <c:column headerText="Duración">
+                                                <h:outputText value="#{task.tiempo/60} horas" rendered="#{task.estado eq 'to do'}"/>
+                                            </c:column>
+                                            <c:column headerText="Proyecto">
+                                                <h:outputText value="#{task.idProyecto.nombreP}" rendered="#{task.estado eq 'to do'}"/>
+                                            </c:column>
+                                    </c:dataTable>
+                                </div><!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="doing">
+                                    <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
+                                            <c:column headerText="Nombre">
+                                                <h:form>
+                                                    <h:commandLink value="#{task.nombre}" action="#{projectBean.doGoProject(task.idProyecto)}" rendered="#{task.estado eq 'doing'}"/>
+                                                </h:form>
+                                            </c:column>
+                                            <c:column headerText="Descripción">
+                                                <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'doing'}"/>
+                                            </c:column>
+                                            <c:column headerText="Duración">
+                                                <h:outputText value="#{task.tiempo/60} horas" rendered="#{task.estado eq 'doing'}"/>
+                                            </c:column>
+                                            <c:column headerText="Proyecto">
+                                                <h:outputText value="#{task.idProyecto.nombreP}" rendered="#{task.estado eq 'doing'}"/>
+                                            </c:column>
+                                    </c:dataTable>
+                                </div><!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="done">
+                                    <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
+                                            <c:column headerText="Nombre">
+                                                <h:form>
+                                                    <h:commandLink value="#{task.nombre}" rendered="#{task.estado eq 'done'}"/>
+                                                </h:form>
+                                            </c:column>
+                                            <c:column headerText="Descripción">
+                                                <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'done'}"/>
+                                            </c:column>
+                                            <c:column headerText="Duración">
+                                                <h:outputText value="#{task.tiempo/60} horas" rendered="#{task.estado eq 'done'}"/>
+                                            </c:column>
+                                            <c:column headerText="Proyecto">
+                                                <h:outputText value="#{task.idProyecto.nombreP}" rendered="#{task.estado eq 'done'}"/>
+                                            </c:column>
+                                    </c:dataTable>
+                                </div><!-- /.tab-pane -->
+
+                            </div><!-- /.tab-content -->
+                        </div><!-- /.nav-tabs-custom -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Create the tabs -->
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+                <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane" id="control-sidebar-home-tab">
+                    <h3 class="control-sidebar-heading">Recent Activity</h3>
+                    <ul class="control-sidebar-menu">
+                        <li>
+                            <a href="javascript::;">
+                                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+                                    <p>Will be 23 on April 24th</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript::;">
+                                <i class="menu-icon fa fa-user bg-yellow"></i>
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+                                    <p>New phone +1(800)555-1234</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript::;">
+                                <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+                                    <p>nora@example.com</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript::;">
+                                <i class="menu-icon fa fa-file-code-o bg-green"></i>
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+                                    <p>Execution time 5 seconds</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul><!-- /.control-sidebar-menu -->
+
+                    <h3 class="control-sidebar-heading">Tasks Progress</h3>
+                    <ul class="control-sidebar-menu">
+                        <li>
+                            <a href="javascript::;">
+                                <h4 class="control-sidebar-subheading">
+                                    Custom Template Design
+                                    <span class="label label-danger pull-right">70%</span>
+                                </h4>
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript::;">
+                                <h4 class="control-sidebar-subheading">
+                                    Update Resume
+                                    <span class="label label-success pull-right">95%</span>
+                                </h4>
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript::;">
+                                <h4 class="control-sidebar-subheading">
+                                    Laravel Integration
+                                    <span class="label label-warning pull-right">50%</span>
+                                </h4>
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript::;">
+                                <h4 class="control-sidebar-subheading">
+                                    Back End Framework
+                                    <span class="label label-danger pull-right">68%</span>
+                                </h4>
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-danger" style="width: 68%"></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul><!-- /.control-sidebar-menu -->
+
+                </div><!-- /.tab-pane -->
+                <!-- Stats tab content -->
+                <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div><!-- /.tab-pane -->
+                <!-- Settings tab content -->
+                <div class="tab-pane" id="control-sidebar-settings-tab">
+                    <form method="post">
+                        <h3 class="control-sidebar-heading">General Settings</h3>
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Report panel usage
+                                <input type="checkbox" class="pull-right"/>
+                            </label>
+                            <p>
+                                Some information about this general settings option
+                            </p>
+                        </div><!-- /.form-group -->
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Allow mail redirect
+                                <input type="checkbox" class="pull-right"/>
+                            </label>
+                            <p>
+                                Other sets of options are available
+                            </p>
+                        </div><!-- /.form-group -->
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Expose author name in posts
+                                <input type="checkbox" class="pull-right"/>
+                            </label>
+                            <p>
+                                Allow the user to show his name in blog posts
+                            </p>
+                        </div><!-- /.form-group -->
+
+                        <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Show me as online
+                                <input type="checkbox" class="pull-right"/>
+                            </label>
+                        </div><!-- /.form-group -->
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Turn off notifications
+                                <input type="checkbox" class="pull-right"/>
+                            </label>
+                        </div><!-- /.form-group -->
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Delete chat history
+                                <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+                            </label>
+                        </div><!-- /.form-group -->
+                    </form>
+                </div><!-- /.tab-pane -->
+            </div>
+        </aside><!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+
+    </section>
+
+
+</html>
