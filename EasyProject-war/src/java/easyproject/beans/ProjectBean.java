@@ -362,6 +362,8 @@ public class ProjectBean {
             new SendMail(email, project.getNombreP(), message).start();
 
         }
+        
+        loadProjects();
        
 
     }
