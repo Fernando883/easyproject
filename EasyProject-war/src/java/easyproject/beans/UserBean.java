@@ -94,10 +94,9 @@ public class UserBean {
         this.taskSelected = taskSelected;
     }
  
-    
-     // Creates a new instance of UserBean
-     // @return 
-    
+    public String doProfile(){
+        return "Profile";
+    }
     public String doCheckUser(){
    
         if( (usuarioFacade.find(user)!=null)){   
