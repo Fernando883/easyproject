@@ -115,6 +115,7 @@ public class MessageSessionHandler {
                 .add("message", message.getMessage())
                 .add("photoURL", message.getPhotoUrl())
                 .add("timestamp", simpleDateFormat.format(message.getTimestamp()))
+                .add("timestampWithoutFormat", message.getTimestamp())
                 .build();
         return addMessage;
     }
