@@ -8,10 +8,24 @@
 //window.onload = init;
 
 socket.onmessage = onMessage;
+color = 0;
+var blinking = false;
+var timestamp = Date.now();
+
+$( document ).ready(function() {
+    jQuery('#chat_expand').on('click', function() {
+        window.clearInterval(blinking);
+        jQuery('#chat_div').removeClass('box-warning').addClass('box-danger');
+        updateScroll();
+    });
+});
 
 function onMessage(event) {
     var message = JSON.parse(event.data);
     if (message.action === "add") {
+        if (message.timestampWithoutFormat > timestamp && jQuery('#chat_div').hasClass('collapsed-box')) {
+            blinking = setInterval(blink, 500);
+        }
         printNewMessage(message);
     }
 }
@@ -27,6 +41,16 @@ function addMessage(message, name, photoURL, email) {
     };
     
     socket.send(JSON.stringify(MessageAction));
+}
+
+function blink() {
+    if (color == 0) {
+        jQuery('#chat_div').removeClass('box-danger').addClass('box-warning');
+        color = 1;
+    } else {
+        jQuery('#chat_div').removeClass('box-warning').addClass('box-danger');
+        color = 0;
+    }
 }
 
 function printNewMessage(message) {

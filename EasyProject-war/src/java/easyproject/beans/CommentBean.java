@@ -94,8 +94,11 @@ public class CommentBean {
     
     public String doUpdateFile() throws IOException{
         file.write(getFilename(file));
+        String path = "/Users/csalas/NetBeansProjects/easyproject/EasyProject-war/web/uploaded/";
+        String urlPath = "http://localhost:8080/EasyProject-war/faces/uploaded/";
+        String fileName = String.valueOf(System.currentTimeMillis()) + getFilename(file);
         Comentario comment = new Comentario();
-        message = "Ha subido el fichero: " + getFilename(file);
+        message = "Ha subido el fichero: <a href='"+ urlPath + fileName+"'>"+ fileName +"</a>";
         comment.setTexto(message);
         Date date = Calendar.getInstance().getTime();
         comment.setFecha(date);
@@ -103,24 +106,25 @@ public class CommentBean {
         comment.setIdUsuario(userBean.getUser());
         comentarioFacade.create(comment);
         
-        Fichero fileUpload = new Fichero();
-        fileUpload.setRuta("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/generated/jsp/EasyProject/EasyProject-war_war/" + getFilename(file));
-        fileUpload.setIdTarea(userBean.getTaskSelected());
-        ficheroFacade.create(fileUpload);
-        userBean.getTaskSelected().getComentarioCollection().add(comment);
-        
-        
         File dowloadFile = new File("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/generated/jsp/EasyProject/EasyProject-war_war/"+ getFilename(file));
-	File newFile = new File("/Users/inftel11/NetBeansProjects/carlos/easyproject/EasyProject-war/web/uploaded/"+ getFilename(file));
+	
+        File newFile = new File(path + fileName);
 	Path sourcePath = dowloadFile.toPath();
 	Path newtPath = newFile.toPath();
 	Files.copy(sourcePath, newtPath, REPLACE_EXISTING); 
         
         
+        Fichero fileUpload = new Fichero();
+        fileUpload.setRuta(path + fileName);
+        fileUpload.setIdTarea(userBean.getTaskSelected());
+        ficheroFacade.create(fileUpload);
+        userBean.getTaskSelected().getComentarioCollection().add(comment);
+        
         message="";
         return "";
     }
     
+    // Versión con botón
     public String downloadFile(String text) throws IOException {
         String file = text.substring(22);
 	
