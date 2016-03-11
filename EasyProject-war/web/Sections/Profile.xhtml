@@ -41,95 +41,67 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="active tab-pane" id="Proyectos">
-                                    <h:form> 
-                                        <c:dataScroller value="#{userBean.user.proyectoCollection}" var="project" chunkSize="10">
-                                            <f:facet name="header">
-                                                Proyectos
-                                            </f:facet>
-                                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                                <br></br>
-                                                <c:outputPanel>
-                                                    <h:panelGrid columns="2" cellpadding="10">
-                                                        <h:outputText value="Nombre:" style="font-weight: bold" />
-                                                        <h:outputText value="#{project.nombreP}"/>
-
-                                                        <h:outputText value="Descripción:" style="font-weight: bold"/>
-                                                        <h:outputText value="#{project.descripcion}"/>
-
-                                                    </h:panelGrid>
-                                                    <hr style="width: 690px; background: black; height: 2px" />
-                                                </c:outputPanel>
-                                            </h:panelGrid>
-                                        </c:dataScroller>
-                                    </h:form>
-
+                                    <c:dataTable value="#{userBean.user.proyectoCollection}" var="project">
+                                            <c:column headerText="Nombre">        
+                                                <h:outputText value="#{project.nombreP}"/>
+                                            </c:column>
+                                            <c:column headerText="Descripción">
+                                                <h:outputText value="#{project.descripcion}"/>
+                                            </c:column>
+                                            <c:column headerText="Director">
+                                                <h:outputText value="#{project.director.nombreU}"/>
+                                            </c:column>
+                                    </c:dataTable>
                                 </div><!-- /.tab-pane -->
                                 <div class="tab-pane" id="toDo">
-                                    <h:form> 
-                                        <c:dataScroller value="#{userBean.user.tareaCollection}" var="task" chunkSize="10">
-                                            <f:facet name="header">
-                                                To Do
-                                            </f:facet>
-                                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                                                <br></br>
-                                                <c:outputPanel>
-                                                    <h:panelGrid columns="2" cellpadding="10" rendered="#{task.estado eq 'to do'}">
-                                                        <h:outputText value="Nombre:" />
-                                                        <h:outputText value="#{task.nombre}" style="font-weight: bold"/>
-
-                                                        <h:outputText value="Descripción:" />
-                                                        <h:outputText value="#{task.descripcion}" style="font-weight: bold"/>
-                                                        <hr style="width: 100%"></hr>
-                                                    </h:panelGrid>
-                                                </c:outputPanel>
-                                            </h:panelGrid>
-                                        </c:dataScroller>
-                                    </h:form>
+                                    <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
+                                            <c:column headerText="Nombre">        
+                                                <h:outputText value="#{task.nombre}" rendered="#{task.estado eq 'to do'}"/>
+                                            </c:column>
+                                            <c:column headerText="Descripción">
+                                                <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'to do'}"/>
+                                            </c:column>
+                                            <c:column headerText="Duración">
+                                                <h:outputText value="#{task.tiempo/60} horas" rendered="#{task.estado eq 'to do'}"/>
+                                            </c:column>
+                                            <c:column headerText="Proyecto">
+                                                <h:outputText value="#{task.idProyecto.nombreP}" rendered="#{task.estado eq 'to do'}"/>
+                                            </c:column>
+                                    </c:dataTable>
                                 </div><!-- /.tab-pane -->
 
                                 <div class="tab-pane" id="doing">
                                     <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
-                                        <div jsf:rendered="#{task.estado eq 'doing'}">
-                                            <f:facet name="header">
-                                                Doing
-                                            </f:facet>
                                             <c:column headerText="Nombre">        
-                                                <h:outputText value="#{task.nombre}"/>
+                                                <h:outputText value="#{task.nombre}" rendered="#{task.estado eq 'doing'}"/>
                                             </c:column>
                                             <c:column headerText="Descripción">
-                                                <h:outputText value="#{task.descripcion}"/>
+                                                <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'doing'}"/>
                                             </c:column>
                                             <c:column headerText="Duración">
-                                                <h:outputText value="#{task.tiempo/60} horas"/>
+                                                <h:outputText value="#{task.tiempo/60} horas" rendered="#{task.estado eq 'doing'}"/>
                                             </c:column>
                                             <c:column headerText="Proyecto">
-                                                <h:outputText value="#{task.idProyecto.nombreP}"/>
+                                                <h:outputText value="#{task.idProyecto.nombreP}" rendered="#{task.estado eq 'doing'}"/>
                                             </c:column>
-                                        </div>
                                     </c:dataTable>
                                 </div><!-- /.tab-pane -->
 
                                 <div class="tab-pane" id="done">
-                                    <h:form> 
-                                        <c:dataScroller value="#{userBean.user.proyectoCollection}" var="project" chunkSize="10">
-                                            <f:facet name="header">
-                                                Done
-                                            </f:facet>
-                                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail" rendered="#{task.estado eq 'done'}">
-                                                <br></br>
-                                                <c:outputPanel>
-                                                    <h:panelGrid columns="2" cellpadding="10">
-                                                        <h:outputText value="Nombre:" />
-                                                        <h:outputText value="#{task.nombre}" style="font-weight: bold"/>
-
-                                                        <h:outputText value="Descripción:" />
-                                                        <h:outputText value="#{task.descripcion}" style="font-weight: bold"/>
-                                                        <hr style="width: 100%"></hr>
-                                                    </h:panelGrid>
-                                                </c:outputPanel>
-                                            </h:panelGrid>
-                                        </c:dataScroller>
-                                    </h:form>
+                                    <c:dataTable value="#{userBean.user.tareaCollection}" var="task">
+                                            <c:column headerText="Nombre">        
+                                                <h:outputText value="#{task.nombre}" rendered="#{task.estado eq 'done'}"/>
+                                            </c:column>
+                                            <c:column headerText="Descripción">
+                                                <h:outputText value="#{task.descripcion}" rendered="#{task.estado eq 'done'}"/>
+                                            </c:column>
+                                            <c:column headerText="Duración">
+                                                <h:outputText value="#{task.tiempo/60} horas" rendered="#{task.estado eq 'done'}"/>
+                                            </c:column>
+                                            <c:column headerText="Proyecto">
+                                                <h:outputText value="#{task.idProyecto.nombreP}" rendered="#{task.estado eq 'done'}"/>
+                                            </c:column>
+                                    </c:dataTable>
                                 </div><!-- /.tab-pane -->
 
                             </div><!-- /.tab-content -->
