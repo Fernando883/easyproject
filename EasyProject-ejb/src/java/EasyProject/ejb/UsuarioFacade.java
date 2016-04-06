@@ -39,14 +39,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
     
-    public Proyecto getProject(String nameProject){
-        List<Proyecto> project = em.createNamedQuery("Proyecto.findByNombreP").setParameter("nombreP", nameProject).getResultList();  
-        if(project.isEmpty()){
-            return null;
-        }
-        return project.get(0);
-    }
-    
     public Usuario getUser(String email){
         List<Usuario> userSelected = em.createNamedQuery("Usuario.findByEmail").setParameter("email", email).getResultList();
         if(userSelected.isEmpty()){

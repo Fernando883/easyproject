@@ -81,6 +81,8 @@ public class ProjectBean {
 
         Usuario userSelected;
         userSelected = usuarioFacade.getUser(userBean.getUser().getIdUsuario());
+        
+        
 
         proyectos = (List<Proyecto>) userSelected.getProyectoCollection();
 
@@ -94,7 +96,7 @@ public class ProjectBean {
         proyectos = new ArrayList<>();
 
         for (String nameProject1 : nameProject) {
-            proyectos.add(usuarioFacade.getProject(nameProject1));
+            proyectos.add(proyectoFacade.getProject(nameProject1));
         }
 
     }

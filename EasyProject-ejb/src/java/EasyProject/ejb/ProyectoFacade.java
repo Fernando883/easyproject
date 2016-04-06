@@ -30,4 +30,12 @@ public class ProyectoFacade extends AbstractFacade<Proyecto> {
         super(Proyecto.class);
     }
     
+    public Proyecto getProject(String nameProject){
+        List<Proyecto> project = em.createNamedQuery("Proyecto.findByNombreP").setParameter("nombreP", nameProject).getResultList();  
+        if(project.isEmpty()){
+            return null;
+        }
+        return project.get(0);
+    }
+    
 }
