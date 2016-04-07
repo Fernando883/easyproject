@@ -6,7 +6,9 @@
 package service;
 
 import EasyProject.ejb.TareaFacade;
+import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Tarea;
+import EasyProject.entities.Usuario;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -27,15 +29,16 @@ import javax.ws.rs.Produces;
  */
 @Stateless
 @Path("entity.tarea")
-public class TareaFacadeREST  {
+public class TareaFacadeREST {
+    @EJB
+    private UsuarioFacade usuarioFacade;
+    
     
     @EJB
     private TareaFacade tareaFacade;
-    
-    
 
     public TareaFacadeREST() {
-       // super(Tarea.class);
+        // super(Tarea.class);
     }
 
     @POST
@@ -84,5 +87,23 @@ public class TareaFacadeREST  {
         return String.valueOf(tareaFacade.count());
     }
 
-    
+    @GET
+    @Path("findTasksinProjectByIdUser/{idUsuario}/{idProyect}")
+    @Produces({"application/json"})
+    public List<Tarea> findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
+        Usuario u = usuarioFacade.find(idUsuario);
+        List<Tarea> tasks = (List<Tarea>) u.getTareaCollection();
+        for (Tarea task : tasks) {
+            if (task.getIdProyecto().getIdProyect() != idProyect) {
+                tasks.remove(task);
+            } else {
+                task.setComentarioCollection(null);
+                task.setFicheroCollection(null);
+                task.setDescripcion(null);
+            }
+
+        }
+        return tasks;
+    }
+
 }
