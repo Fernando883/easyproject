@@ -90,6 +90,13 @@ public class ProyectoFacadeREST {
         return String.valueOf(proyectoFacade.count());
     }
     
+    @GET
+    @Path("countUser")
+    @Produces("text/plain")
+    public String countRESTUser(@PathParam("id") Long id) {
+        return String.valueOf(proyectoFacade);
+    }
+    
     
 
     

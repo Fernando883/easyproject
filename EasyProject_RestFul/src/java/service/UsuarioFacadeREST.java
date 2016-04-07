@@ -7,6 +7,8 @@ package service;
 
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Usuario;
+import com.google.gson.Gson;
+import java.util.Arrays;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -20,6 +22,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -90,16 +95,30 @@ public class UsuarioFacadeREST{
     }
 
     @GET
+    @Path("findAll")
     @Produces({"application/json"})
     public List<Usuario> findAll() {
         return usuarioFacade.findAll();
     }
     
+    /*@GET
+    @Path("getUsersEmail")
+    @Produces({MediaType.APPLICATION_JSON})
+    public GenericEntity<List<String>> getUsersEmail() {
+        List<String> usersEmail = usuarioFacade.getUsersEmail();
+        return new GenericEntity<List<String>>(usersEmail){};
+    }*/
+    
     @GET
     @Path("getUsersEmail")
-    @Produces({"application/json"})
-    public List<String> getUsersEmail() {
-        return usuarioFacade.getUsersEmail();
+    @Produces("application/json")
+    public String getUsersEmail() {
+        List<String> usersEmail = usuarioFacade.getUsersEmail();
+        Gson trad = new Gson();
+        
+        return trad.toJson(usersEmail);
+        //return Arrays.asList(usersEmail);
+        
     }
 
     @GET
