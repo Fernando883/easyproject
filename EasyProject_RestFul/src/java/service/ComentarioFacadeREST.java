@@ -7,7 +7,12 @@ package service;
 
 
 import EasyProject.ejb.ComentarioFacade;
+import EasyProject.ejb.TareaFacade;
+import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Comentario;
+import EasyProject.entities.Tarea;
+import EasyProject.entities.Usuario;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -31,9 +36,13 @@ import javax.ws.rs.Produces;
 @Stateless
 @Path("entity.comentario")
 public class ComentarioFacadeREST{
-    
+    @EJB
+    private TareaFacade tareaFacade;
+    @EJB
+    private UsuarioFacade usuarioFacade;  
     @EJB
     private ComentarioFacade comentarioFacade;
+    
     
 
     public ComentarioFacadeREST() {
@@ -84,6 +93,14 @@ public class ComentarioFacadeREST{
     @Produces("text/plain")
     public String countREST() {
         return String.valueOf(comentarioFacade.count());
+    }
+    
+    @GET
+    @Path("findComentsTask/{idTarea}")
+    @Produces({"application/json"})
+    public List<Comentario> findComentsTask(@PathParam("idTarea") Long idTarea) {
+        List<Comentario> comments = (List<Comentario>) tareaFacade.find(idTarea).getComentarioCollection();
+        return comments;
     }
     
 }
