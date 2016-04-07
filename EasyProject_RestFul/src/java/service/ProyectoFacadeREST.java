@@ -6,7 +6,9 @@
 package service;
 
 import EasyProject.ejb.ProyectoFacade;
+import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
+import EasyProject.entities.Usuario;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -28,6 +30,10 @@ import javax.ws.rs.Produces;
 @Stateless
 @Path("entity.proyecto")
 public class ProyectoFacadeREST {
+    
+    @EJB
+    private UsuarioFacade usuarioFacade;
+    
     
     @EJB
     private ProyectoFacade proyectoFacade;
@@ -75,6 +81,21 @@ public class ProyectoFacadeREST {
     public Proyecto findProjectByName(@PathParam("nombreP") String name) {
         return proyectoFacade.getProject(name);
     }
+    
+    @GET
+    @Path("findProjectByIdUser/{idUsuario}")
+    @Produces({"application/json"})
+    public List<Proyecto> findProjectByIdUser(@PathParam("idUsuario") Long idUsuario) {
+        Usuario u = usuarioFacade.find(idUsuario);
+        List<Proyecto> p = (List<Proyecto>) u.getProyectoCollection();
+        for (Proyecto p1 : p) {
+            p1.setChat(null);
+            p1.setTareaCollection(null);
+            p1.setUsuarioCollection(null);
+        }
+        return p;
+    }
+    
 
     @GET
     @Path("{from}/{to}")
