@@ -7,9 +7,12 @@ package service;
 
 import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
+import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -92,18 +95,26 @@ public class TareaFacadeREST {
     @Produces({"application/json"})
     public List<Tarea> findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
         Usuario u = usuarioFacade.find(idUsuario);
-        List<Tarea> tasks = (List<Tarea>) u.getTareaCollection();
-        for (Tarea task : tasks) {
-            if (task.getIdProyecto().getIdProyect() != idProyect) {
-                tasks.remove(task);
-            } else {
+        List<Tarea> taskTemp = new ArrayList<>();
+        List<Tarea> taskList = new ArrayList<>();
+        
+        taskTemp.addAll(u.getTareaCollection());
+        /*for (Proyecto p : u.getProyectoCollection()) {
+            if (p.getIdProyect().equals(idProyect)) {
+                taskList.addAll(p.getTareaCollection());
+            }
+        }*/
+        
+        for (Tarea task : taskTemp) {
+            if (Objects.equals(task.getIdProyecto().getIdProyect(), idProyect)) {
                 task.setComentarioCollection(null);
                 task.setFicheroCollection(null);
-                task.setDescripcion(null);
+                taskList.add(task);
             }
 
         }
-        return tasks;
+        return taskList;
     }
+    
 
 }
