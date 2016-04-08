@@ -9,6 +9,7 @@ import EasyProject.ejb.ProyectoFacade;
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -46,8 +47,11 @@ public class ProyectoFacadeREST {
 
     @POST
     @Consumes({"application/json"})
-    public void create(Proyecto entity) {
-        proyectoFacade.create(entity);
+    public void create(String json) {
+        Gson conversor = new Gson();
+        Proyecto proy;
+        proy = conversor.fromJson(json, Proyecto.class);
+        proyectoFacade.create(proy);
     }
 
     @PUT
@@ -66,8 +70,18 @@ public class ProyectoFacadeREST {
     @GET
     @Path("{id}")
     @Produces({"application/json"})
-    public Proyecto find(@PathParam("id") Long id) {
-        return proyectoFacade.find(id);
+    public String find(@PathParam("id") Long id) {
+        Proyecto p = proyectoFacade.find(id);
+        Gson conversor = new Gson();
+        
+        for (Usuario u:p.getUsuarioCollection()) {
+            u.setProyectoCollection(null);
+            u.setComentarioCollection(null);
+            u.setTareaCollection(null);
+        }
+
+        p.setTareaCollection(null);
+        return conversor.toJson(p);
     }
 
     @GET
