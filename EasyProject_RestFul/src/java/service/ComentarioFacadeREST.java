@@ -12,6 +12,7 @@ import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Comentario;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
@@ -99,7 +100,11 @@ public class ComentarioFacadeREST{
     @Path("findComentsTask/{idTarea}")
     @Produces({"application/json"})
     public List<Comentario> findComentsTask(@PathParam("idTarea") Long idTarea) {
-        List<Comentario> comments = (List<Comentario>) tareaFacade.find(idTarea).getComentarioCollection();
+        List<Comentario> comments = new ArrayList<>();
+        comments.addAll(tareaFacade.find(idTarea).getComentarioCollection());
+        for (Comentario comment: comments) {
+            comment.setIdTarea(null);
+        }
         return comments;
     }
     

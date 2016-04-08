@@ -100,17 +100,22 @@ public class ProyectoFacadeREST {
     @GET
     @Path("findProjectByIdUser/{idUsuario}")
     @Produces({"application/json"})
-    public List<Proyecto> findProjectByIdUser(@PathParam("idUsuario") Long idUsuario) {
+    public String findProjectByIdUser(@PathParam("idUsuario") Long idUsuario) {
         Usuario u = usuarioFacade.find(idUsuario);
-        List<Proyecto> projectList = new ArrayList<>();
-        projectList.addAll(u.getProyectoCollection());
+        List<Proyecto> projectList = new ArrayList<>(u.getProyectoCollection());
   
+        List<ProyectoREST> projectRESTList = new ArrayList<>();
         for (Proyecto p: projectList) {
-            p.setChat(null);
-            p.setTareaCollection(null);
-            p.setUsuarioCollection(null);
+            ProyectoREST pr = new ProyectoREST();
+            pr.idProyect = p.getIdProyect();
+            pr.descripcion = p.getDescripcion();
+            pr.nombreP = p.getNombreP();
+            projectRESTList.add(pr);
+            
         }
-        return projectList;
+        Gson gson = new Gson();
+        
+        return gson.toJson(projectRESTList);
     }
     
 
@@ -136,6 +141,11 @@ public class ProyectoFacadeREST {
     }
     
     
+    class ProyectoREST {
+        public Long idProyect;
+        public String descripcion;
+        public String nombreP;
+    }
 
     
 }
