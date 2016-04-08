@@ -12,6 +12,7 @@ import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -94,22 +95,21 @@ public class TareaFacadeREST {
     @Produces({"application/json"})
     public List<Tarea> findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
         Usuario u = usuarioFacade.find(idUsuario);
+        List<Tarea> taskTemp = new ArrayList<>();
         List<Tarea> taskList = new ArrayList<>();
-       
-        taskList.addAll(u.getTareaCollection());
+        
+        taskTemp.addAll(u.getTareaCollection());
         /*for (Proyecto p : u.getProyectoCollection()) {
             if (p.getIdProyect().equals(idProyect)) {
                 taskList.addAll(p.getTareaCollection());
             }
         }*/
         
-        for (Tarea task : taskList) {
-            if (task.getIdProyecto().getIdProyect() != idProyect) {
-                taskList.remove(task);
-            } else {
+        for (Tarea task : taskTemp) {
+            if (Objects.equals(task.getIdProyecto().getIdProyect(), idProyect)) {
                 task.setComentarioCollection(null);
                 task.setFicheroCollection(null);
-                task.setDescripcion(null);
+                taskList.add(task);
             }
 
         }

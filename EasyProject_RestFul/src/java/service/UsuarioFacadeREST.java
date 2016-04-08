@@ -136,5 +136,19 @@ public class UsuarioFacadeREST{
     }
     
     
+    @POST
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    @Path("signInUser")
+    public Usuario signInUser(Usuario user) {
+        //SetNewUser
+        Usuario userGet = usuarioFacade.getUser(user.getEmail());
+        
+        if (userGet==null) {
+            usuarioFacade.create(user);
+            userGet = usuarioFacade.getUser(user.getEmail());
+        }
+        return userGet;
+    }
     
 }
