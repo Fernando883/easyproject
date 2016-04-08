@@ -7,6 +7,7 @@ package service;
 
 import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
+import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import java.util.ArrayList;
@@ -93,20 +94,27 @@ public class TareaFacadeREST {
     @Produces({"application/json"})
     public List<Tarea> findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
         Usuario u = usuarioFacade.find(idUsuario);
-        List<Tarea> tasks = new ArrayList<>();
-        tasks.addAll(u.getTareaCollection());
-        System.out.println("tasksID" + tasks.size());
-        for (Tarea task : tasks) {
-            /*if (task.getIdProyecto().getIdProyect() != idProyect) {
-                tasks.remove(task);
+        List<Tarea> taskList = new ArrayList<>();
+       
+        taskList.addAll(u.getTareaCollection());
+        /*for (Proyecto p : u.getProyectoCollection()) {
+            if (p.getIdProyect().equals(idProyect)) {
+                taskList.addAll(p.getTareaCollection());
+            }
+        }*/
+        
+        for (Tarea task : taskList) {
+            if (task.getIdProyecto().getIdProyect() != idProyect) {
+                taskList.remove(task);
             } else {
                 task.setComentarioCollection(null);
                 task.setFicheroCollection(null);
                 task.setDescripcion(null);
-            }*/
+            }
 
         }
-        return tasks;
+        return taskList;
     }
+    
 
 }
