@@ -91,17 +91,23 @@ public class ProyectoFacadeREST {
         proyectoFacade.remove(proyectoFacade.find(id));
     }
 
-    @GET
+     @GET
     @Path("{id}")
     @Produces({"application/json"})
     public String find(@PathParam("id") Long id) {
         Proyecto p = proyectoFacade.find(id);
         Gson conversor = new Gson();
+        Usuario director = p.getDirector();
+        director.setComentarioCollection(null);
+        director.setProyectoCollection(null);
+        director.setTareaCollection(null);
         
-        for (Usuario u:p.getUsuarioCollection()) {
-            u.setProyectoCollection(null);
-            u.setComentarioCollection(null);
-            u.setTareaCollection(null);
+        if (p.getUsuarioCollection() != null) {
+            for (Usuario u:p.getUsuarioCollection()) {
+                u.setProyectoCollection(null);
+                u.setComentarioCollection(null);
+                u.setTareaCollection(null);
+            }
         }
 
         p.setTareaCollection(null);
