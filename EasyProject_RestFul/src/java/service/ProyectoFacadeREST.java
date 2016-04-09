@@ -12,6 +12,7 @@ import EasyProject.entities.Usuario;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -162,6 +163,38 @@ public class ProyectoFacadeREST {
     public String countRESTUser(@PathParam("id") Long id) {
         return String.valueOf(proyectoFacade);
     }
+    
+     @GET
+    @Path("getUsersEmailNonProject/{id}")
+    @Produces("application/json")
+    public String getUsersEmailNonProject(@PathParam("id") Long id) {
+        List<String> usersEmail = usuarioFacade.getUsersEmail();
+        Proyecto project = proyectoFacade.find(id);
+        Collection<Usuario> usuarioCollection = project.getUsuarioCollection();
+        
+        for (Usuario user: usuarioCollection){
+            if (usersEmail.contains(user.getEmail())) {
+                usersEmail.remove(user.getEmail());
+            }
+        }
+        
+        Gson trad = new Gson();
+        return trad.toJson(usersEmail);
+        //return Arrays.asList(usersEmail);
+        
+    }
+    
+    @GET
+    @Path("getUsersProject/{id}")
+    @Produces("application/json")
+    public String getUsersProject(@PathParam("id") Long id) {
+        
+        Proyecto project = proyectoFacade.find(id);
+        Collection<Usuario> usuarioCollection = project.getUsuarioCollection();
+        
+        Gson trad = new Gson();
+        return trad.toJson(usuarioCollection);
+    } //return Arrays.asList(usersEmail);
     
     
     class ProyectoREST {
