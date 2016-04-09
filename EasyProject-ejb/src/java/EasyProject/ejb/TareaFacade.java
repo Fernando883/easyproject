@@ -6,6 +6,8 @@
 package EasyProject.ejb;
 
 import EasyProject.entities.Tarea;
+import EasyProject.entities.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,6 +35,16 @@ public class TareaFacade extends AbstractFacade<Tarea> {
         Query q = em.createQuery("SELECT distinct u.email FROM Usuario u");
         return false;
         
+    }
+    
+    public List<Tarea> findTareasUsuarioDeProyecto (Usuario u, Long idproyecto) {
+        Query q;
+        
+        q = em.createQuery("select t from Tarea t " +
+                "where t.idProyecto.idProyect = :idproy and :user member of t.usuarioCollection ");
+        q.setParameter("idproy", idproyecto);
+        q.setParameter("user", u);
+        return q.getResultList();        
     }
     
 }

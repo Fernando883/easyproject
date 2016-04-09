@@ -10,6 +10,7 @@ import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -90,31 +91,33 @@ public class TareaFacadeREST {
         return String.valueOf(tareaFacade.count());
     }
 
-    @GET
+ @GET
     @Path("findTasksinProjectByIdUser/{idUsuario}/{idProyect}")
     @Produces({"application/json"})
-    public List<Tarea> findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
+    public String findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
         Usuario u = usuarioFacade.find(idUsuario);
-        List<Tarea> taskTemp = new ArrayList<>();
-        List<Tarea> taskList = new ArrayList<>();
-        
-        taskTemp.addAll(u.getTareaCollection());
-        /*for (Proyecto p : u.getProyectoCollection()) {
-            if (p.getIdProyect().equals(idProyect)) {
-                taskList.addAll(p.getTareaCollection());
+        List<Tarea> listaTareas = this.tareaFacade.findTareasUsuarioDeProyecto(u, idProyect);
+        for (Tarea task : listaTareas) {
+            task.setComentarioCollection(null);
+            task.setFicheroCollection(null);
+            Proyecto proy = task.getIdProyecto();
+            proy.setTareaCollection(null);
+            proy.setUsuarioCollection(null);
+            for (Usuario user:task.getUsuarioCollection()) {
+                user.setComentarioCollection(null);
+                user.setTareaCollection(null);
+                user.setProyectoCollection(null);                
             }
-        }*/
-        
-        for (Tarea task : taskTemp) {
-            if (Objects.equals(task.getIdProyecto().getIdProyect(), idProyect)) {
-                task.setComentarioCollection(null);
-                task.setFicheroCollection(null);
-                taskList.add(task);
-            }
-
+            Usuario user = task.getIdUsuario();
+            user.setComentarioCollection(null);
+            user.setProyectoCollection(null);
+            user.setTareaCollection(null);
         }
-        return taskList;
+        Gson converter = new Gson();
+        String salida = converter.toJson(listaTareas);
+        System.out.println("pipi:" + salida);
+        
+        return salida;
     }
-    
 
 }
