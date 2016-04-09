@@ -190,6 +190,24 @@ public class ProyectoFacadeREST {
         
     }
     
+         @GET
+    @Path("getUsersEmailProject/{id}")
+    @Produces("application/json")
+    public String getUsersEmailProject(@PathParam("id") Long id) {
+        
+        List<String> usersEmail = new ArrayList<>();
+        Proyecto project = proyectoFacade.find(id);
+        
+        for (Usuario user: project.getUsuarioCollection()){
+            usersEmail.add(user.getEmail());
+        }
+        
+        Gson trad = new Gson();
+        return trad.toJson(usersEmail);
+        //return Arrays.asList(usersEmail);
+        
+    }
+    
     @GET
     @Path("getUsersProject/{id}")
     @Produces("application/json")

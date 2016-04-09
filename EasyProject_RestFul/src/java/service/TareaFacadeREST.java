@@ -12,6 +12,7 @@ import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
@@ -26,6 +27,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.json.JSONObject;
 
 /**
  *
@@ -47,8 +49,28 @@ public class TareaFacadeREST {
 
     @POST
     @Consumes({"application/json"})
-    public void create(Tarea entity) {
-        tareaFacade.create(entity);
+    public void create(String json) {
+        
+        Tarea task = new Tarea();
+        Gson gson = new Gson();
+        List<Usuario> usuarioCollection = new ArrayList<>();
+        
+        task = gson.fromJson(json, Tarea.class);
+
+        JSONObject j = new JSONObject(json);
+        String listEmails = (String) j.get("listEmails");
+        List<String> items = Arrays.asList(listEmails.split("\\s*,\\s*"));
+        for (String item : items) {
+            Usuario u = new Usuario ();
+            u.setEmail(usuarioFacade.getUser(item).getEmail());
+            u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
+            u.setNombreU(usuarioFacade.getUser(item).getNombreU());
+            if (u!= null) {
+                usuarioCollection.add(u);
+            }    
+        }
+        task.setUsuarioCollection(usuarioCollection);
+        tareaFacade.create(task);
     }
 
     @PUT
