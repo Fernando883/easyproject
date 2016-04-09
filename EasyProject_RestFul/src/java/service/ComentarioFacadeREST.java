@@ -103,7 +103,8 @@ public class ComentarioFacadeREST{
         List<Comentario> comments = new ArrayList<>();
         comments.addAll(tareaFacade.find(idTarea).getComentarioCollection());
         for (Comentario comment: comments) {
-            comment.setIdTarea(null);
+            Tarea task = comment.getIdTarea();
+            task.setFicheroCollection(null);
         }
         return comments;
     }

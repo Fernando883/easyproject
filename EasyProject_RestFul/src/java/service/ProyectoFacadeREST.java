@@ -11,6 +11,7 @@ import EasyProject.entities.Proyecto;
 import EasyProject.entities.Usuario;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,6 +25,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.json.JSONObject;
 
 /**
  *
@@ -48,9 +50,30 @@ public class ProyectoFacadeREST {
     @POST
     @Consumes({"application/json"})
     public void create(String json) {
-        Gson conversor = new Gson();
-        Proyecto proy;
-        proy = conversor.fromJson(json, Proyecto.class);
+        Proyecto proy = new Proyecto();
+        Gson gson = new Gson();
+        List<Usuario> usuarioCollection = new ArrayList<>();
+        
+        proy = gson.fromJson(json, Proyecto.class);
+        /*
+        Usuario director = (Usuario) j.get("director");
+        proy.setDirector(director);
+        proy.setDescripcion(j.getString("descripcion"));
+        proy.setNombreP(j.getString("nombreP"));*/
+        JSONObject j = new JSONObject(json);
+        String listEmails = (String) j.get("listEmails");
+        List<String> items = Arrays.asList(listEmails.split("\\s*,\\s*"));
+        for (String item : items) {
+            Usuario u = new Usuario ();
+            u.setEmail(usuarioFacade.getUser(item).getEmail());
+            u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
+            u.setNombreU(usuarioFacade.getUser(item).getNombreU());
+            if (u!= null) {
+                usuarioCollection.add(u);
+            }
+            
+        }
+        proy.setUsuarioCollection(usuarioCollection);
         proyectoFacade.create(proy);
     }
 
