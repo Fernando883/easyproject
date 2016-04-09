@@ -102,7 +102,8 @@ public class TareaFacadeREST {
             task.setFicheroCollection(null);
             Proyecto proy = task.getIdProyecto();
             proy.setTareaCollection(null);
-            proy.setUsuarioCollection(null);
+            //proy.setUsuarioCollection(null);
+            proy.setChat(null);
             for (Usuario user:task.getUsuarioCollection()) {
                 user.setComentarioCollection(null);
                 user.setTareaCollection(null);
