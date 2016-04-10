@@ -220,6 +220,14 @@ public class ProyectoFacadeREST {
         return trad.toJson(usuarioCollection);
     } //return Arrays.asList(usersEmail);
     
+    @GET
+    @Path("getProjectChat/{id}")
+    @Produces("text/plain")
+    public String getProjectChat(@PathParam("id") Long id) {
+        Proyecto project = proyectoFacade.find(id);
+        return project.getChat();
+    }
+    
     
     class ProyectoREST {
         public Long idProyect;
