@@ -360,7 +360,12 @@ public class ProyectoFacadeREST {
     public String getUsersProject(@PathParam("id") Long id) {
         
         Proyecto project = proyectoFacade.find(id);
-        Collection<Usuario> usuarioCollection = project.getUsuarioCollection();
+        List<Usuario> usuarioCollection = (List<Usuario>) project.getUsuarioCollection();
+          for (int i=0; i<usuarioCollection.size(); i++) {
+            Usuario u = usuarioCollection.get(i);
+            Usuario clon = u.getClone();
+            usuarioCollection.set(i, clon);
+        }
         
         Gson trad = new Gson();
         return trad.toJson(usuarioCollection);
