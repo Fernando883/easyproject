@@ -125,7 +125,7 @@ public class ProyectoFacadeREST {
         //le ponemos a p nombre y director
         p.setNombreP(find.getNombreP());
         p.setDescripcion(find.getDescripcion());
-       
+        
         //eliminamos lo que no nos interesa de director y se lo añadimos a p
         Usuario director = find.getDirector();
         director.setComentarioCollection(null);
