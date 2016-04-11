@@ -85,11 +85,11 @@ public class TareaFacadeREST {
 
         task2 = gson.fromJson(json, Tarea.class);
 
-        if (task2.getTiempo().equals("")) {
+        if (!task2.getTiempo().equals("")) {
             task.setTiempo(task2.getTiempo());
         }
 
-        if (task2.getEstado().equals("")) {
+        if (!task2.getEstado().equals("")) {
             task.setEstado(task2.getEstado());
         }
 
@@ -97,20 +97,41 @@ public class TareaFacadeREST {
         String listEmails = (String) j.get("listEmails");
         List<String> items = Arrays.asList(listEmails.split("\\s*,\\s*"));
         
-        if (items.equals("")) {
+        if (!listEmails.equals("")) {
             for (String item : items) {
                 Usuario u = new Usuario();
+                Usuario oldUser = usuarioFacade.getUser(item);
                 u.setEmail(usuarioFacade.getUser(item).getEmail());
                 u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
                 u.setNombreU(usuarioFacade.getUser(item).getNombreU());
-                if (u != null) {
-                    usuarioCollection.add(u);
-                }
+                  usuarioCollection.add(u);
             }
         }
+        
+        List<Usuario> removeUsuarioCollection = new ArrayList<>();  
+        String listRemoveEmails = (String) j.get("listRemoveEmails");
+        if (!listRemoveEmails.equals("")) {
+            
+            List<String> items2 = Arrays.asList(listRemoveEmails.split("\\s*,\\s*"));
+            
+            for (String item : items2) {
+                Usuario u = usuarioFacade.getUser(item);
+                u.setEmail(usuarioFacade.getUser(item).getEmail());
+                u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
+                u.setNombreU(usuarioFacade.getUser(item).getNombreU());
+                if (u!= null) {
+                    removeUsuarioCollection.add(u);
+                }
+            }      
+        } 
+        
         List<Usuario> usuarioCollection2 = new ArrayList<>();
-
-        task.getUsuarioCollection().addAll(usuarioCollection);
+        usuarioCollection2.addAll(task.getUsuarioCollection());
+        usuarioCollection2.addAll(usuarioCollection);
+        usuarioCollection2.removeAll(removeUsuarioCollection);
+        
+        task.setUsuarioCollection(null);
+        task.setUsuarioCollection(usuarioCollection2);
         tareaFacade.edit(task);
     }
 
@@ -126,39 +147,7 @@ public class TareaFacadeREST {
     public Tarea find(@PathParam("id") Long id) {
         return tareaFacade.find(id);
     }
-    /*
-     @GET
-     @Path("findInfoTask/{id}")
-     @Produces({"application/json"})
-     public String findInfoTask(@PathParam("id") Long id) {
-     Tarea tarea = new Tarea();
-     Tarea find = tareaFacade.find(id);
-        
-     //le ponemos a tarea nombre, descripcion, estado
-     tarea.setNombre(find.getNombre());
-     tarea.setDescripcion(find.getDescripcion());
-     tarea.setEstado(find.getEstado());
-     tarea.setTiempo(find.getTiempo());
-     tarea.setIdUsuario(find.getIdUsuario());
-     tarea.setIdProyecto(find.getIdProyecto());
-     tarea.setComentarioCollection(null);
-     tarea.setFicheroCollection(null);
-        
-     //Eliminanos lo que no interesa de usuariocollection y se lo ponemos a p
-     if (find.getUsuarioCollection() != null) {
-     for (Usuario u:find.getUsuarioCollection()) {
-     u.setProyectoCollection(null);
-     }
-     }
-     tarea.setUsuarioCollection(find.getUsuarioCollection());
-        
-     //Lo pasamos todo a Json
-     Gson conversor = new Gson(); 
-     JSONObject json = new JSONObject(conversor.toJson(tarea));
-        
-     return json.toString();
-     }
-     */
+
 
     @GET
     @Produces({"application/json"})
