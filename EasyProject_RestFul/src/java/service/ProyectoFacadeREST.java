@@ -79,10 +79,80 @@ public class ProyectoFacadeREST {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("editProject/{id}")
     @Consumes({ "application/json"})
-    public void edit(@PathParam("id") Long id, Proyecto entity) {
-        proyectoFacade.edit(entity);
+    public void edit(@PathParam("id") Long id, String json) {
+       
+       Gson gson = new Gson();
+       
+       Proyecto proy = proyectoFacade.find(id);
+       Proyecto jsonProj = gson.fromJson(json, Proyecto.class);
+       
+       //set nombre
+       if (!jsonProj.getNombreP().equals("")) {
+           proy.setNombreP(jsonProj.getNombreP());
+       } 
+       
+       //set description
+       if (!jsonProj.getDescripcion().equals("")) {
+           proy.setDescripcion(jsonProj.getDescripcion());
+       }
+       
+        List<Usuario> addUsuarioCollection = new ArrayList<>();  
+        JSONObject j = new JSONObject(json);
+        String listAddEmails = (String) j.get("listAddEmails");
+        
+        // Lista de nuevos usuarios
+        if (!listAddEmails.equals("")) {
+            
+            List<String> items = Arrays.asList(listAddEmails.split("\\s*,\\s*"));
+            
+            for (String item : items) {
+//                Usuario u = new Usuario ();
+                Usuario userAnterior = usuarioFacade.getUser(item);
+                /*
+                u.setEmail(userAnterior.getEmail());
+                u.setIdUsuario(userAnterior.getIdUsuario());
+                u.setNombreU(userAnterior.getNombreU());
+                */
+                //addUsuarioCollection.add(u);
+                Collection<Proyecto> listaPro = userAnterior.getProyectoCollection();
+                listaPro.add(proy);
+                userAnterior.setProyectoCollection(listaPro);
+                addUsuarioCollection.add(userAnterior);                
+            }      
+        }                
+        // Borrado de usuarios
+        List<Usuario> removeUsuarioCollection = new ArrayList<>();  
+        String listRemoveEmails = (String) j.get("listRemoveEmails");
+        if (!listRemoveEmails.equals("")) {
+            
+            List<String> items2 = Arrays.asList(listRemoveEmails.split("\\s*,\\s*"));
+            
+            for (String item : items2) {
+                //Usuario u = new Usuario();
+                Usuario userAnterior = usuarioFacade.getUser(item);
+                /*
+                u.setEmail(userAnterior.getEmail());
+                u.setIdUsuario(userAnterior.getIdUsuario());
+                u.setNombreU(userAnterior.getNombreU());
+                 */
+                userAnterior.getProyectoCollection().remove(proy);
+                removeUsuarioCollection.add(userAnterior);
+            }      
+        }  
+        
+        //recogemos en una lista todos los usuarios de un proyecto
+        List<Usuario> usersProject = new ArrayList<>();
+        usersProject.addAll(proy.getUsuarioCollection());
+        usersProject.addAll(addUsuarioCollection); //añadimos los usuarios nuevos
+        usersProject.removeAll(removeUsuarioCollection); //eliminanos los usuarios 
+        
+        proy.setUsuarioCollection(null);
+        proy.setUsuarioCollection(usersProject);
+        
+        //proyectoFacade.edit(proy);
+        
     }
 
     @DELETE
@@ -112,6 +182,47 @@ public class ProyectoFacadeREST {
 
         p.setTareaCollection(null);
         return conversor.toJson(p);
+    }
+    
+         @GET
+    @Path("findInfoProject/{id}")
+    @Produces({"application/json"})
+    public String findInfoProject(@PathParam("id") Long id) {
+        
+        Proyecto p = new Proyecto ();
+        Proyecto find = proyectoFacade.find(id);
+        
+        //le ponemos a p nombre y director
+        p.setNombreP(find.getNombreP());
+        p.setDescripcion(find.getDescripcion());
+       
+        //eliminamos lo que no nos interesa de director y se lo añadimos a p
+        Usuario director = find.getDirector();
+        director.setComentarioCollection(null);
+        director.setProyectoCollection(null);
+        director.setTareaCollection(null);
+        p.setDirector(director);
+        
+        //Eliminanos lo que no interesa de usuariocollection y se lo ponemos a p
+        if (find.getUsuarioCollection() != null) {
+            for (Usuario u:find.getUsuarioCollection()) {
+                u.setProyectoCollection(null);
+                u.setComentarioCollection(null);
+                u.setTareaCollection(null);
+            }
+        }
+        p.setUsuarioCollection(find.getUsuarioCollection());
+        
+        //Lo pasamos todo a Json
+        Gson conversor = new Gson(); 
+        JSONObject json = new JSONObject(conversor.toJson(p));
+        
+        
+        //Añadimos el parámetro adicional del número de tareas
+        int numTasks = find.getTareaCollection().size();
+        json.put("numTasks", numTasks);
+        
+        return json.toString();
     }
 
     @GET
