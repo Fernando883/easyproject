@@ -13,6 +13,7 @@ import EasyProject.entities.Usuario;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
@@ -94,17 +95,16 @@ public class TareaFacadeREST {
         }
 
         JSONObject j = new JSONObject(json);
-        String listEmails = (String) j.get("listEmails");
+        String listEmails = (String) j.get("listAddEmails");
         List<String> items = Arrays.asList(listEmails.split("\\s*,\\s*"));
         
         if (!listEmails.equals("")) {
             for (String item : items) {
-                Usuario u = new Usuario();
                 Usuario oldUser = usuarioFacade.getUser(item);
-                u.setEmail(usuarioFacade.getUser(item).getEmail());
-                u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
-                u.setNombreU(usuarioFacade.getUser(item).getNombreU());
-                  usuarioCollection.add(u);
+                  Collection<Tarea> listaTarea = oldUser.getTareaCollection();
+                  listaTarea.add(task);
+                  oldUser.setTareaCollection(listaTarea);
+                  usuarioCollection.add(oldUser);
             }
         }
         
@@ -115,13 +115,11 @@ public class TareaFacadeREST {
             List<String> items2 = Arrays.asList(listRemoveEmails.split("\\s*,\\s*"));
             
             for (String item : items2) {
-                Usuario u = usuarioFacade.getUser(item);
-                u.setEmail(usuarioFacade.getUser(item).getEmail());
-                u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
-                u.setNombreU(usuarioFacade.getUser(item).getNombreU());
-                if (u!= null) {
-                    removeUsuarioCollection.add(u);
-                }
+                
+                  Usuario oldUser = usuarioFacade.getUser(item);
+                  oldUser.getTareaCollection().remove(task);
+                  removeUsuarioCollection.add(oldUser);
+
             }      
         } 
         
