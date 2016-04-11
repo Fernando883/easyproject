@@ -79,10 +79,69 @@ public class ProyectoFacadeREST {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("editProject/{id}")
     @Consumes({ "application/json"})
-    public void edit(@PathParam("id") Long id, Proyecto entity) {
-        proyectoFacade.edit(entity);
+    public void edit(@PathParam("id") Long id, String json) {
+       
+       Gson gson = new Gson();
+       
+       Proyecto proy = proyectoFacade.find(id);
+       Proyecto jsonProj = gson.fromJson(json, Proyecto.class);
+       
+       //set nombre
+       if (!jsonProj.getNombreP().equals("")) {
+           proy.setNombreP(jsonProj.getNombreP());
+       } 
+       
+       //set description
+       if (!jsonProj.getDescripcion().equals("")) {
+           proy.setDescripcion(jsonProj.getDescripcion());
+       }
+       
+        List<Usuario> addUsuarioCollection = new ArrayList<>();  
+        JSONObject j = new JSONObject(json);
+        String listAddEmails = (String) j.get("listAddEmails");
+        
+        if (!listAddEmails.equals("")) {
+            
+            List<String> items = Arrays.asList(listAddEmails.split("\\s*,\\s*"));
+            
+            for (String item : items) {
+                Usuario u = new Usuario ();
+                u.setEmail(usuarioFacade.getUser(item).getEmail());
+                u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
+                u.setNombreU(usuarioFacade.getUser(item).getNombreU());
+                if (u!= null) {
+                    addUsuarioCollection.add(u);
+                }
+            }      
+        }                
+        List<Usuario> removeUsuarioCollection = new ArrayList<>();  
+        String listRemoveEmails = (String) j.get("listRemoveEmails");
+        if (!listRemoveEmails.equals("")) {
+            
+            List<String> items = Arrays.asList(listRemoveEmails.split("\\s*,\\s*"));
+            
+            for (String item : items) {
+                Usuario u = usuarioFacade.getUser(item);
+                u.setEmail(usuarioFacade.getUser(item).getEmail());
+                u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
+                u.setNombreU(usuarioFacade.getUser(item).getNombreU());
+                if (u!= null) {
+                    removeUsuarioCollection.add(u);
+                }
+            }      
+        }  
+        
+        //recogemos en una lista todos los usuarios de un proyecto
+        List<Usuario> usersProject = new ArrayList<>();
+        usersProject.addAll(proy.getUsuarioCollection());
+        usersProject.addAll(addUsuarioCollection); //añadimos los usuarios nuevos
+        //usersProject.removeAll(removeUsuarioCollection); //eliminanos los usuarios 
+       // proy.setUsuarioCollection(usersProject);
+        
+        proyectoFacade.edit(proy);
+        
     }
 
     @DELETE
