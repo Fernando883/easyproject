@@ -6,8 +6,10 @@
 package service;
 
 import EasyProject.ejb.ProyectoFacade;
+import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
+import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -35,13 +37,14 @@ import org.json.JSONObject;
 @Stateless
 @Path("entity.proyecto")
 public class ProyectoFacadeREST {
+    @EJB
+    private TareaFacade tareaFacade;
     
     @EJB
     private UsuarioFacade usuarioFacade;
-    
-    
     @EJB
     private ProyectoFacade proyectoFacade;
+    
 
     
     public ProyectoFacadeREST() {
@@ -116,6 +119,7 @@ public class ProyectoFacadeREST {
                 u.setNombreU(userAnterior.getNombreU());
                 */
                 //addUsuarioCollection.add(u);
+                
                 Collection<Proyecto> listaPro = userAnterior.getProyectoCollection();
                 listaPro.add(proy);
                 userAnterior.setProyectoCollection(listaPro);
@@ -137,8 +141,18 @@ public class ProyectoFacadeREST {
                 u.setIdUsuario(userAnterior.getIdUsuario());
                 u.setNombreU(userAnterior.getNombreU());
                  */
-                userAnterior.getProyectoCollection().remove(proy);
-                removeUsuarioCollection.add(userAnterior);
+                boolean exist = false;
+                
+                for (Tarea task:proy.getTareaCollection()) {
+                    if (task.getUsuarioCollection().contains(userAnterior)) {
+                        exist = true;
+                    }
+                }
+                if (!exist) {
+                    userAnterior.getProyectoCollection().remove(proy);
+                    removeUsuarioCollection.add(userAnterior);
+                }
+
             }      
         }  
         
@@ -151,14 +165,35 @@ public class ProyectoFacadeREST {
         proy.setUsuarioCollection(null);
         proy.setUsuarioCollection(usersProject);
         
-        //proyectoFacade.edit(proy);
+        proyectoFacade.edit(proy);
         
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        proyectoFacade.remove(proyectoFacade.find(id));
+        Proyecto p  = proyectoFacade.find(id);
+        
+        for (Tarea task: p.getTareaCollection()) {
+            task.setComentarioCollection(null);
+            for (Usuario user: task.getUsuarioCollection()) {
+                user.setProyectoCollection(null);
+                user.setComentarioCollection(null);
+                user.setTareaCollection(null);
+            }               
+        }
+        p.setTareaCollection(null);
+
+        for (Usuario user: p.getUsuarioCollection()) {
+                user.setProyectoCollection(null);
+                user.setComentarioCollection(null);
+                user.setTareaCollection(null);
+            }
+        p.setUsuarioCollection(null);
+        
+        p.setDirector(null);
+
+        proyectoFacade.remove(p);
     }
 
      @GET

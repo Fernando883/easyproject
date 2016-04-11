@@ -7,11 +7,14 @@ package EasyProject.entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -74,17 +77,17 @@ public class Tarea implements Serializable {
     @JoinTable(name = "TAREA_USUARIO", joinColumns = {
         @JoinColumn(name = "ID_TAREA", referencedColumnName = "ID_TAREA")}, inverseJoinColumns = {
         @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")})
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.LAZY)
     private Collection<Usuario> usuarioCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTarea")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTarea", fetch = FetchType.LAZY)
     private Collection<Comentario> comentarioCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTarea")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTarea", fetch = FetchType.LAZY)
     private Collection<Fichero> ficheroCollection;
     @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECT")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Proyecto idProyecto;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario idUsuario;
 
     public Tarea() {
@@ -208,6 +211,28 @@ public class Tarea implements Serializable {
     @Override
     public String toString() {
         return "EasyProject.entities.Tarea[ idTarea=" + idTarea + " ]";
+    }
+    
+    public Tarea getClone () {
+        Tarea task = new Tarea();
+        task.descripcion = this.descripcion;
+        task.estado = this.estado;
+        task.nombre = this.nombre;
+        task.tiempo = this.tiempo;
+        List<Usuario> coleccion = (List<Usuario>)this.getUsuarioCollection();
+        if (coleccion != null) {
+            for (int i=0; i<coleccion.size();i++) {
+                Usuario user = coleccion.get(i);
+                Usuario nuevo = user.getClone();
+                coleccion.set(i, nuevo);
+            }
+        }
+        task.setUsuarioCollection(coleccion);
+       
+        //Collection listaUsuario = this.
+        
+        //if (this)
+        return task;
     }
     
 }
