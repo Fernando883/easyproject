@@ -225,6 +225,9 @@ public class ProyectoFacadeREST {
     @Produces("text/plain")
     public String getProjectChat(@PathParam("id") Long id) {
         Proyecto project = proyectoFacade.find(id);
+        if (project.getChat() == null)
+            return "null";
+        
         return project.getChat();
     }
     
