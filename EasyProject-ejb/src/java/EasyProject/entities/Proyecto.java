@@ -7,6 +7,7 @@ package EasyProject.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -42,6 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Proyecto.findByNombreP", query = "SELECT p FROM Proyecto p WHERE p.nombreP = :nombreP"),
     @NamedQuery(name = "Proyecto.findByDescripcion", query = "SELECT p FROM Proyecto p WHERE p.descripcion = :descripcion")})
 public class Proyecto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "idGenerator_proyecto", allocationSize = 1, sequenceName = "project_seq")
@@ -169,5 +171,21 @@ public class Proyecto implements Serializable {
     public String toString() {
         return "EasyProject.entities.Proyecto[ idProyect=" + idProyect + " ]";
     }
-    
+
+    public Proyecto getClone() {
+        Proyecto project = new Proyecto();
+        project.descripcion = this.descripcion;
+        List<Usuario> coleccion = (List<Usuario>) this.getUsuarioCollection();
+        if (coleccion != null) {
+            for (int i = 0; i < coleccion.size(); i++) {
+                Usuario user = coleccion.get(i);
+                Usuario nuevo = user.getClone();
+                coleccion.set(i, nuevo);
+            }
+        }
+        project.setUsuarioCollection(coleccion);
+
+        return project;
+    }
+
 }
