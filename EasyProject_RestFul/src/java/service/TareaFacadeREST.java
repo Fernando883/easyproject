@@ -7,10 +7,12 @@ package service;
 
 import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
+import EasyProject.entities.Comentario;
 import EasyProject.entities.Proyecto;
 import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -117,20 +119,22 @@ public class TareaFacadeREST {
     @Path("findTasksinProjectByIdUser/{idUsuario}/{idProyect}")
     @Produces({"application/json"})
     public String findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
-        Usuario u = usuarioFacade.find(idUsuario);
-        List<Tarea> listaTareas = this.tareaFacade.findTareasUsuarioDeProyecto(u, idProyect);
+        /*Usuario u = usuarioFacade.find(idUsuario);
+        List<Tarea> listaTareas = new ArrayList<>();
+        listaTareas.addAll(this.tareaFacade.findTareasUsuarioDeProyecto(u, idProyect));
+        
         for (Tarea task : listaTareas) {
             task.setComentarioCollection(null);
             task.setFicheroCollection(null);
             Proyecto proy = task.getIdProyecto();
-            proy.setTareaCollection(null);
-            //proy.setUsuarioCollection(null);
-            proy.setChat(null);
+            proy.setTareaCollection(null);            
             for (Usuario user:task.getUsuarioCollection()) {
                 user.setComentarioCollection(null);
                 user.setTareaCollection(null);
                 user.setProyectoCollection(null);                
             }
+            //proy.setUsuarioCollection(null);
+            
             Usuario user = task.getIdUsuario();
             user.setComentarioCollection(null);
             user.setProyectoCollection(null);
@@ -138,8 +142,20 @@ public class TareaFacadeREST {
         }
         Gson converter = new Gson();
         String salida = converter.toJson(listaTareas);
-        System.out.println("pipi:" + salida);
         
+        return salida;*/
+        
+        Usuario u = usuarioFacade.find(idUsuario);
+        List<Tarea> listaTareas = this.tareaFacade.findTareasUsuarioDeProyecto(u, idProyect);
+        for (int i=0; i<listaTareas.size(); i++) {
+            Tarea task = listaTareas.get(i);
+            Tarea clon = task.getClone();
+            listaTareas.set(i, clon);
+        }
+        
+
+        Gson gson = new Gson();
+        String salida = gson.toJson(listaTareas);
         return salida;
     }
 

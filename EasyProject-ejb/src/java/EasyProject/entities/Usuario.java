@@ -6,11 +6,13 @@
 package EasyProject.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,11 +57,11 @@ public class Usuario implements Serializable {
     @Size(max = 100)
     @Column(name = "NOMBRE_U")
     private String nombreU;
-    @ManyToMany(mappedBy = "usuarioCollection")
+    @ManyToMany(mappedBy = "usuarioCollection",fetch = FetchType.LAZY)
     private Collection<Tarea> tareaCollection;
-    @ManyToMany(mappedBy = "usuarioCollection")
+    @ManyToMany(mappedBy = "usuarioCollection",fetch = FetchType.LAZY)
     private Collection<Proyecto> proyectoCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario",fetch = FetchType.LAZY)
     private Collection<Comentario> comentarioCollection;
 
     public Usuario() {
@@ -149,5 +151,13 @@ public class Usuario implements Serializable {
     public String toString() {
         return "EasyProject.entities.Usuario[ idUsuario=" + idUsuario + " ]";
     }
+    
+      public Usuario getClone () {
+        Usuario user = new Usuario();
+        user.nombreU = this.nombreU;
+        user.email = this.email;
+        user.idUsuario = this.idUsuario;
+        return user;
+      }
     
 }

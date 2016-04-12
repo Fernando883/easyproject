@@ -6,8 +6,10 @@
 package service;
 
 import EasyProject.ejb.ProyectoFacade;
+import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
+import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -35,13 +37,14 @@ import org.json.JSONObject;
 @Stateless
 @Path("entity.proyecto")
 public class ProyectoFacadeREST {
+    @EJB
+    private TareaFacade tareaFacade;
     
     @EJB
     private UsuarioFacade usuarioFacade;
-    
-    
     @EJB
     private ProyectoFacade proyectoFacade;
+    
 
     
     public ProyectoFacadeREST() {
@@ -79,16 +82,118 @@ public class ProyectoFacadeREST {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("editProject/{id}")
     @Consumes({ "application/json"})
-    public void edit(@PathParam("id") Long id, Proyecto entity) {
-        proyectoFacade.edit(entity);
+    public void edit(@PathParam("id") Long id, String json) {
+       
+       Gson gson = new Gson();
+       
+       Proyecto proy = proyectoFacade.find(id);
+       Proyecto jsonProj = gson.fromJson(json, Proyecto.class);
+       
+       //set nombre
+       if (!jsonProj.getNombreP().equals("")) {
+           proy.setNombreP(jsonProj.getNombreP());
+       } 
+       
+       //set description
+       if (!jsonProj.getDescripcion().equals("")) {
+           proy.setDescripcion(jsonProj.getDescripcion());
+       }
+       
+        List<Usuario> addUsuarioCollection = new ArrayList<>();  
+        JSONObject j = new JSONObject(json);
+        String listAddEmails = (String) j.get("listAddEmails");
+        
+        // Lista de nuevos usuarios
+        if (!listAddEmails.equals("")) {
+            
+            List<String> items = Arrays.asList(listAddEmails.split("\\s*,\\s*"));
+            
+            for (String item : items) {
+//                Usuario u = new Usuario ();
+                Usuario userAnterior = usuarioFacade.getUser(item);
+                /*
+                u.setEmail(userAnterior.getEmail());
+                u.setIdUsuario(userAnterior.getIdUsuario());
+                u.setNombreU(userAnterior.getNombreU());
+                */
+                //addUsuarioCollection.add(u);
+                
+                Collection<Proyecto> listaPro = userAnterior.getProyectoCollection();
+                listaPro.add(proy);
+                userAnterior.setProyectoCollection(listaPro);
+                addUsuarioCollection.add(userAnterior);                
+            }      
+        }                
+        // Borrado de usuarios
+        List<Usuario> removeUsuarioCollection = new ArrayList<>();  
+        String listRemoveEmails = (String) j.get("listRemoveEmails");
+        if (!listRemoveEmails.equals("")) {
+            
+            List<String> items2 = Arrays.asList(listRemoveEmails.split("\\s*,\\s*"));
+            
+            for (String item : items2) {
+                //Usuario u = new Usuario();
+                Usuario userAnterior = usuarioFacade.getUser(item);
+                /*
+                u.setEmail(userAnterior.getEmail());
+                u.setIdUsuario(userAnterior.getIdUsuario());
+                u.setNombreU(userAnterior.getNombreU());
+                 */
+                boolean exist = false;
+                
+                for (Tarea task:proy.getTareaCollection()) {
+                    if (task.getUsuarioCollection().contains(userAnterior)) {
+                        exist = true;
+                    }
+                }
+                if (!exist) {
+                    userAnterior.getProyectoCollection().remove(proy);
+                    removeUsuarioCollection.add(userAnterior);
+                }
+
+            }      
+        }  
+        
+        //recogemos en una lista todos los usuarios de un proyecto
+        List<Usuario> usersProject = new ArrayList<>();
+        usersProject.addAll(proy.getUsuarioCollection());
+        usersProject.addAll(addUsuarioCollection); //añadimos los usuarios nuevos
+        usersProject.removeAll(removeUsuarioCollection); //eliminanos los usuarios 
+        
+        proy.setUsuarioCollection(null);
+        proy.setUsuarioCollection(usersProject);
+        
+        proyectoFacade.edit(proy);
+        
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        proyectoFacade.remove(proyectoFacade.find(id));
+        Proyecto p  = proyectoFacade.find(id);
+        
+        for (Tarea task: p.getTareaCollection()) {
+            task.setComentarioCollection(null);
+            for (Usuario user: task.getUsuarioCollection()) {
+                user.setProyectoCollection(null);
+                user.setComentarioCollection(null);
+                user.setTareaCollection(null);
+            }               
+        }
+        p.setTareaCollection(null);
+
+        for (Usuario user: p.getUsuarioCollection()) {
+                user.setProyectoCollection(null);
+                user.setComentarioCollection(null);
+                user.setTareaCollection(null);
+            }
+        p.setUsuarioCollection(null);
+        
+        p.setDirector(null);
+
+        proyectoFacade.remove(p);
     }
 
      @GET
@@ -181,6 +286,7 @@ public class ProyectoFacadeREST {
             pr.idProyect = p.getIdProyect();
             pr.descripcion = p.getDescripcion();
             pr.nombreP = p.getNombreP();
+            pr.numUsers = p.getUsuarioCollection().size();
             projectRESTList.add(pr);
             
         }
@@ -255,17 +361,46 @@ public class ProyectoFacadeREST {
     public String getUsersProject(@PathParam("id") Long id) {
         
         Proyecto project = proyectoFacade.find(id);
-        Collection<Usuario> usuarioCollection = project.getUsuarioCollection();
+        List<Usuario> usuarioCollection = (List<Usuario>) project.getUsuarioCollection();
+          for (int i=0; i<usuarioCollection.size(); i++) {
+            Usuario u = usuarioCollection.get(i);
+            Usuario clon = u.getClone();
+            usuarioCollection.set(i, clon);
+        }
         
         Gson trad = new Gson();
         return trad.toJson(usuarioCollection);
     } //return Arrays.asList(usersEmail);
     
     @GET
+    @Path("getProjectDetails/{id}")
+    @Produces("application/json")
+    public String getProjectDetails(@PathParam("id") Long id) {
+        
+        Proyecto project = proyectoFacade.find(id);
+        Proyecto pJson = project.getClone();
+        
+        Gson conversor = new Gson();
+        JSONObject json = new JSONObject(conversor.toJson(pJson));
+              
+        //Añadimos el parámetro adicional del número de tareas
+        int numTasks = project.getTareaCollection().size();
+        json.put("numTasks", numTasks);
+        
+        return json.toString();
+    } //return Arrays.asList(usersEmail);
+    
+    
+    
+    
+    @GET
     @Path("getProjectChat/{id}")
     @Produces("text/plain")
     public String getProjectChat(@PathParam("id") Long id) {
         Proyecto project = proyectoFacade.find(id);
+        if (project.getChat() == null)
+            return "null";
+        
         return project.getChat();
     }
     
@@ -274,6 +409,7 @@ public class ProyectoFacadeREST {
         public Long idProyect;
         public String descripcion;
         public String nombreP;
+        public int numUsers;
     }
 
     
