@@ -6,13 +6,16 @@
 package service;
 
 import EasyProject.ejb.ProyectoFacade;
+import EasyProject.ejb.TareaFacade;
 import EasyProject.ejb.UsuarioFacade;
 import EasyProject.entities.Proyecto;
+import EasyProject.entities.Tarea;
 import EasyProject.entities.Usuario;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -35,13 +38,14 @@ import org.json.JSONObject;
 @Stateless
 @Path("entity.proyecto")
 public class ProyectoFacadeREST {
+    @EJB
+    private TareaFacade tareaFacade;
     
     @EJB
     private UsuarioFacade usuarioFacade;
-    
-    
     @EJB
     private ProyectoFacade proyectoFacade;
+    
 
     
     public ProyectoFacadeREST() {
@@ -64,7 +68,10 @@ public class ProyectoFacadeREST {
         JSONObject j = new JSONObject(json);
         String listEmails = (String) j.get("listEmails");
         List<String> items = Arrays.asList(listEmails.split("\\s*,\\s*"));
-        for (String item : items) {
+        HashSet<String> items2 = new HashSet<String>();
+        items2.addAll(items);
+        
+        for (String item : items2) {
             Usuario u = new Usuario ();
             u.setEmail(usuarioFacade.getUser(item).getEmail());
             u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
@@ -116,6 +123,7 @@ public class ProyectoFacadeREST {
                 u.setNombreU(userAnterior.getNombreU());
                 */
                 //addUsuarioCollection.add(u);
+                
                 Collection<Proyecto> listaPro = userAnterior.getProyectoCollection();
                 listaPro.add(proy);
                 userAnterior.setProyectoCollection(listaPro);
@@ -137,8 +145,18 @@ public class ProyectoFacadeREST {
                 u.setIdUsuario(userAnterior.getIdUsuario());
                 u.setNombreU(userAnterior.getNombreU());
                  */
-                userAnterior.getProyectoCollection().remove(proy);
-                removeUsuarioCollection.add(userAnterior);
+                boolean exist = false;
+                
+                for (Tarea task:proy.getTareaCollection()) {
+                    if (task.getUsuarioCollection().contains(userAnterior)) {
+                        exist = true;
+                    }
+                }
+                if (!exist) {
+                    userAnterior.getProyectoCollection().remove(proy);
+                    removeUsuarioCollection.add(userAnterior);
+                }
+
             }      
         }  
         
@@ -151,14 +169,35 @@ public class ProyectoFacadeREST {
         proy.setUsuarioCollection(null);
         proy.setUsuarioCollection(usersProject);
         
-        //proyectoFacade.edit(proy);
+        proyectoFacade.edit(proy);
         
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        proyectoFacade.remove(proyectoFacade.find(id));
+        Proyecto p  = proyectoFacade.find(id);
+        
+        for (Tarea task: p.getTareaCollection()) {
+            task.setComentarioCollection(null);
+            for (Usuario user: task.getUsuarioCollection()) {
+                user.setProyectoCollection(null);
+                user.setComentarioCollection(null);
+                user.setTareaCollection(null);
+            }               
+        }
+        p.setTareaCollection(null);
+
+        for (Usuario user: p.getUsuarioCollection()) {
+                user.setProyectoCollection(null);
+                user.setComentarioCollection(null);
+                user.setTareaCollection(null);
+            }
+        p.setUsuarioCollection(null);
+        
+        p.setDirector(null);
+
+        proyectoFacade.remove(p);
     }
 
      @GET
@@ -325,7 +364,12 @@ public class ProyectoFacadeREST {
     public String getUsersProject(@PathParam("id") Long id) {
         
         Proyecto project = proyectoFacade.find(id);
-        Collection<Usuario> usuarioCollection = project.getUsuarioCollection();
+        List<Usuario> usuarioCollection = (List<Usuario>) project.getUsuarioCollection();
+          for (int i=0; i<usuarioCollection.size(); i++) {
+            Usuario u = usuarioCollection.get(i);
+            Usuario clon = u.getClone();
+            usuarioCollection.set(i, clon);
+        }
         
         Gson trad = new Gson();
         return trad.toJson(usuarioCollection);

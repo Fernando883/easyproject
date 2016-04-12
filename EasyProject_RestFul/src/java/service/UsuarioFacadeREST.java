@@ -25,6 +25,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.json.JSONObject;
 
 /**
  *
@@ -60,7 +61,13 @@ public class UsuarioFacadeREST{
     @POST
     @Path("sendEmailCreate")
     @Consumes({"application/json"})
-    public void sendEmailCreate(@PathParam("destiny") String destiny, @PathParam("subject") String subject, @PathParam("message") String message) {
+    public void sendEmailCreate(String json) {
+        
+        JSONObject j = new JSONObject(json);
+        String destiny = (String) j.get("destiny");
+        String subject = (String) j.get("subject");
+        String message = (String) j.get("message");
+
         usuarioFacade.sendEmailCreate(destiny, subject, message);
     }
 
