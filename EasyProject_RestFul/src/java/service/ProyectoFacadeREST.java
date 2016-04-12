@@ -286,6 +286,7 @@ public class ProyectoFacadeREST {
             pr.idProyect = p.getIdProyect();
             pr.descripcion = p.getDescripcion();
             pr.nombreP = p.getNombreP();
+            pr.numUsers = p.getUsuarioCollection().size();
             projectRESTList.add(pr);
             
         }
@@ -387,6 +388,7 @@ public class ProyectoFacadeREST {
         public Long idProyect;
         public String descripcion;
         public String nombreP;
+        public int numUsers;
     }
 
     
