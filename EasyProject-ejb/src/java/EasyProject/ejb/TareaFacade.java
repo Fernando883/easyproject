@@ -47,4 +47,6 @@ public class TareaFacade extends AbstractFacade<Tarea> {
         return q.getResultList();        
     }
     
+    
+    
 }

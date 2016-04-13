@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -67,7 +68,10 @@ public class ProyectoFacadeREST {
         JSONObject j = new JSONObject(json);
         String listEmails = (String) j.get("listEmails");
         List<String> items = Arrays.asList(listEmails.split("\\s*,\\s*"));
-        for (String item : items) {
+        HashSet<String> items2 = new HashSet<String>();
+        items2.addAll(items);
+        
+        for (String item : items2) {
             Usuario u = new Usuario ();
             u.setEmail(usuarioFacade.getUser(item).getEmail());
             u.setIdUsuario(usuarioFacade.getUser(item).getIdUsuario());
@@ -163,7 +167,7 @@ public class ProyectoFacadeREST {
         
         proy.setUsuarioCollection(null);
         proy.setUsuarioCollection(usersProject);
-        
+       
         proyectoFacade.edit(proy);
         
     }
@@ -232,7 +236,7 @@ public class ProyectoFacadeREST {
         //le ponemos a p nombre y director
         p.setNombreP(find.getNombreP());
         p.setDescripcion(find.getDescripcion());
-       
+        
         //eliminamos lo que no nos interesa de director y se lo añadimos a p
         Usuario director = find.getDirector();
         director.setComentarioCollection(null);
@@ -289,6 +293,7 @@ public class ProyectoFacadeREST {
             pr.descripcion = p.getDescripcion();
             pr.nombreP = p.getNombreP();
             pr.numUsers = p.getUsuarioCollection().size();
+            pr.idDirector = p.getDirector().getIdUsuario();
             projectRESTList.add(pr);
             
         }
@@ -412,6 +417,7 @@ public class ProyectoFacadeREST {
         public String descripcion;
         public String nombreP;
         public int numUsers;
+        public Long idDirector;
     }
 
     

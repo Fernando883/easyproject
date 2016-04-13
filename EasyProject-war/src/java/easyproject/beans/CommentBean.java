@@ -94,7 +94,7 @@ public class CommentBean {
     
     public String doUpdateFile() throws IOException{
         file.write(getFilename(file));
-        String path = "/Users/csalas/NetBeansProjects/easyproject/EasyProject-war/web/uploaded/";
+        String path = "/Users/macbookpro/NetBeansProjects/easyproject/EasyProject-war/web/uploaded/";
         String urlPath = "http://localhost:8080/EasyProject-war/faces/uploaded/";
         String fileName = String.valueOf(System.currentTimeMillis()) + getFilename(file);
         Comentario comment = new Comentario();
