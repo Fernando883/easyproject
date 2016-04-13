@@ -293,7 +293,7 @@ public class ProyectoFacadeREST {
             pr.descripcion = p.getDescripcion();
             pr.nombreP = p.getNombreP();
             pr.numUsers = p.getUsuarioCollection().size();
-            pr.idDirector = p.getDirector().getIdUsuario();
+            pr.director = p.getDirector().getClone();
             projectRESTList.add(pr);
             
         }
@@ -417,7 +417,7 @@ public class ProyectoFacadeREST {
         public String descripcion;
         public String nombreP;
         public int numUsers;
-        public Long idDirector;
+        public Usuario director;
     }
 
     
