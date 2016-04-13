@@ -38,5 +38,8 @@ public class ProyectoFacade extends AbstractFacade<Proyecto> {
         return project.get(0);
     }
     
+    public void editChat(Proyecto p) {
+        em.merge(p);
+    }
 
 }

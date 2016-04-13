@@ -99,7 +99,8 @@ public class MessageSessionHandler {
         String chatMessages = gson.toJson(msgList);
         Proyecto p = proyectoFacade.find(new Long(projectID));
         p.setChat(chatMessages);
-        proyectoFacade.edit(p);
+        //proyectoFacade.edit(p);
+        proyectoFacade.editChat(p);
         
         JsonObject addMessage = createAddMessage(message);
         sendToAllConnectedSessions(projectID, addMessage);
