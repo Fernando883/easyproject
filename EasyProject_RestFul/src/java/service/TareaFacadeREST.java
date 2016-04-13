@@ -135,8 +135,8 @@ public class TareaFacadeREST {
         tareaFacade.edit(task);
     }
 
-    @DELETE
-    @Path("{id}")
+    @GET
+    @Path("removeTask/{id}")
     public void remove(@PathParam("id") Long id) {
         tareaFacade.remove(tareaFacade.find(id));
     }

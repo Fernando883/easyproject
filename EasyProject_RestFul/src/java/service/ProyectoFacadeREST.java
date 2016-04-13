@@ -168,7 +168,7 @@ public class ProyectoFacadeREST {
         
         proy.setUsuarioCollection(null);
         proy.setUsuarioCollection(usersProject);
-        
+       
         proyectoFacade.edit(proy);
         
     }

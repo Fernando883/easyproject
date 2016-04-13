@@ -186,7 +186,6 @@ public class Proyecto implements Serializable {
         Usuario userClone = this.getDirector().getClone();
         project.setDirector(userClone);
         project.setUsuarioCollection(coleccion);
-
         return project;
     }
 
