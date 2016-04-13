@@ -60,11 +60,6 @@ public class ProyectoFacadeREST {
         List<Usuario> usuarioCollection = new ArrayList<>();
         
         proy = gson.fromJson(json, Proyecto.class);
-        /*
-        Usuario director = (Usuario) j.get("director");
-        proy.setDirector(director);
-        proy.setDescripcion(j.getString("descripcion"));
-        proy.setNombreP(j.getString("nombreP"));*/
         JSONObject j = new JSONObject(json);
         String listEmails = (String) j.get("listEmails");
         List<String> items = Arrays.asList(listEmails.split("\\s*,\\s*"));
@@ -110,15 +105,7 @@ public class ProyectoFacadeREST {
             List<String> items = Arrays.asList(listAddEmails.split("\\s*,\\s*"));
             
             for (String item : items) {
-//                Usuario u = new Usuario ();
                 Usuario userAnterior = usuarioFacade.getUser(item);
-                /*
-                u.setEmail(userAnterior.getEmail());
-                u.setIdUsuario(userAnterior.getIdUsuario());
-                u.setNombreU(userAnterior.getNombreU());
-                */
-                //addUsuarioCollection.add(u);
-                
                 userAnterior.getProyectoCollection().add(proy);
                 addUsuarioCollection.add(userAnterior);                
             }      
