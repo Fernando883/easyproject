@@ -290,6 +290,7 @@ public class ProyectoFacadeREST {
             pr.idProyect = p.getIdProyect();
             pr.descripcion = p.getDescripcion();
             pr.nombreP = p.getNombreP();
+            pr.numUsers = p.getUsuarioCollection().size();
             projectRESTList.add(pr);
             
         }
@@ -376,10 +377,34 @@ public class ProyectoFacadeREST {
     } //return Arrays.asList(usersEmail);
     
     @GET
+    @Path("getProjectDetails/{id}")
+    @Produces("application/json")
+    public String getProjectDetails(@PathParam("id") Long id) {
+        
+        Proyecto project = proyectoFacade.find(id);
+        Proyecto pJson = project.getClone();
+        
+        Gson conversor = new Gson();
+        JSONObject json = new JSONObject(conversor.toJson(pJson));
+              
+        //Añadimos el parámetro adicional del número de tareas
+        int numTasks = project.getTareaCollection().size();
+        json.put("numTasks", numTasks);
+        
+        return json.toString();
+    } //return Arrays.asList(usersEmail);
+    
+    
+    
+    
+    @GET
     @Path("getProjectChat/{id}")
     @Produces("text/plain")
     public String getProjectChat(@PathParam("id") Long id) {
         Proyecto project = proyectoFacade.find(id);
+        if (project.getChat() == null)
+            return "null";
+        
         return project.getChat();
     }
     
@@ -388,6 +413,7 @@ public class ProyectoFacadeREST {
         public Long idProyect;
         public String descripcion;
         public String nombreP;
+        public int numUsers;
     }
 
     

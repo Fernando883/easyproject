@@ -71,7 +71,8 @@ public class MessageSessionHandler {
     }
 
     public void removeSession(int projectID, Session session) {
-        projectSession.remove(projectID);
+        ArrayList<Session> sessions = projectSession.get(projectID);
+        sessions.remove(session);
     }
     
     /*public List getMsgList() {
@@ -122,6 +123,7 @@ public class MessageSessionHandler {
 
     private void sendToAllConnectedSessions(int projectID, JsonObject message) {
         ArrayList<Session> sessions = projectSession.get(projectID);
+        System.out.println("Sesiones activas: "+ String.valueOf(sessions.size()));
             for (Session session : sessions) {
                 sendToSession(projectID, session, message);
             }

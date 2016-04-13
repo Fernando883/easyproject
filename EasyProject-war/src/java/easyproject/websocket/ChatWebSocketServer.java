@@ -42,12 +42,14 @@ public class ChatWebSocketServer {
 
     @OnOpen
         public void open(@PathParam("projectID") int projectID, Session session) {
+            System.out.println("open");
             this.projectID = projectID;
             sessionHandler.addSession(projectID, session);
     }
 
     @OnClose
         public void close(Session session) {
+            System.out.println("close");
             sessionHandler.removeSession(projectID, session);
     }
 
@@ -58,6 +60,7 @@ public class ChatWebSocketServer {
 
     @OnMessage
         public void handleMessage(String message, Session session) {
+            System.out.println("handleMessage");
             try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
 
