@@ -219,6 +219,7 @@ public class Tarea implements Serializable {
         task.estado = this.estado;
         task.nombre = this.nombre;
         task.tiempo = this.tiempo;
+        task.idTarea = this.idTarea;
         List<Usuario> coleccion = (List<Usuario>)this.getUsuarioCollection();
         if (coleccion != null) {
             for (int i=0; i<coleccion.size();i++) {
@@ -229,10 +230,9 @@ public class Tarea implements Serializable {
         }
         task.setUsuarioCollection(coleccion);
        
-        //Collection listaUsuario = this.
-        
-        //if (this)
         return task;
     }
+    
+    
     
 }
