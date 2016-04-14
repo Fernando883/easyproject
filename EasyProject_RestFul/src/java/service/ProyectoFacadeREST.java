@@ -331,7 +331,7 @@ public class ProyectoFacadeREST {
         
     }
     
-         @GET
+    @GET
     @Path("getUsersEmailProject/{id}")
     @Produces("application/json")
     public String getUsersEmailProject(@PathParam("id") Long id) {

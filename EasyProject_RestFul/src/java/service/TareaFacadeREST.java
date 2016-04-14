@@ -42,9 +42,9 @@ public class TareaFacadeREST {
 
     @EJB
     private UsuarioFacade usuarioFacade;
-
     @EJB
     private TareaFacade tareaFacade;
+    
 
     public TareaFacadeREST() {
         // super(Tarea.class);
@@ -203,6 +203,27 @@ public class TareaFacadeREST {
         
         Gson trad = new Gson();
         return trad.toJson(usuarioCollection);
+    }
+    
+     @GET
+    @Path("getUsersEmailByNonTask/{idTask}")
+    @Produces({"application/json"})
+    public String getUsersEmailByNonTask(@PathParam("idTask") Long idTask) {
+        
+        Tarea task = tareaFacade.find(idTask);
+        Proyecto p = task.getIdProyecto();
+        List<Usuario> userProject = (List<Usuario>) p.getUsuarioCollection();
+        List<Usuario> usuarioCollection = (List<Usuario>) task.getUsuarioCollection();
+        List<String> emailsUsers = new ArrayList<>();
+        
+        for (int  i = 0; i<userProject.size(); i++) {
+            if (!usuarioCollection.contains(userProject.get(i))) {
+                emailsUsers.add(userProject.get(i).getEmail());
+            }     
+        }
+              
+        Gson trad = new Gson();
+        return trad.toJson(emailsUsers);
     }
 
 }
