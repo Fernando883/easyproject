@@ -205,7 +205,7 @@ public class TareaFacadeREST {
         return trad.toJson(usuarioCollection);
     }
     
-    @GET
+/*    @GET
     @Path("findTasksinProjectByIdUser/{idUsuario}/{idProyect}")
     @Produces({"application/json"})
     public String findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
@@ -233,7 +233,7 @@ public class TareaFacadeREST {
         Gson converter = new Gson();
         String salida = converter.toJson(listaTareas);
         
-        return salida;*/
+        return salida;
         
         Usuario u = usuarioFacade.find(idUsuario);
         List<Tarea> listaTareas = this.tareaFacade.findTareasUsuarioDeProyecto(u, idProyect);
@@ -248,5 +248,5 @@ public class TareaFacadeREST {
         String salida = gson.toJson(listaTareas);
         return salida;
     }
-
+*/
 }
