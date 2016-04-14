@@ -186,5 +186,49 @@ public class TareaFacadeREST {
         Gson trad = new Gson();
         return trad.toJson(usuarioCollection);
     }
+    
+    @GET
+    @Path("findTasksinProjectByIdUser/{idUsuario}/{idProyect}")
+    @Produces({"application/json"})
+    public String findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
+        /*Usuario u = usuarioFacade.find(idUsuario);
+        List<Tarea> listaTareas = new ArrayList<>();
+        listaTareas.addAll(this.tareaFacade.findTareasUsuarioDeProyecto(u, idProyect));
+        
+        for (Tarea task : listaTareas) {
+            task.setComentarioCollection(null);
+            task.setFicheroCollection(null);
+            Proyecto proy = task.getIdProyecto();
+            proy.setTareaCollection(null);            
+            for (Usuario user:task.getUsuarioCollection()) {
+                user.setComentarioCollection(null);
+                user.setTareaCollection(null);
+                user.setProyectoCollection(null);                
+            }
+            //proy.setUsuarioCollection(null);
+            
+            Usuario user = task.getIdUsuario();
+            user.setComentarioCollection(null);
+            user.setProyectoCollection(null);
+            user.setTareaCollection(null);
+        }
+        Gson converter = new Gson();
+        String salida = converter.toJson(listaTareas);
+        
+        return salida;*/
+        
+        Usuario u = usuarioFacade.find(idUsuario);
+        List<Tarea> listaTareas = this.tareaFacade.findTareasUsuarioDeProyecto(u, idProyect);
+        for (int i=0; i<listaTareas.size(); i++) {
+            Tarea task = listaTareas.get(i);
+            Tarea clon = task.getClone();
+            listaTareas.set(i, clon);
+        }
+        
+
+        Gson gson = new Gson();
+        String salida = gson.toJson(listaTareas);
+        return salida;
+    }
 
 }

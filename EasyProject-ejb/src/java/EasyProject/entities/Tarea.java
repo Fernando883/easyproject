@@ -215,6 +215,7 @@ public class Tarea implements Serializable {
     
     public Tarea getClone () {
         Tarea task = new Tarea();
+        task.idTarea = this.idTarea;
         task.descripcion = this.descripcion;
         task.estado = this.estado;
         task.nombre = this.nombre;
