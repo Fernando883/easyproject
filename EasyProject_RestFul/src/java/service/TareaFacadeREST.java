@@ -225,10 +225,4 @@ public class TareaFacadeREST {
         Gson trad = new Gson();
         return trad.toJson(emailsUsers);
     }
-
-        Gson gson = new Gson();
-        String salida = gson.toJson(listaTareas);
-        return salida;
-    }
-*/
 }
