@@ -175,6 +175,7 @@ public class Proyecto implements Serializable {
     public Proyecto getClone() {
         Proyecto project = new Proyecto();
         project.descripcion = this.descripcion;
+        project.idProyect = this.idProyect;
         List<Usuario> coleccion = (List<Usuario>) this.getUsuarioCollection();
         if (coleccion != null) {
             for (int i = 0; i < coleccion.size(); i++) {

@@ -60,11 +60,6 @@ public class ProyectoFacadeREST {
         List<Usuario> usuarioCollection = new ArrayList<>();
         
         proy = gson.fromJson(json, Proyecto.class);
-        /*
-        Usuario director = (Usuario) j.get("director");
-        proy.setDirector(director);
-        proy.setDescripcion(j.getString("descripcion"));
-        proy.setNombreP(j.getString("nombreP"));*/
         JSONObject j = new JSONObject(json);
         String listEmails = (String) j.get("listEmails");
         List<String> items = Arrays.asList(listEmails.split("\\s*,\\s*"));
@@ -88,17 +83,12 @@ public class ProyectoFacadeREST {
     @PUT
     @Path("editProject/{id}")
     @Consumes({ "application/json"})
-    public void edit(@PathParam("id") Long id, String json) {
+    public void editProject(@PathParam("id") Long id, String json) {
        
        Gson gson = new Gson();
        
        Proyecto proy = proyectoFacade.find(id);
        Proyecto jsonProj = gson.fromJson(json, Proyecto.class);
-       
-       //set nombre
-       if (!jsonProj.getNombreP().equals("")) {
-           proy.setNombreP(jsonProj.getNombreP());
-       } 
        
        //set description
        if (!jsonProj.getDescripcion().equals("")) {
@@ -115,18 +105,8 @@ public class ProyectoFacadeREST {
             List<String> items = Arrays.asList(listAddEmails.split("\\s*,\\s*"));
             
             for (String item : items) {
-//                Usuario u = new Usuario ();
                 Usuario userAnterior = usuarioFacade.getUser(item);
-                /*
-                u.setEmail(userAnterior.getEmail());
-                u.setIdUsuario(userAnterior.getIdUsuario());
-                u.setNombreU(userAnterior.getNombreU());
-                */
-                //addUsuarioCollection.add(u);
-                
-                Collection<Proyecto> listaPro = userAnterior.getProyectoCollection();
-                listaPro.add(proy);
-                userAnterior.setProyectoCollection(listaPro);
+                userAnterior.getProyectoCollection().add(proy);
                 addUsuarioCollection.add(userAnterior);                
             }      
         }                
@@ -147,10 +127,16 @@ public class ProyectoFacadeREST {
                  */
                 boolean exist = false;
                 
+                
+                
                 for (Tarea task:proy.getTareaCollection()) {
                     if (task.getUsuarioCollection().contains(userAnterior)) {
                         exist = true;
                     }
+                }
+                
+                if (proy.getDirector().getIdUsuario().equals(userAnterior.getIdUsuario())) {
+                    exist = true;
                 }
                 if (!exist) {
                     userAnterior.getProyectoCollection().remove(proy);
@@ -173,19 +159,22 @@ public class ProyectoFacadeREST {
         
     }
 
-    @DELETE
-    @Path("{id}")
+    @GET
+    @Path("deleteProject/{id}")
     public void remove(@PathParam("id") Long id) {
-        Proyecto p  = proyectoFacade.find(id);
         
-        for (Tarea task: p.getTareaCollection()) {
+        Proyecto p  = proyectoFacade.find(id);
+        proyectoFacade.remove(p);
+        /*for (Tarea task: p.getTareaCollection()) {
             task.setComentarioCollection(null);
             for (Usuario user: task.getUsuarioCollection()) {
                 user.setProyectoCollection(null);
                 user.setComentarioCollection(null);
                 user.setTareaCollection(null);
-            }               
+            }  
+            tareaFacade.remove(task);
         }
+        
         p.setTareaCollection(null);
 
         for (Usuario user: p.getUsuarioCollection()) {
@@ -195,9 +184,9 @@ public class ProyectoFacadeREST {
             }
         p.setUsuarioCollection(null);
         
-        p.setDirector(null);
+        p.setDirector(null);*/
 
-        proyectoFacade.remove(p);
+        
     }
 
      @GET
@@ -291,7 +280,7 @@ public class ProyectoFacadeREST {
             pr.descripcion = p.getDescripcion();
             pr.nombreP = p.getNombreP();
             pr.numUsers = p.getUsuarioCollection().size();
-            pr.idDirector = p.getDirector().getIdUsuario();
+            pr.director = p.getDirector().getClone();
             projectRESTList.add(pr);
             
         }
@@ -415,7 +404,7 @@ public class ProyectoFacadeREST {
         public String descripcion;
         public String nombreP;
         public int numUsers;
-        public Long idDirector;
+        public Usuario director;
     }
 
     

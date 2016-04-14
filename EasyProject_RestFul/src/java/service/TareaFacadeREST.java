@@ -168,6 +168,24 @@ public class TareaFacadeREST {
     public String countREST() {
         return String.valueOf(tareaFacade.count());
     }
+    
+    @GET
+    @Path("findTasksinProjectByIdUser/{idUsuario}/{idProyect}")
+    @Produces({"application/json"})
+    public String findTasksinProjectByIdUser(@PathParam("idUsuario") Long idUsuario, @PathParam("idProyect") Long idProyect) {
+        
+        Usuario u = usuarioFacade.find(idUsuario);
+        List<Tarea> listaTareas = this.tareaFacade.findTareasUsuarioDeProyecto(u, idProyect);
+        for (int i=0; i<listaTareas.size(); i++) {
+            Tarea task = listaTareas.get(i);
+            Tarea clon = task.getClone();
+            listaTareas.set(i, clon);
+        }
+        
+        Gson gson = new Gson();
+        String salida = gson.toJson(listaTareas);
+        return salida;
+    }
 
     @GET
     @Path("getUsersEmailByTask/{idTask}")
