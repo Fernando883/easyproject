@@ -133,7 +133,7 @@ public class MessageSessionHandler {
     private void sendToSession(int projectID, Session session, JsonObject message) {
         try {
             session.getBasicRemote().sendText(message.toString());
-        } catch (IOException ex) {
+        } catch (IOException|IllegalStateException ex) {
             ArrayList<Session> sessions = projectSession.get(projectID);
             if (sessions != null)
                 sessions.remove(session);
